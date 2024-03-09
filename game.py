@@ -19,3 +19,11 @@ class Game:
         else:
             self.currentPlayer = self.p2
         print(f'{self.currentPlayer.controller.name} goes first')
+        self.p1.shuffle_deck()
+        self.p2.shuffle_deck()
+        print(f'p1 drew')
+        for x in self.p1.deck[:7]:
+            print(x.name)
+        print(f'p2 drew')
+        for x in self.p2.deck[:7]:
+            print(x.name)

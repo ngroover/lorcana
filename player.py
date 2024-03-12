@@ -1,6 +1,7 @@
 
 from dataclasses import dataclass, field
 from controller import Controller
+from action import MulliganAction
 import random
 
 @dataclass
@@ -20,6 +21,9 @@ class Player:
     def print_hand(self):
         for x in self.hand:
             print(x.name)
+
+    def get_mulligans(self):
+        return list(map(lambda x: MulliganAction(x), self.hand))
 
 
 def create_player(contestant):

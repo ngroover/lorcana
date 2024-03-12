@@ -6,8 +6,11 @@ class Deck:
     cards: list
 
 @dataclass
-class CharacterCard:
+class Card:
     name: str
+
+@dataclass
+class CharacterCard(Card):
     subtext: str
     description: str
     strength: int

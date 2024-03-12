@@ -3,12 +3,14 @@ from dataclasses import dataclass
 from player import Player
 from player import create_player
 from enum import Enum
+from action import MulliganAction,PassAction
 
 import random
 
 class GamePhase(Enum):
     MULLIGAN=1
     ACTION=2
+    GAME_OVER=3
 
 class PlayerTurn(Enum):
     PLAYER1=1
@@ -41,10 +43,30 @@ class Game:
         self.phase = GamePhase.MULLIGAN
         self.player = PlayerTurn.PLAYER1
 
-    def process_action(self):
-        pass
+    def play_game(self):
+        while self.phase != GamePhase.GAME_OVER:
+            actions = self.get_actions()
+            if len(actions) > 1:
+                chosen_action = self.currentPlayer.controller.chooseAction(actions)
+            else:
+                chosen_action = actions[0]
+            print(f'chosen action is {chosen_action}')
+            self.process_action(chosen_action)
+
+    def process_action(self, act):
+        if self.phase == GamePhase.MULLIGAN:
+            self.process_mulligan(act)
+
+    def process_mulligan(self,act):
+        if type(act) is MulliganAction:
+            self.currentPlayer.mulligan_card(act.card)
+        elif type(act) is PassAction:
+            self.phase = GamePhase.GAME_OVER
+
 
     def get_actions(self):
         if self.phase == GamePhase.MULLIGAN:
-            return self.currentPlayer.get_mulligans()
+            mulligans=self.currentPlayer.get_mulligans()
+            mulligans.append(PassAction())
+            return mulligans
 

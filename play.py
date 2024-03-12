@@ -20,7 +20,5 @@ if __name__ == '__main__':
     print('Create player 2')
     c2 = create_contestant()
     game = Game(c1,c2)
-    acts = game.get_actions()
-    for a in acts:
-        print(a)
+    game.play_game()
 

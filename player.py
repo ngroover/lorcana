@@ -25,6 +25,10 @@ class Player:
     def get_mulligans(self):
         return list(map(lambda x: MulliganAction(x), self.hand))
 
+    def mulligan_card(self, card):
+        print(f'mulliganed {card}')
+        self.hand.remove(card)
+
 
 def create_player(contestant):
     return Player(contestant.controller, contestant.deck.cards)

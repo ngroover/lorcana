@@ -1,3 +1,4 @@
+import random
 
 class Controller:
     def __init__(self, name):
@@ -7,15 +8,22 @@ class HumanController(Controller):
     def __init__(self, name):
         super().__init__(name)
 
-    def chooseAction():
-        pass
+    def chooseAction(self, actions):
+        for i,a in enumerate(actions):
+            print(f'[{i+1}]. {a}')
+        while True:
+            choice = int(input("Choice: "))-1
+            if choice >= 0 and choice < len(actions):
+                break
+        return actions[choice]
 
 class RandomController(Controller):
     def __init__(self, name):
         super().__init__(name)
 
-    def chooseAction():
-        pass
+    def chooseAction(self, actions):
+        return random.choice(actions)
+
 
 def create_controller():
     name = input("Name:")

@@ -21,9 +21,9 @@ class Game:
         print(f'{self.currentPlayer.controller.name} goes first')
         self.p1.shuffle_deck()
         self.p2.shuffle_deck()
+        self.p1.draw_cards(7)
+        self.p2.draw_cards(7)
         print(f'p1 drew')
-        for x in self.p1.deck[:7]:
-            print(x.name)
+        self.p1.print_hand()
         print(f'p2 drew')
-        for x in self.p2.deck[:7]:
-            print(x.name)
+        self.p2.print_hand()

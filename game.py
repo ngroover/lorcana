@@ -36,10 +36,8 @@ class Game:
         self.p2.shuffle_deck()
         self.p1.draw_cards(7)
         self.p2.draw_cards(7)
-        print(f'p1 drew')
-        self.p1.print_hand()
-        print(f'p2 drew')
-        self.p2.print_hand()
+        #self.p1.print_hand()
+        #self.p2.print_hand()
         self.phase = GamePhase.MULLIGAN
         self.player = PlayerTurn.PLAYER1
 
@@ -53,6 +51,13 @@ class Game:
             print(f'chosen action is {chosen_action}')
             self.process_action(chosen_action)
 
+    def swap_current_player(self):
+        if self.currentPlayer == self.p1:
+            self.currentPlayer = self.p2
+        else:
+            self.currentPlayer = self.p1
+
+
     def process_action(self, act):
         if self.phase == GamePhase.MULLIGAN:
             self.process_mulligan(act)
@@ -61,7 +66,16 @@ class Game:
         if type(act) is MulliganAction:
             self.currentPlayer.mulligan_card(act.card)
         elif type(act) is PassAction:
-            self.phase = GamePhase.GAME_OVER
+            if self.player == PlayerTurn.PLAYER1:
+                self.currentPlayer.finish_mulligan()
+                self.swap_current_player()
+                self.player = PlayerTurn.PLAYER2
+                print('Player 2s turn to mulligan')
+            else:
+                self.currentPlayer.finish_mulligan()
+                self.swap_current_player()
+                self.player = PlayerTurn.PLAYER1
+                self.phase = GamePhase.GAME_OVER
 
 
     def get_actions(self):

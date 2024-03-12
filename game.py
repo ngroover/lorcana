@@ -28,16 +28,15 @@ class Game:
         self.p1 = create_player(contestant1)
         self.p2 = create_player(contestant2)
         if random.randint(1,2) == 1:
-            self.currentPlayer = self.p1
-        else:
-            self.currentPlayer = self.p2
+            self.p1, self.p2 = self.p2, self.p1
+        self.currentPlayer = self.p1
+        self.player = PlayerTurn.PLAYER1
         print(f'{self.currentPlayer.controller.name} goes first')
         self.p1.shuffle_deck()
         self.p2.shuffle_deck()
         self.p1.draw_cards(7)
         self.p2.draw_cards(7)
         self.phase = GamePhase.MULLIGAN
-        self.player = PlayerTurn.PLAYER1
 
     def play_game(self):
         while self.phase != GamePhase.GAME_OVER:

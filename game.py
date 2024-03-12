@@ -3,14 +3,17 @@ from dataclasses import dataclass
 from player import Player
 from player import create_player
 from enum import Enum
-from action import MulliganAction,PassAction
+from action import MulliganAction,PassAction,SwapFirstPlayerAction
+from controller import Controller
 
 import random
 
 class GamePhase(Enum):
-    MULLIGAN=1
-    ACTION=2
-    GAME_OVER=3
+    DIE_ROLL=1
+    DRAW_STARTING_HAND=2
+    MULLIGAN=3
+    ACTION=4
+    GAME_OVER=5
 
 class PlayerTurn(Enum):
     PLAYER1=1
@@ -23,20 +26,20 @@ class Game:
     currentPlayer: Player
     phase: GamePhase
     player: PlayerTurn
+    environment: Controller
 
-    def __init__(self, contestant1, contestant2):
+    def __init__(self, contestant1, contestant2, environment):
+        self.environment = environment
         self.p1 = create_player(contestant1)
         self.p2 = create_player(contestant2)
-        if random.randint(1,2) == 1:
-            self.p1, self.p2 = self.p2, self.p1
         self.currentPlayer = self.p1
         self.player = PlayerTurn.PLAYER1
-        print(f'{self.currentPlayer.controller.name} goes first')
-        self.p1.shuffle_deck()
-        self.p2.shuffle_deck()
-        self.p1.draw_cards(7)
-        self.p2.draw_cards(7)
-        self.phase = GamePhase.MULLIGAN
+        self.phase = GamePhase.DIE_ROLL
+        #print(f'{self.currentPlayer.controller.name} goes first')
+        #self.p1.shuffle_deck()
+        #self.p2.shuffle_deck()
+        #self.p1.draw_cards(7)
+        #self.p2.draw_cards(7)
 
     def play_game(self):
         while self.phase != GamePhase.GAME_OVER:
@@ -62,6 +65,14 @@ class Game:
     def process_action(self, act):
         if self.phase == GamePhase.MULLIGAN:
             self.process_mulligan(act)
+        elif self.phase == GamePhase.DIE_ROLL:
+            self.do_die_roll(act)
+
+    def do_die_roll(self,act):
+        if type(act) is SwapFirstPlayerAction:
+            # swap who goes first
+            self.p1, self.p2 = self.p2, self.p1
+        self.phase = GamePhase.DRAW_STARTING_HAND
 
     def process_mulligan(self,act):
         if type(act) is MulliganAction:
@@ -72,10 +83,19 @@ class Game:
             if self.player == PlayerTurn.PLAYER1:
                 self.phase = GamePhase.GAME_OVER
 
+    def get_controller(self):
+        if self.phase == GamePhase.DIE_ROLL:
+            return self.environment
+        elif self.player == PlayerTurn.PLAYER1:
+            return self.p1.controller
+        else:
+            return self.p2.controller
 
     def get_actions(self):
         if self.phase == GamePhase.MULLIGAN:
             mulligans=self.currentPlayer.get_mulligans()
             mulligans.append(PassAction())
             return mulligans
+        elif self.phase == GamePhase.DIE_ROLL:
+            return [SwapFirstPlayerAction(), PassAction()]
 

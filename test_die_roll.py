@@ -12,28 +12,7 @@ def test_contestants():
     c2 = Contestant(sapphire_steel, RandomController('test2'))
     return [c1,c2]
 
-class SwapFirstController(Controller):
-    def __init__(self,name):
-        super().__init__(name)
-
-    def chooseAction(self,actions):
-        if any(type(x) is SwapFirstPlayerAction for x in actions):
-            return SwapFirstPlayerAction()
-        else:
-            return actions[0]
-
-class PassController(Controller):
-    def __init__(self,name):
-        super().__init__(name)
-
-    def chooseAction(self,actions):
-        if any(type(x) is PassAction for x in actions):
-            return PassAction()
-        else:
-            return actions[0]
-
-
-class TestGameInit(unittest.TestCase):
+class TestDieRoll(unittest.TestCase):
     def test_game_create(self):
         c = test_contestants()
         game = Game(c[0],c[1],RandomController('env'))
@@ -41,17 +20,15 @@ class TestGameInit(unittest.TestCase):
 
     def test_swap_first_player(self):
         c = test_contestants()
-        game = Game(c[0],c[1],SwapFirstController('env'))
+        game = Game(c[0],c[1],RandomController('env'))
         current_controller = game.get_controller()
 
         # env should go first
         self.assertEqual(current_controller.name, 'env')
         actions = game.get_actions()
-        chosen_action=current_controller.chooseAction(actions)
+        self.assertEqual(len(actions), 2)
 
-        # should be a swap first player action
-        self.assertTrue(type(chosen_action) is SwapFirstPlayerAction)
-        game.process_action(chosen_action)
+        game.process_action(SwapFirstPlayerAction())
 
         # assert the players are swapped
         self.assertEqual(game.p1.controller.name, 'test2')
@@ -60,17 +37,15 @@ class TestGameInit(unittest.TestCase):
 
     def test_no_swap_first_player(self):
         c = test_contestants()
-        game = Game(c[0],c[1],PassController('env'))
+        game = Game(c[0],c[1],RandomController('env'))
         current_controller = game.get_controller()
 
         # env should go first
         self.assertEqual(current_controller.name, 'env')
         actions = game.get_actions()
-        chosen_action=current_controller.chooseAction(actions)
+        self.assertEqual(len(actions), 2)
 
-        # should be a swap first player action
-        self.assertTrue(type(chosen_action) is PassAction)
-        game.process_action(chosen_action)
+        game.process_action(PassAction())
 
         # assert the players are swapped
         self.assertEqual(game.p1.controller.name, 'test1')

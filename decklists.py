@@ -5,14 +5,14 @@ class Deck:
     name: str
     cards: list
 
-@dataclass
+@dataclass(frozen=True)
 class Card:
     num: str
     name: str
     def __hash__(self):
         return hash(self.num)
 
-@dataclass
+@dataclass(frozen=True)
 class CharacterCard(Card):
     subtext: str
     description: str
@@ -23,7 +23,7 @@ class CharacterCard(Card):
     color: str
     inkable: bool
 
-@dataclass
+@dataclass(frozen=True)
 class ActionCard(Card):
     description: str
     cost: int
@@ -31,7 +31,7 @@ class ActionCard(Card):
     is_song: bool
     inkable: bool
 
-@dataclass
+@dataclass(frozen=True)
 class ItemCard(Card):
     description: str
     cost: int

@@ -2,15 +2,10 @@
 
 import unittest
 from contestant import Contestant
-from decklists import amber_amethyst,sapphire_steel
 from controller import RandomController,Controller
 from game import Game,GamePhase,PlayerTurn
 from action import SwapFirstPlayerAction,PassAction
-
-def test_contestants():
-    c1 = Contestant(amber_amethyst, RandomController('test1'))
-    c2 = Contestant(sapphire_steel, RandomController('test2'))
-    return [c1,c2]
+from test_support import test_contestants
 
 class TestDieRoll(unittest.TestCase):
     def test_game_create(self):

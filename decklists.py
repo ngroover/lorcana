@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass
-class Deck:
+class Decklist:
     name: str
     cards: list
 
@@ -74,7 +74,7 @@ dr_facilier7=CharacterCard("37/204-EN-1", "Dr. Facilier", "Agent Provocateur", "
     "you may return that card to your hand.", 4,5,3,7,"amethyst", False)
 cinderella=CharacterCard("3/204-EN-1", "Cinderella", "Gentle and Kind", "Singer 5. Exert - Remove up to 3 damage from chosen Princess character.", 2,5,2,4,"amber", True)
 
-amber_amethyst = Deck("Amber/Amethyst",[
+amber_amethyst = Decklist("Amber/Amethyst",[
     olaf,olaf,olaf, pascal, pascal,
     moana, mickey_mouse,wardrobe,wardrobe,wardrobe,
     dinglehopper,dinglehopper,dinglehopper,magic_broom,magic_broom,
@@ -130,7 +130,7 @@ simba5 = CharacterCard("190/204-EN-1", "Simba", "Rightful Heir", "During your tu
 ransack = ActionCard("199/204-EN-1", "Ransack", "Draw 2 cards, then choose and discard 2 cards.",
         2,"steel", False,True)
 
-sapphire_steel = Deck("Sapphire/Steel", [
+sapphire_steel = Decklist("Sapphire/Steel", [
     captain_hook,captain_hook,captain_hook,aurora,
     maleficent,maleficent,maleficent,simba,
     scar,one_jump_ahead,one_jump_ahead,kristoff,
@@ -188,7 +188,7 @@ captain = CharacterCard("106/204-EN-1", "Captain", "Colonel's Lieutenant", "", 6
 shield_of_virtue = ItemCard("135/204-EN-1", "Shield of Virtue", "Exert, 3 Ink - Ready chosen character. They can't quest for the rest of this turn.",
         1,"ruby",True)
 
-ruby_emerald = Deck("Ruby/Emerald", [
+ruby_emerald = Decklist("Ruby/Emerald", [
     cruella_de_vil,
     dragon_fire,dragon_fire,dragon_fire,
     aladdin_prince,aladdin_prince,

@@ -1,6 +1,6 @@
 
 from dataclasses import dataclass
-from decklists import Deck
+from decklists import Decklist
 from decklists import decklists
 from controller import Controller
 from controller import create_controller
@@ -8,7 +8,7 @@ from controller import create_controller
 
 @dataclass
 class Contestant:
-    deck: Deck
+    deck: Decklist
     controller: Controller
 
 def create_contestant():

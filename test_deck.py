@@ -12,9 +12,11 @@ class TestDeck(unittest.TestCase):
         d = Deck(amber_amethyst.cards)
         probs = d.get_card_probabilities()
 
-        # assert that we will draw moana with 1/60 probability
+        self.assertEqual(60, d.get_total_cards())
         self.assertTrue(moana in probs)
-        self.assertEqual(probs[moana], 1/60)
+        # moana has a weight of 1 here since there's only 1 in the deck
+        # probability is 1/60
+        self.assertEqual(probs[moana], 1)
 
 if __name__ == '__main__':
     unittest.main()

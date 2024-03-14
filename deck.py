@@ -3,14 +3,17 @@ from collections import defaultdict
 class Deck:
     def __init__(self, cards):
         self.randomized_cards=defaultdict(int)
-        self.total_cards = len(cards)
+        self.total_cards=len(cards)
         for c in cards:
             self.randomized_cards[c] += 1
 
+    def get_total_cards(self):
+        return self.total_cards
+    
     def get_card_probabilities(self):
         result=dict()
         for card,quantity in self.randomized_cards.items():
-            result[card] = quantity/self.total_cards
+            result[card] = quantity
         return result
 
 

@@ -12,7 +12,7 @@ class GamePhase(Enum):
     DIE_ROLL=1
     DRAW_STARTING_HAND=2
     MULLIGAN=3
-    ACTION=4
+    MAIN=4
     GAME_OVER=5
 
 class PlayerTurn(Enum):
@@ -28,7 +28,7 @@ class Game:
     player: PlayerTurn
     environment: Controller
     currentController: Controller
-    mulligan_finished: False
+    mulligan_finished: bool = False
 
     def __init__(self, contestant1, contestant2, environment):
         self.environment = environment
@@ -65,10 +65,16 @@ class Game:
             self.process_mulligan(act)
         elif self.phase == GamePhase.DRAW_STARTING_HAND:
             self.currentPlayer.draw_card(act.card)
-            if len(self.currentPlayer.hand) == 7:
-                self.swap_current_player()
-                if self.player == PlayerTurn.PLAYER1:
+            if len(self.p1.hand) == 7 and len(self.p2.hand) == 7:
+                if self.player == PlayerTurn.PLAYER2:
+                    self.swap_current_player()
+                if self.mulligan_finished:
+                    self.phase = GamePhase.MAIN
+                else:
                     self.phase = GamePhase.MULLIGAN
+            else:
+                if len(self.currentPlayer.hand) == 7:
+                    self.swap_current_player()
         elif self.phase == GamePhase.DIE_ROLL:
             self.do_die_roll(act)
 
@@ -82,10 +88,17 @@ class Game:
         if type(act) is MulliganAction:
             self.currentPlayer.mulligan_card(act.card)
         elif type(act) is PassAction:
-            self.currentPlayer.mulligan_finished=True
+            self.mulligan_finished=True
             self.swap_current_player()
+            # going into draw phase now or maybe skipping to main phase
             if self.player == PlayerTurn.PLAYER1:
-                self.phase = GamePhase.DRAW_STARTING_HAND
+                if len(self.currentPlayer.hand) == 7:
+                    self.swap_current_player()
+                if len(self.currentPlayer.hand) == 7:
+                    self.swap_current_player()
+                    self.phase = GamePhase.MAIN
+                else:
+                    self.phase = GamePhase.DRAW_STARTING_HAND
 
 
     def get_controller(self):

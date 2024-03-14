@@ -3,11 +3,11 @@
 import unittest
 from contestant import Contestant
 from decklists import amber_amethyst,sapphire_steel
-from decklists import olaf,pascal,moana,mickey_mouse,wardrobe,dinglehopper,stitch
-from decklists import captain_hook,maleficent,simba,scar,one_jump_ahead,kristoff,flounder
+from decklists import olaf,pascal,moana,mickey_mouse,wardrobe,dinglehopper,stitch,friends_on_the_other_side
+from decklists import captain_hook,maleficent,simba,scar,one_jump_ahead,kristoff,flounder,fire_the_cannons
 from controller import RandomController
 from game import Game,GamePhase,PlayerTurn
-from action import PassAction,MulliganAction
+from action import PassAction,MulliganAction,DrawAction
 from test_support import simple_test_game
 
 def mulligan_state_with_different_cards_game(player):
@@ -117,7 +117,8 @@ class TestMulligan(unittest.TestCase):
         
         # make sure we still have 7 cards and now its player 2 turn
         self.assertEqual(len(g.p1.hand), 7)
-        self.assertEqual(g.phase, GamePhase.DRAW_STARTING_HAND)
+        # technically p1 also doesn't need to draw so we skip right to main phase
+        self.assertEqual(g.phase, GamePhase.MAIN)
         self.assertEqual(g.player, PlayerTurn.PLAYER1)
 
     def test_p1_full_mulligan(self):
@@ -149,11 +150,66 @@ class TestMulligan(unittest.TestCase):
         self.assertEqual(g.phase, GamePhase.MULLIGAN)
         self.assertEqual(g.player, PlayerTurn.PLAYER2)
 
-        g.process_action(next(filter(lambda x: type(x) is PassAction, actions)))
+        g.process_action(PassAction())
         
-        # make sure we still have 7 cards and now its player 2 turn
+        self.assertEqual(g.phase, GamePhase.DRAW_STARTING_HAND)
+        # we skipped player 1 mulligan here so we don't need to draw cards
+        self.assertEqual(g.player, PlayerTurn.PLAYER2)
+
+    def test_p1_skip_draw(self):
+        g = mulligan_state_with_different_cards_game(PlayerTurn.PLAYER1)
+
+        # p1 pass all mulligans
+        g.process_action(PassAction())
+
+        # p2 does 1 mulligan
+        g.process_action(MulliganAction(captain_hook))
+        g.process_action(PassAction())
+        
+        # p2 needs to draw but p1 does not
+        self.assertEqual(g.phase, GamePhase.DRAW_STARTING_HAND)
+        self.assertEqual(g.player, PlayerTurn.PLAYER2)
+
+        g.process_action(DrawAction(fire_the_cannons,1))
+
+        # should be in main state now
+        self.assertEqual(g.phase, GamePhase.MAIN)
+        self.assertEqual(g.player, PlayerTurn.PLAYER1)
+
+    def test_p2_skip_draw(self):
+        g = mulligan_state_with_different_cards_game(PlayerTurn.PLAYER1)
+
+        # p1 does 1 mulligan
+        g.process_action(MulliganAction(olaf))
+        g.process_action(PassAction())
+
+        # p2 pass all mulligans
+        g.process_action(PassAction())
+        
+        # p1 needs to draw but p2 does not
         self.assertEqual(g.phase, GamePhase.DRAW_STARTING_HAND)
         self.assertEqual(g.player, PlayerTurn.PLAYER1)
+
+        # draw 1 card
+        g.process_action(DrawAction(friends_on_the_other_side,1))
+
+        # p2 doesn't need to draw
+        self.assertEqual(g.phase, GamePhase.MAIN)
+        self.assertEqual(g.player, PlayerTurn.PLAYER1)
+
+    def test_p2_skip_both(self):
+        g = mulligan_state_with_different_cards_game(PlayerTurn.PLAYER1)
+
+        # p1 pass all mulligans
+        g.process_action(PassAction())
+
+        # p2 pass all mulligans
+        g.process_action(PassAction())
+        
+        # neither p1 or p2 needs to draw
+        self.assertEqual(g.phase, GamePhase.MAIN)
+        self.assertEqual(g.player, PlayerTurn.PLAYER1)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -2,7 +2,7 @@
 
 import unittest
 from contestant import Contestant
-from decklists import amber_amethyst,sapphire_steel,olaf,pascal,moana,mickey_mouse,captain_hook,maleficent,scar
+from decklists import amber_amethyst,sapphire_steel,olaf,pascal,moana,mickey_mouse,captain_hook,maleficent,scar,wardrobe,dinglehopper,stitch
 from controller import RandomController,Controller
 from game import Game,GamePhase,PlayerTurn
 from action import FirstPlayerAction,PassAction,DrawAction
@@ -113,6 +113,8 @@ class TestStartingHand(unittest.TestCase):
         game.phase = GamePhase.DRAW_STARTING_HAND
         game.player = PlayerTurn.PLAYER2
         game.currentPlayer = game.p2
+        # give p1 a hand so they dont need to draw
+        game.p1.hand = [olaf,pascal,moana,mickey_mouse,wardrobe,dinglehopper,stitch]
 
         cards_to_draw=[captain_hook,captain_hook,captain_hook,maleficent,maleficent,maleficent]
         for c in cards_to_draw:
@@ -134,7 +136,7 @@ class TestStartingHand(unittest.TestCase):
         game.process_action(DrawAction(scar,1))
         self.assertEqual(game.p2.hand.count(scar), 1)
 
-        # now we are in the mulligan phas
+        # now we are in the mulligan phase
         self.assertEqual(game.phase, GamePhase.MULLIGAN)
         self.assertEqual(game.player, PlayerTurn.PLAYER1) 
 

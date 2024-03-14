@@ -2,7 +2,7 @@
 
 import unittest
 from contestant import Contestant
-from decklists import amber_amethyst,sapphire_steel,olaf,pascal,moana,mickey_mouse,captain_hook,maleficent,scar,wardrobe,dinglehopper,stitch
+from decklists import amber_amethyst,sapphire_steel,olaf,pascal,moana,mickey_mouse,captain_hook,maleficent,scar_blue,wardrobe,dinglehopper,stitch
 from controller import RandomController,Controller
 from game import Game,GamePhase,PlayerTurn
 from action import FirstPlayerAction,PassAction,DrawAction
@@ -133,8 +133,8 @@ class TestStartingHand(unittest.TestCase):
                 filter(lambda x: x.card == maleficent,actions)),0)    #ensure 0 maleficent draw action
 
         # draw last card
-        game.process_action(DrawAction(scar,1))
-        self.assertEqual(game.p2.hand.count(scar), 1)
+        game.process_action(DrawAction(scar_blue,1))
+        self.assertEqual(game.p2.hand.count(scar_blue), 1)
 
         # now we are in the mulligan phase
         self.assertEqual(game.phase, GamePhase.MULLIGAN)
@@ -148,7 +148,10 @@ class TestStartingHand(unittest.TestCase):
         game.currentPlayer = game.p2
         game.mulligan_finished = True
         # give p1 a hand so they dont need to draw
+        # and manually manipulate the deck so they are drawn
         game.p1.hand = [olaf,pascal,moana,mickey_mouse,wardrobe,dinglehopper,stitch]
+        for x in game.p1.hand:
+            game.p1.deck.draw_card(x)
 
         cards_to_draw=[captain_hook,captain_hook,captain_hook,maleficent,maleficent,maleficent]
         for c in cards_to_draw:
@@ -167,12 +170,14 @@ class TestStartingHand(unittest.TestCase):
                 filter(lambda x: x.card == maleficent,actions)),0)    #ensure 0 maleficent draw action
 
         # draw last card
-        game.process_action(DrawAction(scar,1))
-        self.assertEqual(game.p2.hand.count(scar), 1)
+        game.process_action(DrawAction(scar_blue,1))
+        self.assertEqual(game.p2.hand.count(scar_blue), 1)
 
         # now we are in the main phase because we already mulliganed
         self.assertEqual(game.phase, GamePhase.MAIN)
         self.assertEqual(game.player, PlayerTurn.PLAYER1) 
+        self.assertEqual(game.p1.deck.get_total_cards(), len(amber_amethyst.cards)-7)
+        self.assertEqual(game.p2.deck.get_total_cards(), len(sapphire_steel.cards)-7)
 
 
 

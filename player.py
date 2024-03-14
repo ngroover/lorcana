@@ -16,9 +16,6 @@ class Player:
     def get_top_card_choices(self):
         return self.deck.get_card_choices()
 
-    def shuffle_deck(self):
-        random.shuffle(self.deck)
-
     def draw_card(self,card):
         self.deck.draw_card(card)
         self.hand.append(card)
@@ -37,9 +34,9 @@ class Player:
         self.pending_mulligan.append(card)
 
     def finish_mulligan(self):
-        self.draw_cards(len(self.pending_mulligan))
-        self.deck.extend(self.pending_mulligan)
-        self.shuffle_deck()
+        for x in self.pending_mulligan:
+            self.deck.put_card_on_bottom(x)
+        self.deck.shuffle()
 
 
 def create_player(contestant):

@@ -66,6 +66,10 @@ class Game:
         elif self.phase == GamePhase.DRAW_STARTING_HAND:
             self.currentPlayer.draw_card(act.card)
             if len(self.p1.hand) == 7 and len(self.p2.hand) == 7:
+                #technically i think the pending mulligan cards go
+                # on the bottom of the deck before you draw but it doesn't matter
+                self.p1.finish_mulligan()
+                self.p2.finish_mulligan()
                 if self.player == PlayerTurn.PLAYER2:
                     self.swap_current_player()
                 if self.mulligan_finished:

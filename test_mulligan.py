@@ -4,7 +4,7 @@ import unittest
 from contestant import Contestant
 from decklists import amber_amethyst,sapphire_steel
 from decklists import olaf,pascal,moana,mickey_mouse,wardrobe,dinglehopper,stitch,friends_on_the_other_side
-from decklists import captain_hook,maleficent,simba,scar,one_jump_ahead,kristoff,flounder,fire_the_cannons
+from decklists import captain_hook,maleficent,simba,scar_blue,one_jump_ahead,kristoff,flounder,fire_the_cannons
 from controller import RandomController
 from game import Game,GamePhase,PlayerTurn
 from action import PassAction,MulliganAction,DrawAction
@@ -20,7 +20,7 @@ def mulligan_state_with_different_cards_game(player):
         g.currentPlayer = g.p2
 
     g.p1.hand = [olaf,pascal,moana,mickey_mouse,wardrobe,dinglehopper,stitch]
-    g.p2.hand = [captain_hook,maleficent,simba,scar,one_jump_ahead,kristoff,flounder]
+    g.p2.hand = [captain_hook,maleficent,simba,scar_blue,one_jump_ahead,kristoff,flounder]
     return g
 
 def mulligan_state_with_duplicate_cards_game(player):

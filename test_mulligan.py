@@ -3,19 +3,42 @@
 import unittest
 from contestant import Contestant
 from decklists import amber_amethyst,sapphire_steel
+from decklists import olaf,pascal,moana,mickey_mouse,wardrobe,dinglehopper,stitch
+from decklists import captain_hook,maleficent,simba,scar,one_jump_ahead,kristoff,flounder
 from controller import RandomController
 from game import Game,GamePhase,PlayerTurn
-from test import test_contestants
 from action import PassAction,MulliganAction
+from test_support import simple_test_game
 
-def simple_test_game():
-    c = test_contestants()
-    game = Game(c[0],c[1])
-    return game
+def mulligan_state_with_different_cards_game(player):
+    g = simple_test_game()
+    g.phase = GamePhase.MULLIGAN
+    g.player = player
+    if player == PlayerTurn.PLAYER1:
+        g.currentPlayer = g.p1
+    else:
+        g.currentPlayer = g.p2
+
+    g.p1.hand = [olaf,pascal,moana,mickey_mouse,wardrobe,dinglehopper,stitch]
+    g.p2.hand = [captain_hook,maleficent,simba,scar,one_jump_ahead,kristoff,flounder]
+    return g
+
+def mulligan_state_with_duplicate_cards_game(player):
+    g = simple_test_game()
+    g.phase = GamePhase.MULLIGAN
+    g.player = player
+    if player == PlayerTurn.PLAYER1:
+        g.currentPlayer = g.p1
+    else:
+        g.currentPlayer = g.p2
+    g.p1.hand = [olaf,olaf,olaf,pascal,pascal,wardrobe,wardrobe]
+    g.p2.hand = [captain_hook,captain_hook,captain_hook,maleficent,maleficent,maleficent,simba]
+    return g
+
 
 class TestMulligan(unittest.TestCase):
-    def test_p1_mulligan_choices(self):
-        g = simple_test_game()
+    def test_p1_mulligan_different_choices(self):
+        g = mulligan_state_with_different_cards_game(PlayerTurn.PLAYER1)
 
         actions = g.get_actions()
         num_mulls = sum(1 for _ in filter(lambda x: type(x) is MulliganAction, actions))
@@ -24,10 +47,8 @@ class TestMulligan(unittest.TestCase):
         self.assertEqual(num_pass,1)
         self.assertEqual(len(actions),8)
 
-    def test_p2_mulligan_choices(self):
-        g = simple_test_game()
-        g.player = PlayerTurn.PLAYER2
-        g.swap_current_player()
+    def test_p2_mulligan_different_choices(self):
+        g = mulligan_state_with_different_cards_game(PlayerTurn.PLAYER2)
 
         actions = g.get_actions()
         num_mulls = sum(1 for _ in filter(lambda x: type(x) is MulliganAction, actions))
@@ -35,13 +56,31 @@ class TestMulligan(unittest.TestCase):
         self.assertEqual(num_mulls,7)
         self.assertEqual(num_pass,1)
         self.assertEqual(len(actions),8)
+
+    def test_p1_mulligan_dulplicate_choices(self):
+        g = mulligan_state_with_duplicate_cards_game(PlayerTurn.PLAYER1)
+
+        actions = g.get_actions()
+        num_mulls = sum(1 for _ in filter(lambda x: type(x) is MulliganAction, actions))
+        num_pass = sum(1 for _ in filter(lambda x: type(x) is PassAction, actions))
+        self.assertEqual(num_mulls,3)
+        self.assertEqual(num_pass,1)
+        self.assertEqual(len(actions),4)
+
+    def test_p2_mulligan_duplicate_choices(self):
+        g = mulligan_state_with_duplicate_cards_game(PlayerTurn.PLAYER2)
+
+        actions = g.get_actions()
+        num_mulls = sum(1 for _ in filter(lambda x: type(x) is MulliganAction, actions))
+        num_pass = sum(1 for _ in filter(lambda x: type(x) is PassAction, actions))
+        self.assertEqual(num_mulls,3)
+        self.assertEqual(num_pass,1)
+        self.assertEqual(len(actions),4)
 
     def test_p1_mulligan(self):
-        g = simple_test_game()
-
-        actions = g.get_actions()
+        g = mulligan_state_with_different_cards_game(PlayerTurn.PLAYER1)
         # do the first mulligan
-        g.process_action(next(filter(lambda x: type(x) is MulliganAction, actions)))
+        g.process_action(MulliganAction(olaf))
         
         self.assertEqual(len(g.p1.hand), 6)
         self.assertEqual(len(g.p1.pending_mulligan), 1)
@@ -49,12 +88,10 @@ class TestMulligan(unittest.TestCase):
         self.assertEqual(len(g.p2.pending_mulligan), 0)
 
     def test_p2_mulligan(self):
-        g = simple_test_game()
-        g.swap_current_player()
+        g = mulligan_state_with_different_cards_game(PlayerTurn.PLAYER2)
 
-        actions = g.get_actions()
         # do the first mulligan
-        g.process_action(next(filter(lambda x: type(x) is MulliganAction, actions)))
+        g.process_action(MulliganAction(captain_hook))
         
         self.assertEqual(len(g.p1.hand), 7)
         self.assertEqual(len(g.p1.pending_mulligan), 0)
@@ -62,33 +99,29 @@ class TestMulligan(unittest.TestCase):
         self.assertEqual(len(g.p2.pending_mulligan), 1)
 
     def test_p1_pass_mulligan(self):
-        g = simple_test_game()
+        g = mulligan_state_with_different_cards_game(PlayerTurn.PLAYER1)
 
-        actions = g.get_actions()
         # immediately pass
-        g.process_action(next(filter(lambda x: type(x) is PassAction, actions)))
-        
+        g.process_action(PassAction())
+
         # make sure we still have 7 cards and now its player 2 turn
         self.assertEqual(len(g.p1.hand), 7)
         self.assertEqual(g.phase, GamePhase.MULLIGAN)
         self.assertEqual(g.player, PlayerTurn.PLAYER2)
 
-    def test_p1_pass_mulligan(self):
-        g = simple_test_game()
-        g.swap_current_player()
+    def test_p2_pass_mulligan(self):
+        g = mulligan_state_with_different_cards_game(PlayerTurn.PLAYER2)
 
-        actions = g.get_actions()
         # immediately pass
-        g.process_action(next(filter(lambda x: type(x) is PassAction, actions)))
+        g.process_action(PassAction())
         
         # make sure we still have 7 cards and now its player 2 turn
         self.assertEqual(len(g.p1.hand), 7)
-        # TEMPORARILY This is the GAME_OVER phase
-        self.assertEqual(g.phase, GamePhase.GAME_OVER)
+        self.assertEqual(g.phase, GamePhase.DRAW_STARTING_HAND)
         self.assertEqual(g.player, PlayerTurn.PLAYER1)
 
     def test_p1_full_mulligan(self):
-        g = simple_test_game()
+        g = mulligan_state_with_different_cards_game(PlayerTurn.PLAYER1)
 
         actions = g.get_actions()
         # take all mulligan actions
@@ -101,14 +134,11 @@ class TestMulligan(unittest.TestCase):
 
         g.process_action(next(filter(lambda x: type(x) is PassAction, actions)))
         
-        # make sure we still have 7 cards and now its player 2 turn
-        self.assertEqual(len(g.p1.hand), 7)
         self.assertEqual(g.phase, GamePhase.MULLIGAN)
         self.assertEqual(g.player, PlayerTurn.PLAYER2)
 
     def test_p2_full_mulligan(self):
-        g = simple_test_game()
-        g.swap_current_player()
+        g = mulligan_state_with_different_cards_game(PlayerTurn.PLAYER2)
 
         actions = g.get_actions()
         # take all mulligan actions
@@ -122,8 +152,7 @@ class TestMulligan(unittest.TestCase):
         g.process_action(next(filter(lambda x: type(x) is PassAction, actions)))
         
         # make sure we still have 7 cards and now its player 2 turn
-        self.assertEqual(len(g.p1.hand), 7)
-        self.assertEqual(g.phase, GamePhase.GAME_OVER)
+        self.assertEqual(g.phase, GamePhase.DRAW_STARTING_HAND)
         self.assertEqual(g.player, PlayerTurn.PLAYER1)
 
 if __name__ == '__main__':

@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from controller import Controller
 from action import MulliganAction
 from deck import Deck
+from collections import Counter
 import random
 
 @dataclass
@@ -27,7 +28,8 @@ class Player:
             print(x.name)
 
     def get_mulligans(self):
-        return list(map(lambda x: MulliganAction(x), self.hand))
+        card_counts = set(self.hand)
+        return list(map(lambda x: MulliganAction(x), card_counts))
 
     def mulligan_card(self, card):
         print(f'mulliganed {card}')

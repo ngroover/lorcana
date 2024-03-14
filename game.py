@@ -28,6 +28,7 @@ class Game:
     player: PlayerTurn
     environment: Controller
     currentController: Controller
+    mulligan_finished: False
 
     def __init__(self, contestant1, contestant2, environment):
         self.environment = environment
@@ -81,10 +82,11 @@ class Game:
         if type(act) is MulliganAction:
             self.currentPlayer.mulligan_card(act.card)
         elif type(act) is PassAction:
-            self.currentPlayer.finish_mulligan()
+            self.currentPlayer.mulligan_finished=True
             self.swap_current_player()
             if self.player == PlayerTurn.PLAYER1:
-                self.phase = GamePhase.GAME_OVER
+                self.phase = GamePhase.DRAW_STARTING_HAND
+
 
     def get_controller(self):
         return self.currentController

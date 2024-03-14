@@ -66,6 +66,8 @@ class Game:
             self.currentPlayer.draw_card(act.card)
             if len(self.currentPlayer.hand) == 7:
                 self.swap_current_player()
+                if self.player == PlayerTurn.PLAYER1:
+                    self.phase = GamePhase.MULLIGAN
         elif self.phase == GamePhase.DIE_ROLL:
             self.do_die_roll(act)
 

@@ -93,7 +93,7 @@ aurora = CharacterCard("139/204-EN-1", "Aurora", "Dreaming Guardian", "Shift 3. 
 maleficent = CharacterCard("150/204-EN-1", "Maleficent", "Sinister Visitor", "", 3,4,2,4,"sapphire", True)
 simba = CharacterCard("189/204-EN-1", "Simba", "Returned King", "Challenger +4. During your turn, this character gains Evasive.",
         4,6,2,7,"steel", True)
-scar = CharacterCard("158/204-EN-1", "Scar", "Mastermind", "When you play this character, chosen opposing character gets -5 strength this turn.", 5,4,2,6,"sapphire", True)
+scar_blue = CharacterCard("158/204-EN-1", "Scar", "Mastermind", "When you play this character, chosen opposing character gets -5 strength this turn.", 5,4,2,6,"sapphire", True)
 one_jump_ahead = ActionCard("164/204-EN-1", "One Jump Ahead", "Put the top card of your deck into your inkwell facedown and exterted", 2,"sapphire",True,False)
 kristoff = CharacterCard("182/204-EN-1", "Kristoff", "Official Ice Master", "", 3,3,2,3,"steel",True)
 frying_pan = ItemCard("202/204-EN-1", "Frying Pan", "Banish this item - Chosen character can't challenge during their next turn.", 2,"steel",True)
@@ -133,7 +133,7 @@ ransack = ActionCard("199/204-EN-1", "Ransack", "Draw 2 cards, then choose and d
 sapphire_steel = Decklist("Sapphire/Steel", [
     captain_hook,captain_hook,captain_hook,aurora,
     maleficent,maleficent,maleficent,simba,
-    scar,one_jump_ahead,one_jump_ahead,kristoff,
+    scar_blue,one_jump_ahead,one_jump_ahead,kristoff,
     kristoff,frying_pan,frying_pan,flounder,flounder,
     fire_the_cannons,fire_the_cannons,fire_the_cannons,
     coconut_basket,coconut_basket,coconut_basket,
@@ -152,7 +152,7 @@ cruella_de_vil = CharacterCard("72/204-EN-1", "Cruella De Vil", "Miserable As Us
 
 dragon_fire = ActionCard("130/204-EN-1", "Dragon Fire", "Banish chosen character.", 5, "ruby", False,False)
 aladdin_prince = CharacterCard("69/204-EN-1", "Aladdin", "Prince Ali", "Ward", 2,2,1,2,"emerald",True)
-scar = CharacterCard("122/204-EN-1", "Scar", "Fiery Usurper", "", 5, 3, 1, 4, "ruby", True)
+scar_red = CharacterCard("122/204-EN-1", "Scar", "Fiery Usurper", "", 5, 3, 1, 4, "ruby", True)
 aladdin_heroic = CharacterCard("104/204-EN-1", "Aladdin", "Heroic Outlaw", "Shift 5. During your turn, whenever this "
         "character banishes another character in a challenge, you gain 2 lore and each "
         "opponent loses 2 lore", 5, 5, 2, 7, "ruby", True)
@@ -192,7 +192,7 @@ ruby_emerald = Decklist("Ruby/Emerald", [
     cruella_de_vil,
     dragon_fire,dragon_fire,dragon_fire,
     aladdin_prince,aladdin_prince,
-    scar,scar,
+    scar_red,scar_red,
     aladdin_heroic,
     donald_duck,donald_duck,
     mickey_mouse_steamboat,mickey_mouse_steamboat,mickey_mouse_steamboat,

@@ -140,6 +140,40 @@ class TestStartingHand(unittest.TestCase):
         self.assertEqual(game.phase, GamePhase.MULLIGAN)
         self.assertEqual(game.player, PlayerTurn.PLAYER1) 
 
+    def test_draw_all_cards_second_player_after_mulligan(self):
+        c = test_contestants()
+        game = Game(c[0],c[1],RandomController('env'))
+        game.phase = GamePhase.DRAW_STARTING_HAND
+        game.player = PlayerTurn.PLAYER2
+        game.currentPlayer = game.p2
+        game.mulligan_finished = True
+        # give p1 a hand so they dont need to draw
+        game.p1.hand = [olaf,pascal,moana,mickey_mouse,wardrobe,dinglehopper,stitch]
+
+        cards_to_draw=[captain_hook,captain_hook,captain_hook,maleficent,maleficent,maleficent]
+        for c in cards_to_draw:
+            # here the weight doesn't matter going into
+            # the process_action function so we can set it to 1
+            game.process_action(DrawAction(c,1))
+
+        self.assertEqual(game.p2.hand.count(captain_hook), 3)
+        self.assertEqual(game.p2.hand.count(maleficent), 3)
+
+        # make sure we can't draw captain_hook or maleficent anymore
+        actions = game.get_actions()
+        self.assertEqual(sum(1 for _ in 
+                filter(lambda x: x.card == captain_hook,actions)),0)    #ensure 0 captain_hook draw action
+        self.assertEqual(sum(1 for _ in 
+                filter(lambda x: x.card == maleficent,actions)),0)    #ensure 0 maleficent draw action
+
+        # draw last card
+        game.process_action(DrawAction(scar,1))
+        self.assertEqual(game.p2.hand.count(scar), 1)
+
+        # now we are in the main phase because we already mulliganed
+        self.assertEqual(game.phase, GamePhase.MAIN)
+        self.assertEqual(game.player, PlayerTurn.PLAYER1) 
+
 
 
 

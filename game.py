@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from player import Player
 from player import create_player
 from enum import Enum
-from action import MulliganAction,PassAction,SwapFirstPlayerAction
+from action import MulliganAction,PassAction,FirstPlayerAction
 from controller import Controller
 
 import random
@@ -69,7 +69,7 @@ class Game:
             self.do_die_roll(act)
 
     def do_die_roll(self,act):
-        if type(act) is SwapFirstPlayerAction:
+        if type(act) is FirstPlayerAction and act.swap:
             # swap who goes first
             self.p1, self.p2 = self.p2, self.p1
         self.phase = GamePhase.DRAW_STARTING_HAND
@@ -97,5 +97,5 @@ class Game:
             mulligans.append(PassAction())
             return mulligans
         elif self.phase == GamePhase.DIE_ROLL:
-            return [SwapFirstPlayerAction(), PassAction()]
+            return [FirstPlayerAction(True), FirstPlayerAction(False)]
 

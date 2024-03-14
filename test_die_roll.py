@@ -4,7 +4,7 @@ import unittest
 from contestant import Contestant
 from controller import RandomController,Controller
 from game import Game,GamePhase,PlayerTurn
-from action import SwapFirstPlayerAction,PassAction
+from action import FirstPlayerAction,PassAction
 from test_support import test_contestants
 
 class TestDieRoll(unittest.TestCase):
@@ -23,7 +23,7 @@ class TestDieRoll(unittest.TestCase):
         actions = game.get_actions()
         self.assertEqual(len(actions), 2)
 
-        game.process_action(SwapFirstPlayerAction())
+        game.process_action(FirstPlayerAction(True))
 
         # assert the players are swapped
         self.assertEqual(game.p1.controller.name, 'test2')
@@ -40,7 +40,7 @@ class TestDieRoll(unittest.TestCase):
         actions = game.get_actions()
         self.assertEqual(len(actions), 2)
 
-        game.process_action(PassAction())
+        game.process_action(FirstPlayerAction(False))
 
         # assert the players are swapped
         self.assertEqual(game.p1.controller.name, 'test1')

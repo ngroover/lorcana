@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from player import Player
 from player import create_player
 from enum import Enum
-from action import MulliganAction,PassAction,FirstPlayerAction
+from action import MulliganAction,PassAction,FirstPlayerAction,DrawAction
 from controller import Controller
 
 import random
@@ -27,19 +27,16 @@ class Game:
     phase: GamePhase
     player: PlayerTurn
     environment: Controller
+    currentController: Controller
 
     def __init__(self, contestant1, contestant2, environment):
         self.environment = environment
         self.p1 = create_player(contestant1)
         self.p2 = create_player(contestant2)
         self.currentPlayer = self.p1
+        self.currentController = environment
         self.player = PlayerTurn.PLAYER1
         self.phase = GamePhase.DIE_ROLL
-        #print(f'{self.currentPlayer.controller.name} goes first')
-        #self.p1.shuffle_deck()
-        #self.p2.shuffle_deck()
-        #self.p1.draw_cards(7)
-        #self.p2.draw_cards(7)
 
     def play_game(self):
         while self.phase != GamePhase.GAME_OVER:
@@ -65,6 +62,10 @@ class Game:
     def process_action(self, act):
         if self.phase == GamePhase.MULLIGAN:
             self.process_mulligan(act)
+        elif self.phase == GamePhase.DRAW_STARTING_HAND:
+            self.currentPlayer.draw_card(act.card)
+            if len(self.currentPlayer.hand) == 7:
+                self.swap_current_player()
         elif self.phase == GamePhase.DIE_ROLL:
             self.do_die_roll(act)
 
@@ -84,12 +85,7 @@ class Game:
                 self.phase = GamePhase.GAME_OVER
 
     def get_controller(self):
-        if self.phase == GamePhase.DIE_ROLL:
-            return self.environment
-        elif self.player == PlayerTurn.PLAYER1:
-            return self.p1.controller
-        else:
-            return self.p2.controller
+        return self.currentController
 
     def get_actions(self):
         if self.phase == GamePhase.MULLIGAN:
@@ -98,4 +94,7 @@ class Game:
             return mulligans
         elif self.phase == GamePhase.DIE_ROLL:
             return [FirstPlayerAction(True), FirstPlayerAction(False)]
+        elif self.phase == GamePhase.DRAW_STARTING_HAND:
+            card_choices = self.currentPlayer.get_top_card_choices()
+            return list(map(lambda card_choice: DrawAction(card_choice[0],card_choice[1]), card_choices.items()))
 

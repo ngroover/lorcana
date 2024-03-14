@@ -10,7 +10,13 @@ class Deck:
     def get_total_cards(self):
         return self.total_cards
     
-    def get_card_probabilities(self):
+    def draw_card(self,card):
+        if card in self.randomized_cards:
+            self.randomized_cards[card] -= 1
+            if self.randomized_cards[card] == 0:
+                del self.randomized_cards[card]
+    
+    def get_card_choices(self):
         result=dict()
         for card,quantity in self.randomized_cards.items():
             result[card] = quantity

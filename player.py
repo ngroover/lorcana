@@ -2,25 +2,26 @@
 from dataclasses import dataclass, field
 from controller import Controller
 from action import MulliganAction
+from deck import Deck
 import random
 
 @dataclass
 class Player:
     controller: Controller
-    deck: list
+    deck: Deck
     hand: list = field(default_factory=lambda: [])
     pending_mulligan: list = field(default_factory=lambda: [])
+
+    def get_top_card_choices(self):
+        return self.deck.get_card_choices()
 
     def shuffle_deck(self):
         random.shuffle(self.deck)
 
-    def draw_cards(self, num):
-        cards_to_draw = min(len(self.deck), num)
-        for x in range(cards_to_draw):
-            top_card = self.deck.pop()
-            print(f'Drew {top_card}')
-            self.hand.append(top_card)
-
+    def draw_card(self,card):
+        self.deck.draw_card(card)
+        self.hand.append(card)
+    
     def print_hand(self):
         for x in self.hand:
             print(x.name)
@@ -40,4 +41,4 @@ class Player:
 
 
 def create_player(contestant):
-    return Player(contestant.controller, contestant.deck.cards)
+    return Player(contestant.controller, Deck(contestant.deck.cards))

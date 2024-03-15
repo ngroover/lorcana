@@ -4,6 +4,7 @@ from controller import Controller
 from action import MulliganAction,InkAction,PlayCardAction
 from deck import Deck
 from collections import Counter
+from inplay_character import InPlayCharacter
 import random
 
 @dataclass
@@ -14,6 +15,8 @@ class Player:
     pending_mulligan: list = field(default_factory=lambda: [])
     ready_ink: int = 0
     exterted_ink: int = 0
+    in_play_characters: list = field(default_factory=lambda: [])
+
 
     def get_top_card_choices(self):
         return self.deck.get_card_choices()
@@ -51,7 +54,15 @@ class Player:
     def get_playable_cards(self):
         playable_cards = set(filter(lambda x: x.cost <= self.ready_ink, self.hand))
         return list(map(lambda y: PlayCardAction(y), playable_cards))
-
+    
+    def play_card_from_hand(self,card):
+        if card.cost > self.ready_ink:
+            raise ValueError("Insufficent ink")
+        self.hand.remove(card)
+        new_char = InPlayCharacter(card)
+        self.in_play_characters.append(new_char)
+        self.ready_ink -= card.cost
+        self.exterted_ink += card.cost
 
 def create_player(contestant):
     return Player(contestant.controller, Deck(contestant.deck.cards))

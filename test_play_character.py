@@ -30,6 +30,19 @@ class TestPlayCharacters(unittest.TestCase):
 
         self.assertEqual(expected_playable_chars, actual_playable_chars)
 
+    def test_play_character_choices(self):
+        g = main_state_with_half_inkables_game()
+        g.p1.ready_ink = 1
+
+        g.process_action(PlayCardAction(olaf))
+
+        self.assertEqual(1, len(g.p1.in_play_characters))
+        self.assertEqual(olaf, g.p1.in_play_characters[0].card)
+        self.assertFalse(g.p1.in_play_characters[0].dry)
+        self.assertTrue(g.p1.in_play_characters[0].ready)
+        self.assertEqual(0, g.p1.ready_ink)
+        self.assertEqual(1, g.p1.exterted_ink)
+        self.assertEqual(6, len(g.p1.hand))
 
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 
 from dataclasses import dataclass, field
 from controller import Controller
-from action import MulliganAction,InkAction
+from action import MulliganAction,InkAction,PlayCardAction
 from deck import Deck
 from collections import Counter
 import random
@@ -47,6 +47,9 @@ class Player:
         self.hand.remove(card)
         self.inkwell+=1
 
+    def get_playable_cards(self):
+        playable_cards = set(filter(lambda x: x.cost <= self.inkwell, self.hand))
+        return list(map(lambda y: PlayCardAction(y), playable_cards))
 
 
 def create_player(contestant):

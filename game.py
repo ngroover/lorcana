@@ -124,7 +124,9 @@ class Game:
             card_choices = self.currentPlayer.get_top_card_choices()
             return list(map(lambda card_choice: DrawAction(card_choice[0],card_choice[1]), card_choices.items()))
         elif self.phase == GamePhase.MAIN:
-            return self.currentPlayer.get_ink_actions()
+            ink_actions=self.currentPlayer.get_ink_actions()
+            playable_cards=self.currentPlayer.get_playable_cards()
+            return ink_actions + playable_cards
 
 
 

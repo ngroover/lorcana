@@ -27,6 +27,6 @@ class PassAction:
     pass
 
 @dataclass(frozen=True)
-class PlayAction:
+class PlayCardAction:
     card: Card
 

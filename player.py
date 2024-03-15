@@ -1,7 +1,7 @@
 
 from dataclasses import dataclass, field
 from controller import Controller
-from action import MulliganAction
+from action import MulliganAction,InkAction
 from deck import Deck
 from collections import Counter
 import random
@@ -12,6 +12,7 @@ class Player:
     deck: Deck
     hand: list = field(default_factory=lambda: [])
     pending_mulligan: list = field(default_factory=lambda: [])
+    inkwell: int = 0
 
     def get_top_card_choices(self):
         return self.deck.get_card_choices()
@@ -37,6 +38,11 @@ class Player:
         for x in self.pending_mulligan:
             self.deck.put_card_on_bottom(x)
         self.deck.shuffle()
+
+    def get_ink_actions(self):
+        inkable_cards = set(filter(lambda x: x.inkable, self.hand))
+        return list(map(lambda y: InkAction(y), inkable_cards))
+
 
 
 def create_player(contestant):

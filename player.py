@@ -72,5 +72,10 @@ class Player:
         ready_and_dry = filter(lambda x: x.ready and x.dry, self.in_play_characters)
         return list(map(lambda y: QuestAction(y.card), ready_and_dry))
 
+    def perform_quest(self,card):
+        quest_char = next(filter(lambda x: x.card == card, self.in_play_characters))
+        self.lore += quest_char.card.lore
+        quest_char.ready = False
+
 def create_player(contestant):
     return Player(contestant.controller, Deck(contestant.deck.cards))

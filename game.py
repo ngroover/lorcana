@@ -86,6 +86,10 @@ class Game:
             self.do_die_roll(act)
         elif self.phase == GamePhase.MAIN:
             self.do_main_action(act)
+        elif self.phase == GamePhase.DRAW_PHASE:
+            self.currentPlayer.draw_card(act.card)
+            self.phase = GamePhase.MAIN
+
     def do_main_action(self,act):
         if type(act) is InkAction:
             self.player_has_inked = True

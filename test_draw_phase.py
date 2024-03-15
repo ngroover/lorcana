@@ -26,9 +26,9 @@ class TestDrawPhase(unittest.TestCase):
 
         # still player 1's turn
         self.assertEqual(PlayerTurn.PLAYER1, g.player)
-        self.assertEqual(GamePhase.MULLIGAN, g.phase)
+        self.assertEqual(GamePhase.MAIN, g.phase)
         # hand contains rafiki
-        self.assertTrue(any(x.card == rafiki for x in g.p1.hand))
+        self.assertTrue(any(x == rafiki for x in g.p1.hand))
 
 
 if __name__ == '__main__':

@@ -12,7 +12,8 @@ class Player:
     deck: Deck
     hand: list = field(default_factory=lambda: [])
     pending_mulligan: list = field(default_factory=lambda: [])
-    inkwell: int = 0
+    ready_ink: int = 0
+    exterted_ink: int = 0
 
     def get_top_card_choices(self):
         return self.deck.get_card_choices()
@@ -45,10 +46,10 @@ class Player:
 
     def ink_card(self,card):
         self.hand.remove(card)
-        self.inkwell+=1
+        self.ready_ink+=1
 
     def get_playable_cards(self):
-        playable_cards = set(filter(lambda x: x.cost <= self.inkwell, self.hand))
+        playable_cards = set(filter(lambda x: x.cost <= self.ready_ink, self.hand))
         return list(map(lambda y: PlayCardAction(y), playable_cards))
 
 

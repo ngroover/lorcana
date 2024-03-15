@@ -19,7 +19,7 @@ class TestPlayCharacters(unittest.TestCase):
 
     def test_play_character_choices(self):
         g = main_state_with_half_inkables_game()
-        g.p1.inkwell = 1
+        g.p1.ready_ink = 1
 
         actions = g.get_actions()
         # both olaf and pascal cost 1

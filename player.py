@@ -16,7 +16,7 @@ class Player:
     ready_ink: int = 0
     exterted_ink: int = 0
     in_play_characters: list = field(default_factory=lambda: [])
-
+    lore: int = 0
 
     def get_top_card_choices(self):
         return self.deck.get_card_choices()

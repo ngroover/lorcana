@@ -20,5 +20,14 @@ class TestQuesting(unittest.TestCase):
 
         self.assertEqual(expected_questable, actual_questable)
 
+    def test_perform_quest(self):
+        g = main_state_with_some_characters_in_play()
+
+        g.process_action(QuestAction(olaf))
+
+        olaf_in_play = next(filter(lambda x: x.card == olaf, g.p1.in_play_characters))
+        self.assertFalse(olaf_in_play.ready)
+        self.assertEqual(1,g.p1.lore)
+
 if __name__ == '__main__':
     unittest.main()

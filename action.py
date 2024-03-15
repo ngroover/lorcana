@@ -30,3 +30,6 @@ class PassAction:
 class PlayCardAction:
     card: Card
 
+@dataclass(frozen=True)
+class QuestAction:
+    card: Card

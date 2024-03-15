@@ -57,7 +57,7 @@ def main_state_with_some_characters_in_play():
     g.p2.hand.remove(flounder)
     g.p1.in_play_characters.append(InPlayCharacter(olaf, dry=True))
     g.p1.in_play_characters.append(InPlayCharacter(pascal, dry=True))
-    g.p1.in_play_characters.append(InPlayCharacter(pascal, dry=False))
+    g.p1.in_play_characters.append(InPlayCharacter(hades, dry=False))
     g.p2.in_play_characters.append(InPlayCharacter(captain_hook, dry=True))
     g.p2.in_play_characters.append(InPlayCharacter(flounder, dry=True, ready=False))
 

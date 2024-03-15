@@ -146,7 +146,8 @@ class Game:
             else:
                 ink_actions=[]
             playable_cards=self.currentPlayer.get_playable_cards()
-            return ink_actions + playable_cards + [PassAction()]
+            questable_cards=self.currentPlayer.get_questable_cards()
+            return ink_actions + playable_cards + questable_cards + [PassAction()]
 
 
 

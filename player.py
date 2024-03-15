@@ -64,5 +64,9 @@ class Player:
         self.ready_ink -= card.cost
         self.exterted_ink += card.cost
 
+    def ready_characters(self):
+        for x in self.in_play_characters:
+            x.ready = True
+
 def create_player(contestant):
     return Player(contestant.controller, Deck(contestant.deck.cards))

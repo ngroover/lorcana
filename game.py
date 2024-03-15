@@ -11,9 +11,11 @@ import random
 class GamePhase(Enum):
     DIE_ROLL=1
     DRAW_STARTING_HAND=2
-    MULLIGAN=3
-    MAIN=4
-    GAME_OVER=5
+    DRAW_PHASE=3
+    MULLIGAN=4
+    MAIN=5
+    GAME_OVER=6
+
 
 class PlayerTurn(Enum):
     PLAYER1=1
@@ -90,6 +92,13 @@ class Game:
             self.currentPlayer.ink_card(act.card)
         elif type(act) is PlayCardAction:
             self.currentPlayer.play_card_from_hand(act.card)
+        elif type(act) is PassAction:
+            # Do end of turn stuff and start over turn stuff
+            # for other player
+            self.swap_current_player()
+            self.currentController = self.environment
+            self.currentPlayer.ready_characters()
+            self.phase = GamePhase.DRAW_PHASE
 
     def do_die_roll(self,act):
         if type(act) is FirstPlayerAction and act.swap:
@@ -124,7 +133,7 @@ class Game:
             return mulligans
         elif self.phase == GamePhase.DIE_ROLL:
             return [FirstPlayerAction(True), FirstPlayerAction(False)]
-        elif self.phase == GamePhase.DRAW_STARTING_HAND:
+        elif self.phase == GamePhase.DRAW_STARTING_HAND or self.phase == GamePhase.DRAW_PHASE:
             card_choices = self.currentPlayer.get_top_card_choices()
             return list(map(lambda card_choice: DrawAction(card_choice[0],card_choice[1]), card_choices.items()))
         elif self.phase == GamePhase.MAIN:
@@ -134,6 +143,7 @@ class Game:
                 ink_actions=[]
             playable_cards=self.currentPlayer.get_playable_cards()
             return ink_actions + playable_cards + [PassAction()]
+
 
 
 

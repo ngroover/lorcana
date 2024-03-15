@@ -26,6 +26,18 @@ class TestInkables(unittest.TestCase):
         self.assertEqual(2,olafs_in_hand)
         self.assertEqual(1,g.p1.ready_ink)
 
+    def test_cant_ink_twice(self):
+        g = main_state_with_half_inkables_game()
+
+        # ink an olaf
+        g.process_action(InkAction(olaf))
+
+        actions = g.get_actions()
+        ink_options = sum(1 for _ in filter(lambda x: type(x) is InkAction, actions))
+
+        # verify we can't ink again this turn
+        self.assertEqual(0,ink_options)
+
 
 if __name__ == '__main__':
     unittest.main()

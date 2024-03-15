@@ -12,7 +12,7 @@ class FirstPlayerAction:
 @dataclass(frozen=True)
 class DrawAction:
     card: Card
-    weight: int
+    weight: int = 1
 
 @dataclass(frozen=True)
 class MulliganAction:

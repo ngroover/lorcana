@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from player import Player
 from player import create_player
 from enum import Enum
-from action import MulliganAction,PassAction,FirstPlayerAction,DrawAction
+from action import MulliganAction,PassAction,FirstPlayerAction,DrawAction,InkAction
 from controller import Controller
 
 import random
@@ -81,6 +81,11 @@ class Game:
                     self.swap_current_player()
         elif self.phase == GamePhase.DIE_ROLL:
             self.do_die_roll(act)
+        elif self.phase == GamePhase.MAIN:
+            self.do_main_action(act)
+    def do_main_action(self,act):
+        if type(act) is InkAction:
+            self.currentPlayer.ink_card(act.card)
 
     def do_die_roll(self,act):
         if type(act) is FirstPlayerAction and act.swap:

@@ -24,7 +24,7 @@ class TestInkables(unittest.TestCase):
 
         olafs_in_hand=g.p1.hand.count(olaf)
         self.assertEqual(2,olafs_in_hand)
-        self.assertEqual(1,self.p1.inkwell)
+        self.assertEqual(1,g.p1.inkwell)
 
 
 if __name__ == '__main__':

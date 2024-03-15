@@ -43,6 +43,10 @@ class Player:
         inkable_cards = set(filter(lambda x: x.inkable, self.hand))
         return list(map(lambda y: InkAction(y), inkable_cards))
 
+    def ink_card(self,card):
+        self.hand.remove(card)
+        self.inkwell+=1
+
 
 
 def create_player(contestant):

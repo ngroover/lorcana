@@ -25,3 +25,8 @@ class InkAction:
 @dataclass(frozen=True)
 class PassAction:
     pass
+
+@dataclass(frozen=True)
+class PlayAction:
+    card: Card
+

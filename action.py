@@ -17,6 +17,10 @@ class DrawAction:
 @dataclass(frozen=True)
 class MulliganAction:
     card: Card
+
+@dataclass(frozen=True)
+class InkAction:
+    card: Card
     
 @dataclass(frozen=True)
 class PassAction:

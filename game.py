@@ -29,6 +29,7 @@ class Game:
     environment: Controller
     currentController: Controller
     mulligan_finished: bool = False
+    player_has_inked: bool = False
 
     def __init__(self, contestant1, contestant2, environment):
         self.environment = environment
@@ -85,6 +86,7 @@ class Game:
             self.do_main_action(act)
     def do_main_action(self,act):
         if type(act) is InkAction:
+            self.player_has_inked = True
             self.currentPlayer.ink_card(act.card)
         elif type(act) is PlayCardAction:
             self.currentPlayer.play_card_from_hand(act.card)
@@ -126,7 +128,10 @@ class Game:
             card_choices = self.currentPlayer.get_top_card_choices()
             return list(map(lambda card_choice: DrawAction(card_choice[0],card_choice[1]), card_choices.items()))
         elif self.phase == GamePhase.MAIN:
-            ink_actions=self.currentPlayer.get_ink_actions()
+            if not self.player_has_inked:
+                ink_actions=self.currentPlayer.get_ink_actions()
+            else:
+                ink_actions=[]
             playable_cards=self.currentPlayer.get_playable_cards()
             return ink_actions + playable_cards
 

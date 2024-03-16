@@ -26,6 +26,7 @@ class Game:
     pl: Player
     p2: Player
     currentPlayer: Player
+    currentOpponent: Player
     phase: GamePhase
     player: PlayerTurn
     environment: Controller
@@ -38,6 +39,7 @@ class Game:
         self.p1 = create_player(contestant1)
         self.p2 = create_player(contestant2)
         self.currentPlayer = self.p1
+        self.currentOpponent = self.p2
         self.currentController = environment
         self.player = PlayerTurn.PLAYER1
         self.phase = GamePhase.DIE_ROLL
@@ -55,8 +57,10 @@ class Game:
     def swap_current_player(self):
         if self.currentPlayer == self.p1:
             self.currentPlayer = self.p2
+            self.currentOpponent = self.p1
         else:
             self.currentPlayer = self.p1
+            self.currentOpponent = self.p2
         if self.player == PlayerTurn.PLAYER1:
             self.player = PlayerTurn.PLAYER2
         else:
@@ -143,13 +147,15 @@ class Game:
             card_choices = self.currentPlayer.get_top_card_choices()
             return list(map(lambda card_choice: DrawAction(card_choice[0],card_choice[1]), card_choices.items()))
         elif self.phase == GamePhase.MAIN:
+            ink_actions=[]
+            challenger_actions=[]
             if not self.player_has_inked:
                 ink_actions=self.currentPlayer.get_ink_actions()
-            else:
-                ink_actions=[]
             playable_cards=self.currentPlayer.get_playable_cards()
             questable_cards=self.currentPlayer.get_questable_cards()
-            return ink_actions + playable_cards + questable_cards + [PassAction()]
+            if self.currentOpponent.has_exerted_characters():
+                challenger_actions=self.currentPlayer.get_challenger_choices()
+            return ink_actions + playable_cards + questable_cards + challenger_actions + [PassAction()]
 
 
 

@@ -33,3 +33,8 @@ class PlayCardAction:
 @dataclass(frozen=True)
 class QuestAction:
     card: Card
+
+@dataclass(frozen=True)
+class ChallengeAction:
+    card: Card
+

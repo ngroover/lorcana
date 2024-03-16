@@ -84,5 +84,11 @@ class Player:
         ready_and_dry = filter(lambda x: x.ready and x.dry, self.in_play_characters)
         return list(map(lambda y: ChallengeAction(y.card), ready_and_dry))
 
+    def get_character(self, card):
+        in_play_card = next(filter(lambda x: x.card == card, self.in_play_characters))
+        return in_play_card
+
+
+
 def create_player(contestant):
     return Player(contestant.controller, Deck(contestant.deck.cards))

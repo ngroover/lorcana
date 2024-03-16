@@ -3,8 +3,9 @@ from dataclasses import dataclass
 from player import Player
 from player import create_player
 from enum import Enum
-from action import MulliganAction,PassAction,FirstPlayerAction,DrawAction,InkAction,PlayCardAction,QuestAction
+from action import MulliganAction,PassAction,FirstPlayerAction,DrawAction,InkAction,PlayCardAction,QuestAction,ChallengeAction
 from controller import Controller
+from inplay_character import InPlayCharacter
 
 import random
 
@@ -15,7 +16,7 @@ class GamePhase(Enum):
     MULLIGAN=4
     MAIN=5
     GAME_OVER=6
-
+    CHALLENGING=7
 
 class PlayerTurn(Enum):
     PLAYER1=1
@@ -33,6 +34,7 @@ class Game:
     currentController: Controller
     mulligan_finished: bool = False
     player_has_inked: bool = False
+    current_challenger: InPlayCharacter = None
 
     def __init__(self, contestant1, contestant2, environment):
         self.environment = environment
@@ -109,6 +111,9 @@ class Game:
             self.phase = GamePhase.DRAW_PHASE
         elif type(act) is QuestAction:
             self.currentPlayer.perform_quest(act.card)
+        elif type(act) is ChallengeAction:
+            self.current_challenger = self.currentPlayer.get_character(act.card)
+            self.phase = GamePhase.CHALLENGING
 
     def do_die_roll(self,act):
         if type(act) is FirstPlayerAction and act.swap:

@@ -2,8 +2,8 @@
 
 import unittest
 from test_support import main_state_with_some_characters_in_play
-from action import InkAction,PlayCardAction,ChallengeAction
-from decklists import olaf,pascal,CharacterCard
+from action import InkAction,PlayCardAction,ChallengeAction,ChallengeTargetAction
+from decklists import olaf,pascal,CharacterCard,flounder
 from game import GamePhase
 
 class TestChallenging(unittest.TestCase):
@@ -27,6 +27,22 @@ class TestChallenging(unittest.TestCase):
         self.assertEqual(GamePhase.CHALLENGING, g.phase)
         self.assertTrue(g.current_challenger != None)
         self.assertEqual(g.current_challenger.card, olaf)
+
+    def test_challenge_targets(self):
+        g = main_state_with_some_characters_in_play()
+
+        g.process_action(ChallengeAction(olaf))
+
+        actions = g.get_actions()
+
+        # should be all the playable characters
+        challenge_characters = list(filter(lambda x: 
+                    type(x) is ChallengeTargetAction and
+                    type(x.card) is CharacterCard, actions))
+        
+        # the only challengable target is flounder since he's exerted
+        self.assertEqual(1,len(challenge_characters))
+        self.assertEqual(flounder, challenge_characters[0].card)
 
 
 

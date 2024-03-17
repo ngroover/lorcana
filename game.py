@@ -161,6 +161,9 @@ class Game:
             if self.currentOpponent.has_exerted_characters():
                 challenger_actions=self.currentPlayer.get_challenger_choices()
             return ink_actions + playable_cards + questable_cards + challenger_actions + [PassAction()]
+        elif self.phase == GamePhase.CHALLENGING:
+            return self.currentOpponent.get_challenge_targets()
+
 
 
 

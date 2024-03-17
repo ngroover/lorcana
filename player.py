@@ -1,7 +1,7 @@
 
 from dataclasses import dataclass, field
 from controller import Controller
-from action import MulliganAction,InkAction,PlayCardAction,QuestAction,ChallengeAction
+from action import MulliganAction,InkAction,PlayCardAction,QuestAction,ChallengeAction,ChallengeTargetAction
 from deck import Deck
 from collections import Counter
 from inplay_character import InPlayCharacter
@@ -83,6 +83,11 @@ class Player:
     def get_challenger_choices(self):
         ready_and_dry = filter(lambda x: x.ready and x.dry, self.in_play_characters)
         return list(map(lambda y: ChallengeAction(y.card), ready_and_dry))
+
+    def get_challenge_targets(self):
+        exerted = filter(lambda x: not x.ready, self.in_play_characters)
+        return list(map(lambda y: ChallengeTargetAction(y.card), exerted))
+        
 
     def get_character(self, card):
         in_play_card = next(filter(lambda x: x.card == card, self.in_play_characters))

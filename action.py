@@ -38,3 +38,6 @@ class QuestAction:
 class ChallengeAction:
     card: Card
 
+@dataclass(frozen=True)
+class ChallengeTargetAction:
+    card: Card

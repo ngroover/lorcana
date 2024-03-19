@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
 import unittest
-from test_support import main_state_with_some_characters_in_play,main_state_with_some_characters_in_play_p2
+from test_support import main_state_with_some_characters_in_play,main_state_with_some_characters_in_play_p2,main_state_with_some_characters_in_play_p1
 from action import InkAction,PlayCardAction,ChallengeAction,ChallengeTargetAction
-from decklists import olaf,pascal,CharacterCard,flounder,captain_hook
+from decklists import olaf,pascal,CharacterCard,flounder,captain_hook,mickey_mouse_true_friend,kristoff
 from game import GamePhase
 
 class TestChallenging(unittest.TestCase):
@@ -87,6 +87,21 @@ class TestChallenging(unittest.TestCase):
         self.assertEqual(0, len(pascal_in_play))
 
         self.assertEqual(1, g.p1.discard.count(pascal))
+        self.assertEqual(GamePhase.MAIN, g.phase)
+
+    def test_challenge_both_die(self):
+        g = main_state_with_some_characters_in_play_p1()
+
+        g.process_action(ChallengeAction(mickey_mouse_true_friend))
+        g.process_action(ChallengeTargetAction(kristoff))
+
+        mickey_in_play=list(filter(lambda x: x.card == mickey_mouse_true_friend, g.p1.in_play_characters))
+        self.assertEqual(0, len(mickey_in_play))
+        kristoff_in_play=list(filter(lambda x: x.card == kristoff, g.p2.in_play_characters))
+        self.assertEqual(0, len(kristoff_in_play))
+
+        self.assertEqual(1, g.p1.discard.count(mickey_mouse_true_friend))
+        self.assertEqual(1, g.p2.discard.count(kristoff))
         self.assertEqual(GamePhase.MAIN, g.phase)
 
 

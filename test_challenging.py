@@ -59,6 +59,21 @@ class TestChallenging(unittest.TestCase):
         self.assertEqual(1, flounders_in_play[0].damage)
         self.assertFalse(olafs_in_play[0].ready)
 
+    def test_challenge_challenger_dies(self):
+        g = main_state_with_some_characters_in_play()
+
+        g.process_action(ChallengeAction(pascal))
+        g.process_action(ChallengeTargetAction(flounder))
+
+        pascals_in_play=list(filter(lambda x: x.card == pascal, g.p1.in_play_characters))
+        self.assertEqual(0, len(pascals_in_play))
+        flounders_in_play=list(filter(lambda x: x.card == flounder, g.p2.in_play_characters))
+        self.assertEqual(1, len(flounders_in_play))
+        self.assertEqual(1, flounders_in_play[0].damage)
+
+        self.assertEqual(1, g.p1.discard.count(pascal))
+        self.assertEqual(GamePhase.MAIN, g.phase)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -17,6 +17,7 @@ class Player:
     exterted_ink: int = 0
     in_play_characters: list = field(default_factory=lambda: [])
     lore: int = 0
+    discard: list = field(default_factory=lambda: [])
 
     def get_top_card_choices(self):
         return self.deck.get_card_choices()
@@ -91,9 +92,13 @@ class Player:
 
     def perform_challenge(self, challenger, challengee):
         challenger.ready = False
-
         challenger.damage += challengee.card.strength
         challengee.damage += challenger.card.strength
+
+    def check_banish(self, character):
+        if character.damage >= character.card.willpower:
+            self.in_play_characters.remove(character)
+            self.discard.append(character.card)
         
 
     def get_character(self, card):

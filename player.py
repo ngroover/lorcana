@@ -100,8 +100,8 @@ class Player:
             self.in_play_characters.remove(character)
             self.discard.append(character.card)
         
-
     def get_character(self, card):
+        print(self.in_play_characters)
         in_play_card = next(filter(lambda x: x.card == card, self.in_play_characters))
         return in_play_card
 

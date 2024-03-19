@@ -53,7 +53,6 @@ class Game:
                 chosen_action = self.currentPlayer.controller.chooseAction(actions)
             else:
                 chosen_action = actions[0]
-            print(f'chosen action is {chosen_action}')
             self.process_action(chosen_action)
 
     def swap_current_player(self):

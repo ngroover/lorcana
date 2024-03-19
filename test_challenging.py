@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
 import unittest
-from test_support import main_state_with_some_characters_in_play
+from test_support import main_state_with_some_characters_in_play,main_state_with_some_characters_in_play_p2
 from action import InkAction,PlayCardAction,ChallengeAction,ChallengeTargetAction
-from decklists import olaf,pascal,CharacterCard,flounder
+from decklists import olaf,pascal,CharacterCard,flounder,captain_hook
 from game import GamePhase
 
 class TestChallenging(unittest.TestCase):
@@ -70,6 +70,21 @@ class TestChallenging(unittest.TestCase):
         flounders_in_play=list(filter(lambda x: x.card == flounder, g.p2.in_play_characters))
         self.assertEqual(1, len(flounders_in_play))
         self.assertEqual(1, flounders_in_play[0].damage)
+
+        self.assertEqual(1, g.p1.discard.count(pascal))
+        self.assertEqual(GamePhase.MAIN, g.phase)
+
+    def test_challenge_challengee_dies(self):
+        g = main_state_with_some_characters_in_play_p2()
+
+        g.process_action(ChallengeAction(flounder))
+        g.process_action(ChallengeTargetAction(pascal))
+
+        flounders_in_play=list(filter(lambda x: x.card == flounder, g.p2.in_play_characters))
+        self.assertEqual(1, len(flounders_in_play))
+        self.assertEqual(1, flounders_in_play[0].damage)
+        pascal_in_play=list(filter(lambda x: x.card == pascal, g.p1.in_play_characters))
+        self.assertEqual(0, len(pascal_in_play))
 
         self.assertEqual(1, g.p1.discard.count(pascal))
         self.assertEqual(GamePhase.MAIN, g.phase)

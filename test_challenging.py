@@ -44,6 +44,20 @@ class TestChallenging(unittest.TestCase):
         self.assertEqual(1,len(challenge_characters))
         self.assertEqual(flounder, challenge_characters[0].card)
 
+    def test_challenge_both_live(self):
+        g = main_state_with_some_characters_in_play()
+
+        g.process_action(ChallengeAction(olaf))
+        g.process_action(ChallengeTargetAction(flounder))
+
+        olafs_in_play=list(filter(lambda x: x.card == olaf, g.p1.in_play_characters))
+        self.assertEqual(1, len(olafs_in_play))
+        flounders_in_play=list(filter(lambda x: x.card == flounder, g.p2.in_play_characters))
+        self.assertEqual(1, len(flounders_in_play))
+
+        self.assertEqual(2, olafs_in_play[0].damage)
+        self.assertEqual(1, flounders_in_play[0].damage)
+        self.assertFalse(olafs_in_play[0].ready)
 
 
 if __name__ == '__main__':

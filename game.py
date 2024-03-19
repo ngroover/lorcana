@@ -95,6 +95,9 @@ class Game:
         elif self.phase == GamePhase.DRAW_PHASE:
             self.currentPlayer.draw_card(act.card)
             self.phase = GamePhase.MAIN
+        elif self.phase == GamePhase.CHALLENGING:
+            self.currentPlayer.perform_challenge(self.current_challenger,
+                    self.currentOpponent.get_character(act.card))
 
     def do_main_action(self,act):
         if type(act) is InkAction:

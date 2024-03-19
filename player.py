@@ -87,6 +87,13 @@ class Player:
     def get_challenge_targets(self):
         exerted = filter(lambda x: not x.ready, self.in_play_characters)
         return list(map(lambda y: ChallengeTargetAction(y.card), exerted))
+    
+
+    def perform_challenge(self, challenger, challengee):
+        challenger.ready = False
+
+        challenger.damage += challengee.card.strength
+        challengee.damage += challenger.card.strength
         
 
     def get_character(self, card):

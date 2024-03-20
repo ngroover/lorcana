@@ -12,6 +12,9 @@ class Card:
     def __hash__(self):
         return hash(self.num)
 
+    def __str__(self):
+        return f"{self.name}"
+
 @dataclass(frozen=True)
 class CharacterCard(Card):
     subtext: str
@@ -22,6 +25,9 @@ class CharacterCard(Card):
     cost: int
     color: str
     inkable: bool
+
+    def __str__(self):
+        return f"{self.name} - {self.subtext}"
 
 @dataclass(frozen=True)
 class ActionCard(Card):

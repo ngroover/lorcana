@@ -18,13 +18,17 @@ class DrawAction:
 class MulliganAction:
     card: Card
 
+    def __str__(self):
+        return f"Mulligan {self.card}"
+
 @dataclass(frozen=True)
 class InkAction:
     card: Card
     
 @dataclass(frozen=True)
 class PassAction:
-    pass
+    def __str__(self):
+        return "Pass"
 
 @dataclass(frozen=True)
 class PlayCardAction:

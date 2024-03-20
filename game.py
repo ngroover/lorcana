@@ -50,7 +50,6 @@ class Game:
 
     def play_game(self):
         while self.phase != GamePhase.GAME_OVER:
-            input('press any key')
             actions = self.get_actions()
             if len(actions) > 1:
                 chosen_action = self.currentController.chooseAction(actions)
@@ -149,6 +148,9 @@ class Game:
             self.current_challenger = self.currentPlayer.get_character(act.card)
             self.phase = GamePhase.CHALLENGING
 
+    def log_both_players(self, log):
+        self.p1.controller.logMessage(log)
+
     def do_die_roll(self,act):
         if type(act) is FirstPlayerAction and act.swap:
             # swap who goes first
@@ -156,9 +158,12 @@ class Game:
         self.currentPlayer = self.p1
         self.player = PlayerTurn.PLAYER1
         self.phase = GamePhase.DRAW_STARTING_HAND
+        self.log_both_players(f'{self.currentPlayer.controller.name} goes first')
 
     def process_mulligan(self,act):
         if type(act) is MulliganAction:
+            self.currentPlayer.controller.logMessage(f"Mulliganed {act.card}")
+            self.currentOpponent.controller.logMessage(f"Mulliganed a card")
             self.currentPlayer.mulligan_card(act.card)
         elif type(act) is PassAction:
             self.mulligan_finished=True

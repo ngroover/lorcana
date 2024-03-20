@@ -36,7 +36,6 @@ class Player:
         return list(map(lambda x: MulliganAction(x), card_counts))
 
     def mulligan_card(self, card):
-        print(f'mulliganed {card}')
         self.hand.remove(card)
         self.pending_mulligan.append(card)
 
@@ -104,7 +103,6 @@ class Player:
             self.discard.append(character.card)
         
     def get_character(self, card):
-        print(self.in_play_characters)
         in_play_card = next(filter(lambda x: x.card == card, self.in_play_characters))
         return in_play_card
 

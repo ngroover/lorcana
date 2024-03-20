@@ -93,6 +93,8 @@ class Game:
                         self.phase = GamePhase.MAIN
                     else:
                         self.currentController = self.p1.controller
+                        self.player = PlayerTurn.PLAYER1
+                        self.currentPlayer = self.p1
                         self.phase = GamePhase.MULLIGAN
                 else:
                     if len(self.currentPlayer.hand) == 7:
@@ -151,6 +153,8 @@ class Game:
         if type(act) is FirstPlayerAction and act.swap:
             # swap who goes first
             self.p1, self.p2 = self.p2, self.p1
+        self.currentPlayer = self.p1
+        self.player = PlayerTurn.PLAYER1
         self.phase = GamePhase.DRAW_STARTING_HAND
 
     def process_mulligan(self,act):

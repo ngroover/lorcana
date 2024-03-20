@@ -31,5 +31,6 @@ class TestDrawPhase(unittest.TestCase):
         self.assertTrue(any(x == rafiki for x in g.p1.hand))
 
 
+
 if __name__ == '__main__':
     unittest.main()

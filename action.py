@@ -41,3 +41,4 @@ class ChallengeAction:
 @dataclass(frozen=True)
 class ChallengeTargetAction:
     card: Card
+

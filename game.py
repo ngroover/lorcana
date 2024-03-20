@@ -126,7 +126,14 @@ class Game:
             self.swap_current_player()
             self.currentController = self.environment
             self.currentPlayer.ready_characters()
-            self.phase = GamePhase.DRAW_PHASE
+            if self.currentPlayer.deck.get_total_cards() == 0:
+                self.phase = GamePhase.GAME_OVER
+                if self.player == PlayerTurn.PLAYER1:
+                    self.winner = PlayerTurn.PLAYER2
+                else:
+                    self.winner = PlayerTurn.PLAYER1
+            else:
+                self.phase = GamePhase.DRAW_PHASE
         elif type(act) is QuestAction:
             self.currentPlayer.perform_quest(act.card)
         elif type(act) is ChallengeAction:

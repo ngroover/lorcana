@@ -10,6 +10,10 @@ class Deck:
     def get_total_cards(self):
         return self.total_cards
 
+    def clear(self):
+        self.randomized_cards.clear()
+        self.total_cards=0
+
     def shuffle(self):
         # nothing to do for now we currently only support randomized cards
         pass

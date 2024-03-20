@@ -12,6 +12,7 @@ class TestDieRoll(unittest.TestCase):
         c = test_contestants()
         game = Game(c[0],c[1],RandomController('env'))
         self.assertEqual(game.phase, GamePhase.DIE_ROLL)
+        self.assertEqual(game.currentController.name, 'env')
 
     def test_swap_first_player(self):
         c = test_contestants()

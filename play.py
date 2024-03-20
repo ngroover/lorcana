@@ -2,6 +2,7 @@
 
 from game import Game
 from contestant import create_contestant
+from controller import RandomController
 
 def print_stats(deck):
     inkables = sum(1 for x in deck.cards if x.inkable)
@@ -19,6 +20,6 @@ if __name__ == '__main__':
     c1 = create_contestant()
     print('Create player 2')
     c2 = create_contestant()
-    game = Game(c1,c2)
+    game = Game(c1,c2, RandomController('env'))
     game.play_game()
 

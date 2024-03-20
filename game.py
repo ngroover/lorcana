@@ -50,18 +50,23 @@ class Game:
 
     def play_game(self):
         while self.phase != GamePhase.GAME_OVER:
+            input('press any key')
             actions = self.get_actions()
             if len(actions) > 1:
-                chosen_action = self.currentPlayer.controller.chooseAction(actions)
+                chosen_action = self.currentController.chooseAction(actions)
             else:
                 chosen_action = actions[0]
             self.process_action(chosen_action)
 
     def swap_current_player(self):
         if self.currentPlayer == self.p1:
+            if self.currentController.name != self.environment.name:
+                self.currentController = self.p2.controller
             self.currentPlayer = self.p2
             self.currentOpponent = self.p1
         else:
+            if self.currentController.name != self.environment.name:
+                self.currentController = self.p1.controller
             self.currentPlayer = self.p1
             self.currentOpponent = self.p2
         if self.player == PlayerTurn.PLAYER1:
@@ -84,8 +89,10 @@ class Game:
                     if self.player == PlayerTurn.PLAYER2:
                         self.swap_current_player()
                     if self.mulligan_finished:
+                        self.currentController = self.p1.controller
                         self.phase = GamePhase.MAIN
                     else:
+                        self.currentController = self.p1.controller
                         self.phase = GamePhase.MULLIGAN
                 else:
                     if len(self.currentPlayer.hand) == 7:
@@ -160,6 +167,7 @@ class Game:
                     self.swap_current_player()
                     self.phase = GamePhase.MAIN
                 else:
+                    self.currentController = self.environment
                     self.phase = GamePhase.DRAW_STARTING_HAND
 
 

@@ -12,9 +12,13 @@ class HumanController(Controller):
         for i,a in enumerate(actions):
             print(f'[{i+1}]. {a}')
         while True:
-            choice = int(input("Choice: "))-1
-            if choice >= 0 and choice < len(actions):
-                break
+            try:
+                choice = int(input("Choice: "))-1
+                if choice >= 0 and choice < len(actions):
+                    break
+            except ValueError:
+                #try again
+                pass
         return actions[choice]
 
 class RandomController(Controller):
@@ -22,7 +26,9 @@ class RandomController(Controller):
         super().__init__(name)
 
     def chooseAction(self, actions):
-        return random.choice(actions)
+        act = random.choice(actions)
+        print(f'{self.name} chose {act}')
+        return act
 
 
 def create_controller():

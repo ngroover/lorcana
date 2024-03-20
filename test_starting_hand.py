@@ -139,6 +139,7 @@ class TestStartingHand(unittest.TestCase):
         # now we are in the mulligan phase
         self.assertEqual(game.phase, GamePhase.MULLIGAN)
         self.assertEqual(game.player, PlayerTurn.PLAYER1) 
+        self.assertEqual(game.currentController.name, 'test1')
 
     def test_draw_all_cards_second_player_after_mulligan(self):
         c = test_contestants()

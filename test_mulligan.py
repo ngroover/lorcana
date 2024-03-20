@@ -16,8 +16,10 @@ def mulligan_state_with_different_cards_game(player):
     g.player = player
     if player == PlayerTurn.PLAYER1:
         g.currentPlayer = g.p1
+        g.currentController = g.p1.controller
     else:
         g.currentPlayer = g.p2
+        g.currentController = g.p2.controller
 
     g.p1.hand = [olaf,pascal,moana,mickey_mouse,wardrobe,dinglehopper,stitch]
     g.p2.hand = [captain_hook,maleficent,simba,scar_blue,one_jump_ahead,kristoff,flounder]
@@ -108,6 +110,7 @@ class TestMulligan(unittest.TestCase):
         self.assertEqual(len(g.p1.hand), 7)
         self.assertEqual(g.phase, GamePhase.MULLIGAN)
         self.assertEqual(g.player, PlayerTurn.PLAYER2)
+        self.assertEqual(g.currentController.name, 'test2')
 
     def test_p2_pass_mulligan(self):
         g = mulligan_state_with_different_cards_game(PlayerTurn.PLAYER2)

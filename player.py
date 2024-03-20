@@ -5,6 +5,7 @@ from action import MulliganAction,InkAction,PlayCardAction,QuestAction,Challenge
 from deck import Deck
 from collections import Counter
 from inplay_character import InPlayCharacter
+from exceptions import TwentyLore
 import random
 
 @dataclass
@@ -75,8 +76,10 @@ class Player:
 
     def perform_quest(self,card):
         quest_char = next(filter(lambda x: x.card == card, self.in_play_characters))
-        self.lore += quest_char.card.lore
         quest_char.ready = False
+        self.lore += quest_char.card.lore
+        if self.lore >= 20:
+            raise TwentyLore()
 
     def has_exerted_characters(self):
         return any(filter(lambda x: not x.ready, self.in_play_characters))

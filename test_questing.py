@@ -29,5 +29,17 @@ class TestQuesting(unittest.TestCase):
         self.assertFalse(olaf_in_play.ready)
         self.assertEqual(1,g.p1.lore)
 
+    def test_perform_questing_for_win(self):
+        g = main_state_with_some_characters_in_play()
+        g.p1.lore=19
+
+        g.process_action(QuestAction(olaf))
+
+        olaf_in_play = next(filter(lambda x: x.card == olaf, g.p1.in_play_characters))
+        self.assertFalse(olaf_in_play.ready)
+        self.assertEqual(20,g.p1.lore)
+        self.assertEqual(GamePhase.GAME_OVER, g.phase)
+        self.assertEqual(PlayerTurn.PLAYER1, g.winner)
+
 if __name__ == '__main__':
     unittest.main()

@@ -5,6 +5,7 @@ from player import create_player
 from enum import Enum
 from action import MulliganAction,PassAction,FirstPlayerAction,DrawAction,InkAction,PlayCardAction,QuestAction,ChallengeAction
 from controller import Controller
+from exceptions import TwentyLore
 from inplay_character import InPlayCharacter
 
 import random
@@ -35,6 +36,7 @@ class Game:
     mulligan_finished: bool = False
     player_has_inked: bool = False
     current_challenger: InPlayCharacter = None
+    winner: PlayerTurn = PlayerTurn.PLAYER1
 
     def __init__(self, contestant1, contestant2, environment):
         self.environment = environment
@@ -69,39 +71,48 @@ class Game:
 
 
     def process_action(self, act):
-        if self.phase == GamePhase.MULLIGAN:
-            self.process_mulligan(act)
-        elif self.phase == GamePhase.DRAW_STARTING_HAND:
-            self.currentPlayer.draw_card(act.card)
-            if len(self.p1.hand) == 7 and len(self.p2.hand) == 7:
-                #technically i think the pending mulligan cards go
-                # on the bottom of the deck before you draw but it doesn't matter
-                self.p1.finish_mulligan()
-                self.p2.finish_mulligan()
-                if self.player == PlayerTurn.PLAYER2:
-                    self.swap_current_player()
-                if self.mulligan_finished:
-                    self.phase = GamePhase.MAIN
+        try:
+            if self.phase == GamePhase.MULLIGAN:
+                self.process_mulligan(act)
+            elif self.phase == GamePhase.DRAW_STARTING_HAND:
+                self.currentPlayer.draw_card(act.card)
+                if len(self.p1.hand) == 7 and len(self.p2.hand) == 7:
+                    #technically i think the pending mulligan cards go
+                    # on the bottom of the deck before you draw but it doesn't matter
+                    self.p1.finish_mulligan()
+                    self.p2.finish_mulligan()
+                    if self.player == PlayerTurn.PLAYER2:
+                        self.swap_current_player()
+                    if self.mulligan_finished:
+                        self.phase = GamePhase.MAIN
+                    else:
+                        self.phase = GamePhase.MULLIGAN
                 else:
-                    self.phase = GamePhase.MULLIGAN
+                    if len(self.currentPlayer.hand) == 7:
+                        self.swap_current_player()
+            elif self.phase == GamePhase.DIE_ROLL:
+                self.do_die_roll(act)
+            elif self.phase == GamePhase.MAIN:
+                self.do_main_action(act)
+            elif self.phase == GamePhase.DRAW_PHASE:
+                self.currentPlayer.draw_card(act.card)
+                self.phase = GamePhase.MAIN
+            elif self.phase == GamePhase.CHALLENGING:
+                challengee = self.currentOpponent.get_character(act.card)
+                self.currentPlayer.perform_challenge(self.current_challenger,
+                        challengee)
+                self.currentPlayer.check_banish(self.current_challenger)
+                self.currentOpponent.check_banish(challengee)
+                self.current_challenger = None
+                self.phase = GamePhase.MAIN
+        except TwentyLore as tl:
+            self.phase = GamePhase.GAME_OVER
+            if self.p1.lore >= 20:
+                self.winner = PlayerTurn.PLAYER1
             else:
-                if len(self.currentPlayer.hand) == 7:
-                    self.swap_current_player()
-        elif self.phase == GamePhase.DIE_ROLL:
-            self.do_die_roll(act)
-        elif self.phase == GamePhase.MAIN:
-            self.do_main_action(act)
-        elif self.phase == GamePhase.DRAW_PHASE:
-            self.currentPlayer.draw_card(act.card)
-            self.phase = GamePhase.MAIN
-        elif self.phase == GamePhase.CHALLENGING:
-            challengee = self.currentOpponent.get_character(act.card)
-            self.currentPlayer.perform_challenge(self.current_challenger,
-                    challengee)
-            self.currentPlayer.check_banish(self.current_challenger)
-            self.currentOpponent.check_banish(challengee)
-            self.current_challenger = None
-            self.phase = GamePhase.MAIN
+                self.winner = PlayerTurn.PLAYER2
+            
+
 
     def do_main_action(self,act):
         if type(act) is InkAction:

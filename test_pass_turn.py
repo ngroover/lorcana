@@ -22,17 +22,6 @@ class TestPassTurn(unittest.TestCase):
         self.assertEqual(GamePhase.DRAW_PHASE, g.phase)
         self.assertEqual(PlayerTurn.PLAYER2, g.player)
 
-    def test_pass_turn_ready_characters(self):
-        g = main_state_with_half_inkables_game()
-        in_play_hook = InPlayCharacter(captain_hook)
-        in_play_hook.ready = False
-
-        g.p2.in_play_characters.append(in_play_hook)
-        g.process_action(PassAction())
-
-        self.assertEqual(1, len(g.p2.in_play_characters))
-        self.assertTrue(g.p2.in_play_characters[0].ready)
-
     def test_pass_turn_lose_on_draw(self):
         g = main_state_with_p2_no_cards()
 

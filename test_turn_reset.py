@@ -3,6 +3,7 @@
 import unittest
 from basic_game_generator import BasicGameGenerator
 from decklists import olaf
+from action import InkAction
 
 
 class TestTurnReset(unittest.TestCase):
@@ -49,7 +50,19 @@ class TestTurnReset(unittest.TestCase):
         self.assertEqual(1, g.game.p1.ready_ink)
     
     def test_back_to_back_ink(self):
-        pass
+        g = BasicGameGenerator()
+        g.init_game().draw_opening_hand().pass_mulligan()
+
+
+        self.assertTrue(any(type(x) is InkAction for x in g.game.get_actions()))
+        g.ink_olaf()
+
+        self.assertFalse(any(type(x) is InkAction for x in g.game.get_actions()))
+
+        g.p1_pass()
+
+        self.assertTrue(any(type(x) is InkAction for x in g.game.get_actions()))
+
 
 
 if __name__ == '__main__':

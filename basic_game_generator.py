@@ -8,7 +8,7 @@ from action import FirstPlayerAction,DrawAction,PassAction,InkAction,PlayCardAct
 
 class BasicGameGenerator:
     def test_contestants(self):
-        c1 = Contestant(amber_amethyst, RandomController('test1'))
+        c1 = Contestant(amber_amethyst, RandomController('test1', print_logs=True))
         c2 = Contestant(sapphire_steel, RandomController('test2'))
         return [c1,c2]
 
@@ -42,6 +42,11 @@ class BasicGameGenerator:
         self.game.process_action(InkAction(olaf))
         self.game.process_action(PlayCardAction(olaf))
         return self
+
+    def ink_olaf(self):
+        self.game.process_action(InkAction(olaf))
+        return self
+
 
     def play_olaf_pass(self):
         self.game.process_action(InkAction(olaf))

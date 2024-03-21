@@ -120,7 +120,7 @@ jasmine = CharacterCard("148/204-EN-1", "Jasmine", "Disguised", "", 3,3,2,3,"sap
 goons = CharacterCard("179/204-EN-1", "Goons", "Maleficent's Underlings", "", 2,2,1,1,"steel", True)
 prince_eric = CharacterCard("187/204-EN-1", "Prince Eric", "Dashing and Brave", "Challenger +2", 1,3,1,2,"steel",True)
 
-smash= ActionCard("200/204-EN-1", "Smash", "Deal 3 damage to a chosen character.", 3, "steel", False,True)
+smash= ActionCard("200/204-EN-1", "Smash", "Deal 3 damage to a chosen character.", 3, "steel", False,False)
 beast = CharacterCard("172/204-EN-1", "Beast", "Hardheaded", "When you play this character, you may banish chosen item",
         4,4,2,5,"steel",True)
 maui = CharacterCard("185/204-EN-1", "Maui", "Demigod", "", 8,8,3,8,"steel", True)

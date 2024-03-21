@@ -35,7 +35,18 @@ class TestTurnReset(unittest.TestCase):
         self.assertFalse(g.game.p1.in_play_characters[0].dry)
 
     def test_ink_ready(self):
-        pass
+        g = BasicGameGenerator()
+        g.init_game().draw_opening_hand().pass_mulligan() \
+                .play_olaf()
+
+        self.assertEqual(1, g.game.p1.exerted_ink)
+        self.assertEqual(0, g.game.p1.ready_ink)
+
+        g.p1_pass()
+        g.p2_pass()
+
+        self.assertEqual(0, g.game.p1.exerted_ink)
+        self.assertEqual(1, g.game.p1.ready_ink)
     
     def test_back_to_back_ink(self):
         pass

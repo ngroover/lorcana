@@ -15,7 +15,7 @@ class Player:
     hand: list = field(default_factory=lambda: [])
     pending_mulligan: list = field(default_factory=lambda: [])
     ready_ink: int = 0
-    exterted_ink: int = 0
+    exerted_ink: int = 0
     in_play_characters: list = field(default_factory=lambda: [])
     lore: int = 0
     discard: list = field(default_factory=lambda: [])
@@ -63,15 +63,15 @@ class Player:
         new_char = InPlayCharacter(card)
         self.in_play_characters.append(new_char)
         self.ready_ink -= card.cost
-        self.exterted_ink += card.cost
+        self.exerted_ink += card.cost
 
     def ready_characters(self):
         for x in self.in_play_characters:
             x.ready = True
 
     def ready_ink_cards(self):
-        self.ready_ink += self.exterted_ink
-        self.exterted_ink = 0
+        self.ready_ink += self.exerted_ink
+        self.exerted_ink = 0
 
     def get_questable_cards(self):
         ready_and_dry = filter(lambda x: x.ready and x.dry, self.in_play_characters)

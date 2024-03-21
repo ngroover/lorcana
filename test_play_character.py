@@ -41,7 +41,7 @@ class TestPlayCharacters(unittest.TestCase):
         self.assertFalse(g.p1.in_play_characters[0].dry)
         self.assertTrue(g.p1.in_play_characters[0].ready)
         self.assertEqual(0, g.p1.ready_ink)
-        self.assertEqual(1, g.p1.exterted_ink)
+        self.assertEqual(1, g.p1.exerted_ink)
         self.assertEqual(6, len(g.p1.hand))
 
 

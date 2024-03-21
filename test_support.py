@@ -18,6 +18,20 @@ def simple_test_game():
     game = Game(c[0],c[1],RandomController('env'))
     return game
 
+def draw_opening_hand_game(first_player_swap, p1_hand, p2_hand):
+    game = simple_test_game()
+
+    game.process_action(FirstPlayerAction(first_player_swap))
+
+    if first_player_swap:
+        all_cards=p2_hand+p1_hand
+    else:
+        all_cards=p1_hand+p2_hand
+    for x in all_cards:
+        game.process_action(DrawAction(x))
+
+    return game
+
 def main_state_with_half_inkables_game():
     g = simple_test_game()
     g.phase = GamePhase.MAIN

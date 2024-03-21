@@ -41,12 +41,22 @@ class BasicGameGenerator:
     def play_olaf(self):
         self.game.process_action(InkAction(olaf))
         self.game.process_action(PlayCardAction(olaf))
+        return self
+
+    def play_olaf_pass(self):
+        self.game.process_action(InkAction(olaf))
+        self.game.process_action(PlayCardAction(olaf))
         self.game.process_action(PassAction())
         self.game.process_action(DrawAction(fire_the_cannons))
         return self
 
-    def quest_olaf(self):
+    def quest_olaf_pass(self):
         self.game.process_action(QuestAction(olaf))
+        self.game.process_action(PassAction())
+        self.game.process_action(DrawAction(fire_the_cannons))
+        return self
+
+    def p1_pass(self):
         self.game.process_action(PassAction())
         self.game.process_action(DrawAction(fire_the_cannons))
         return self

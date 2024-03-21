@@ -171,6 +171,27 @@ class TestController(unittest.TestCase):
         self.assertEqual('test2', game.currentPlayer.controller.name)
         self.assertEqual('test2', game.currentController.name)
 
+    def test_pass_first_turn(self):
+        game = game_first_turn(True)
+
+        self.assertEqual(GamePhase.MAIN, game.phase)
+        self.assertEqual('test2', game.currentPlayer.controller.name)
+        self.assertEqual('test2', game.currentController.name)
+
+        game.process_action(PassAction())
+
+        self.assertEqual(GamePhase.DRAW_PHASE, game.phase)
+        self.assertEqual('test1', game.currentPlayer.controller.name)
+        self.assertEqual('env', game.currentController.name)
+
+        game.process_action(DrawAction(dinglehopper))
+
+        self.assertEqual(GamePhase.MAIN, game.phase)
+        self.assertEqual('test1', game.currentPlayer.controller.name)
+        self.assertEqual('test1', game.currentController.name)
+
+
+
 
 
 if __name__ == '__main__':

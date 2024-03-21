@@ -79,6 +79,9 @@ class Game:
             if self.phase == GamePhase.MULLIGAN:
                 self.process_mulligan(act)
             elif self.phase == GamePhase.DRAW_STARTING_HAND:
+                self.currentPlayer.controller.logMessage(f"You draw {act.card}")
+                your_name = self.currentPlayer.controller.name
+                self.currentOpponent.controller.logMessage(f"{your_name} draws a card")
                 self.currentPlayer.draw_card(act.card)
                 if len(self.p1.hand) == 7 and len(self.p2.hand) == 7:
                     #technically i think the pending mulligan cards go
@@ -104,6 +107,7 @@ class Game:
                 self.do_main_action(act)
             elif self.phase == GamePhase.DRAW_PHASE:
                 self.currentPlayer.draw_card(act.card)
+                self.currentController = self.currentPlayer.controller
                 self.phase = GamePhase.MAIN
             elif self.phase == GamePhase.CHALLENGING:
                 challengee = self.currentOpponent.get_character(act.card)
@@ -124,6 +128,8 @@ class Game:
 
     def do_main_action(self,act):
         if type(act) is InkAction:
+            your_name = self.currentPlayer.controller.name
+            self.log_both_players(f"{your_name} inked {act.card}")
             self.player_has_inked = True
             self.currentPlayer.ink_card(act.card)
         elif type(act) is PlayCardAction:
@@ -150,20 +156,23 @@ class Game:
 
     def log_both_players(self, log):
         self.p1.controller.logMessage(log)
+        self.p2.controller.logMessage(log)
 
     def do_die_roll(self,act):
         if type(act) is FirstPlayerAction and act.swap:
             # swap who goes first
             self.p1, self.p2 = self.p2, self.p1
         self.currentPlayer = self.p1
+        self.currentOpponent = self.p2
         self.player = PlayerTurn.PLAYER1
         self.phase = GamePhase.DRAW_STARTING_HAND
         self.log_both_players(f'{self.currentPlayer.controller.name} goes first')
 
     def process_mulligan(self,act):
         if type(act) is MulliganAction:
-            self.currentPlayer.controller.logMessage(f"Mulliganed {act.card}")
-            self.currentOpponent.controller.logMessage(f"Mulliganed a card")
+            self.currentPlayer.controller.logMessage(f"You mulliganed {act.card}")
+            your_name = self.currentPlayer.controller.name
+            self.currentOpponent.controller.logMessage(f"{your_name} mulliganed a card")
             self.currentPlayer.mulligan_card(act.card)
         elif type(act) is PassAction:
             self.mulligan_finished=True

@@ -13,6 +13,8 @@ class FirstPlayerAction:
 class DrawAction:
     card: Card
     weight: int = 1
+    def __str__(self):
+        return f"Draw {self.card}"
 
 @dataclass(frozen=True)
 class MulliganAction:

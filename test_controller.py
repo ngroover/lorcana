@@ -24,6 +24,14 @@ def game_with_starting_hands(swapped):
 
     return game
 
+def game_first_turn(swapped):
+    game = game_with_starting_hands(swapped)
+
+    game.process_action(PassAction())
+    game.process_action(PassAction())
+    return game
+
+
 class TestController(unittest.TestCase):
     def test_die_roll_controller(self):
         c = test_contestants()
@@ -143,6 +151,27 @@ class TestController(unittest.TestCase):
         self.assertEqual(game.currentController.name, 'test2')
         self.assertEqual(PlayerTurn.PLAYER1, game.player)
         self.assertEqual(game.currentPlayer.controller.name, 'test2')
+
+    def test_pass_first_turn(self):
+        game = game_first_turn(False)
+
+        self.assertEqual(GamePhase.MAIN, game.phase)
+        self.assertEqual('test1', game.currentPlayer.controller.name)
+        self.assertEqual('test1', game.currentController.name)
+
+        game.process_action(PassAction())
+
+        self.assertEqual(GamePhase.DRAW_PHASE, game.phase)
+        self.assertEqual('test2', game.currentPlayer.controller.name)
+        self.assertEqual('env', game.currentController.name)
+
+        game.process_action(DrawAction(fire_the_cannons))
+
+        self.assertEqual(GamePhase.MAIN, game.phase)
+        self.assertEqual('test2', game.currentPlayer.controller.name)
+        self.assertEqual('test2', game.currentController.name)
+
+
 
 if __name__ == '__main__':
     unittest.main()

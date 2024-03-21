@@ -4,7 +4,5 @@ from decklists import Card
 from inplay_card import InPlayCard
 
 @dataclass
-class InPlayCharacter(InPlayCard):
-    dry: bool = False
-    damage: int = 0
-
+class Ability:
+    in_play_card : InPlayCard

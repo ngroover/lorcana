@@ -8,7 +8,7 @@ from action import FirstPlayerAction,DrawAction,PassAction,InkAction,PlayCardAct
 
 class BasicGameGenerator:
     def test_contestants(self):
-        c1 = Contestant(amber_amethyst, RandomController('test1', print_logs=True))
+        c1 = Contestant(amber_amethyst, RandomController('test1'))
         c2 = Contestant(sapphire_steel, RandomController('test2'))
         return [c1,c2]
 

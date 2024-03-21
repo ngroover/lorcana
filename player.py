@@ -50,7 +50,7 @@ class Player:
 
     def ink_card(self,card):
         self.hand.remove(card)
-        self.ready_ink+=1
+        self.ready_ink += 1
 
     def get_playable_cards(self):
         playable_cards = set(filter(lambda x: x.cost <= self.ready_ink, self.hand))
@@ -68,6 +68,10 @@ class Player:
     def ready_characters(self):
         for x in self.in_play_characters:
             x.ready = True
+
+    def ready_ink_cards(self):
+        self.ready_ink += self.exterted_ink
+        self.exterted_ink = 0
 
     def get_questable_cards(self):
         ready_and_dry = filter(lambda x: x.ready and x.dry, self.in_play_characters)
@@ -105,6 +109,11 @@ class Player:
     def get_character(self, card):
         in_play_card = next(filter(lambda x: x.card == card, self.in_play_characters))
         return in_play_card
+
+    def dry_characters(self):
+        for x in self.in_play_characters:
+            x.dry = True
+
 
 
 

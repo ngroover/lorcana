@@ -109,6 +109,10 @@ class Game:
                 self.currentPlayer.draw_card(act.card)
                 self.currentController = self.currentPlayer.controller
                 self.phase = GamePhase.MAIN
+                self.currentPlayer.ready_characters()
+                self.currentPlayer.ready_ink_cards()
+                self.currentPlayer.dry_characters()
+                self.player_has_inked = False
             elif self.phase == GamePhase.CHALLENGING:
                 challengee = self.currentOpponent.get_character(act.card)
                 self.currentPlayer.perform_challenge(self.current_challenger,
@@ -133,13 +137,16 @@ class Game:
             self.player_has_inked = True
             self.currentPlayer.ink_card(act.card)
         elif type(act) is PlayCardAction:
+            your_name = self.currentPlayer.controller.name
+            self.log_both_players(f'{your_name} played {act.card} from hand')
             self.currentPlayer.play_card_from_hand(act.card)
         elif type(act) is PassAction:
             # Do end of turn stuff and start over turn stuff
             # for other player
+            your_name = self.currentPlayer.controller.name
+            self.log_both_players(f'{your_name} passed turn')
             self.swap_current_player()
             self.currentController = self.environment
-            self.currentPlayer.ready_characters()
             if self.currentPlayer.deck.get_total_cards() == 0:
                 self.phase = GamePhase.GAME_OVER
                 if self.player == PlayerTurn.PLAYER1:
@@ -149,7 +156,10 @@ class Game:
             else:
                 self.phase = GamePhase.DRAW_PHASE
         elif type(act) is QuestAction:
+            your_name = self.currentPlayer.controller.name
             self.currentPlayer.perform_quest(act.card)
+            your_lore = self.currentPlayer.lore
+            self.log_both_players(f'{your_name} quested with {act.card} (lore: {your_lore})')
         elif type(act) is ChallengeAction:
             self.current_challenger = self.currentPlayer.get_character(act.card)
             self.phase = GamePhase.CHALLENGING

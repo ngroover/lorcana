@@ -1,8 +1,15 @@
 #!/usr/bin/python3
 from dataclasses import dataclass
-from decklists import Card
-from inplay_card import InPlayCard
 
-@dataclass
+@dataclass(frozen=True)
 class Ability:
-    in_play_card : InPlayCard
+    needs_target : bool = True
+
+    def can_use(self):
+        return not in_play_card.exerted
+
+
+@dataclass(frozen=True)
+class HealAbility(Ability):
+    healing_power : int = 1
+

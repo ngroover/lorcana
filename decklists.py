@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from ability import Ability,HealAbility
+from ability import Ability,HealingTriggeredAbility
 
 @dataclass
 class Decklist:
@@ -54,7 +54,7 @@ pascal = CharacterCard("53/204-EN-1", "Pascal", tuple(), "Rapunzel's Companion",
 moana = CharacterCard("14/204-EN-1","Moana", tuple(), "Of Motunui", "Whenever this character quests, you may ready your other princess characters. They can't quest for the rest of the turn.", 1,6,3,5,"amber",True)
 mickey_mouse = CharacterCard("51/204-EN-1","Mickey Mouse", tuple(), "Wayward Sorcerer", "You pay 1 cost less to play Broom characters.   Whenever one of your Broom characters is banished in a challenge, you may return that card to your hand", 3,4,2,4,"amethyst", True)
 wardrobe = CharacterCard("57/204-EN-1", "The Wardrobe", tuple(), "Belle's Confidant", "", 3,4,1,3,"amber", True)
-dinglehopper = ItemCard("32/204-EN-1","Dinglehopper", (HealAbility(),), "Remove up to 1 damage from chosen character", 1, "amber", True)
+dinglehopper = ItemCard("32/204-EN-1","Dinglehopper", (HealingTriggeredAbility(),), "Remove up to 1 damage from chosen character", 1, "amber", True)
 magic_broom = CharacterCard("47/204-EN-1", "Magic Broom", tuple(), "Bucket Brigade", "When you play this character, you may shuffle a card from any discard into it's player's deck", 2,2,1,2,"amethyst",True)
 stitch = CharacterCard("22/204-EN-1", "Stitch", tuple(), "New Dog", "", 2,2,1,1,"amber", True)
 hades = CharacterCard("6/204-EN-1", "Hades", tuple(), "Lord of the Underworld", "When you play this character, return a character card from your discard pile to your hand.", 3,2,1,4,"amber", False)

@@ -4,7 +4,8 @@ from decklists import amber_amethyst,sapphire_steel
 from controller import RandomController,Controller
 from game import Game,GamePhase,PlayerTurn
 from decklists import olaf,pascal,captain_hook,aurora,maleficent,fire_the_cannons,dinglehopper
-from action import FirstPlayerAction,DrawAction,PassAction,InkAction,PlayCardAction,QuestAction
+from action import FirstPlayerAction,DrawAction,PassAction,InkAction,PlayCardAction,QuestAction,TriggeredAbilityAction,AbilityTargetAction
+from ability import HealingTriggeredAbility
 
 class DinglehopperGameGenerator:
     def test_contestants(self):
@@ -38,6 +39,25 @@ class DinglehopperGameGenerator:
         self.game.process_action(PassAction())
         return self
 
+    def ink_hook(self):
+        self.game.process_action(InkAction(captain_hook))
+        return self
+
+    def quest_hook(self):
+        self.game.process_action(QuestAction(captain_hook))
+        return self
+
+    def play_hook(self):
+        self.game.process_action(PlayCardAction(captain_hook))
+        return self
+
+    def use_dinglehopper(self):
+        self.game.process_action(TriggeredAbilityAction(HealingTriggeredAbility(),dinglehopper))
+        return self
+
+    #def olaf_challenge_hook(self):
+        #return self
+
     def play_olaf(self):
         self.game.process_action(PlayCardAction(olaf))
         return self
@@ -46,28 +66,25 @@ class DinglehopperGameGenerator:
         self.game.process_action(InkAction(olaf))
         return self
 
-
-    def play_olaf_pass(self):
-        self.game.process_action(InkAction(olaf))
-        self.game.process_action(PlayCardAction(olaf))
-        self.game.process_action(PassAction())
-        self.game.process_action(DrawAction(fire_the_cannons))
+    def quest_hook(self):
+        self.game.process_action(QuestAction(captain_hook))
         return self
 
-    def quest_olaf_pass(self):
-        self.game.process_action(QuestAction(olaf))
-        self.game.process_action(PassAction())
-        self.game.process_action(DrawAction(fire_the_cannons))
+    def play_dinglehopper(self):
+        self.game.process_action(PlayCardAction(dinglehopper))
         return self
 
-    def p1_pass(self):
-        self.game.process_action(PassAction())
-        self.game.process_action(DrawAction(fire_the_cannons))
+    def target_olaf(self):
+        self.game.process_action(AbilityTargetAction(olaf))
         return self
 
-    def p2_pass(self):
+
+    def pass_turn(self):
         self.game.process_action(PassAction())
-        self.game.process_action(DrawAction(dinglehopper))
+        cards_to_draw = self.game.get_actions()
+        # draw whatever card. doesn't matter
+        self.game.process_action(cards_to_draw[0])
         return self
+
 
 

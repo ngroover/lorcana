@@ -7,6 +7,7 @@ from action import MulliganAction,PassAction,FirstPlayerAction,DrawAction,InkAct
 from controller import Controller
 from exceptions import TwentyLore
 from inplay_character import InPlayCharacter
+from inplay_ability import InPlayAbility
 
 import random
 
@@ -18,6 +19,7 @@ class GamePhase(Enum):
     MAIN=5
     GAME_OVER=6
     CHALLENGING=7
+    CHOOSE_TARGET=8
 
 class PlayerTurn(Enum):
     PLAYER1=1
@@ -37,6 +39,7 @@ class Game:
     player_has_inked: bool = False
     current_challenger: InPlayCharacter = None
     winner: PlayerTurn = PlayerTurn.PLAYER1
+    pending_ability: InPlayAbility = None
 
     def __init__(self, contestant1, contestant2, environment):
         self.environment = environment
@@ -140,6 +143,7 @@ class Game:
             your_name = self.currentPlayer.controller.name
             self.log_both_players(f'{your_name} played {act.card} from hand')
             self.currentPlayer.play_card_from_hand(act.card)
+                
         elif type(act) is PassAction:
             # Do end of turn stuff and start over turn stuff
             # for other player
@@ -215,13 +219,15 @@ class Game:
         elif self.phase == GamePhase.MAIN:
             ink_actions=[]
             challenger_actions=[]
+            triggered_abilities=[]
             if not self.player_has_inked:
                 ink_actions=self.currentPlayer.get_ink_actions()
             playable_cards=self.currentPlayer.get_playable_cards()
             questable_cards=self.currentPlayer.get_questable_cards()
             if self.currentOpponent.has_exerted_characters():
                 challenger_actions=self.currentPlayer.get_challenger_choices()
-            return ink_actions + playable_cards + questable_cards + challenger_actions + [PassAction()]
+            triggered_abilities=self.currentPlayer.get_triggerable_abilities()
+            return ink_actions + playable_cards + questable_cards + challenger_actions + triggered_abilities + [PassAction()]
         elif self.phase == GamePhase.CHALLENGING:
             return self.currentOpponent.get_challenge_targets()
 

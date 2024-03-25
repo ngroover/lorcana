@@ -1,11 +1,15 @@
 
 from dataclasses import dataclass, field
 from controller import Controller
-from action import MulliganAction,InkAction,PlayCardAction,QuestAction,ChallengeAction,ChallengeTargetAction
+from action import MulliganAction,InkAction,PlayCardAction,QuestAction,ChallengeAction,ChallengeTargetAction,TriggeredAbilityAction
 from deck import Deck
 from collections import Counter
 from inplay_character import InPlayCharacter
 from exceptions import TwentyLore
+from decklists import CharacterCard,ItemCard
+from inplay_card import InPlayItem
+from inplay_ability import InPlayAbility
+from ability import TriggeredAbility
 import random
 
 @dataclass
@@ -19,6 +23,8 @@ class Player:
     in_play_characters: list = field(default_factory=lambda: [])
     lore: int = 0
     discard: list = field(default_factory=lambda: [])
+    in_play_items: list = field(default_factory=lambda: [])
+    in_play_abilities: list = field(default_factory=lambda: [])
 
     def get_top_card_choices(self):
         return self.deck.get_card_choices()
@@ -60,10 +66,18 @@ class Player:
         if card.cost > self.ready_ink:
             raise ValueError("Insufficent ink")
         self.hand.remove(card)
-        new_char = InPlayCharacter(card)
-        self.in_play_characters.append(new_char)
+        if type(card) is CharacterCard:
+            new_char = InPlayCharacter(card)
+            self.in_play_characters.append(new_char)
+        elif type(card) is ItemCard:
+            new_item = InPlayItem(card)
+            self.in_play_items.append(new_item)
         self.ready_ink -= card.cost
         self.exerted_ink += card.cost
+        for ab in card.abilities:
+            if isinstance(ab, TriggeredAbility):
+                self.in_play_abilities.append(TriggeredAbilityAction(ab,card))
+
 
     def ready_characters(self):
         for x in self.in_play_characters:
@@ -113,6 +127,16 @@ class Player:
     def dry_characters(self):
         for x in self.in_play_characters:
             x.dry = True
+
+    def get_triggerable_abilities(self):
+        result=[]
+        for ab in self.in_play_abilities:
+            if type(ab.card) is ItemCard and\
+                    ab.ability.needs_to_exert and \
+                    any(x.ready and x.card == ab.card for x in self.in_play_items):
+                result.append(ab)
+        return result
+
 
 
 

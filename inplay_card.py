@@ -6,3 +6,7 @@ from decklists import Card
 class InPlayCard:
     card: Card
     ready: bool = True
+
+@dataclass
+class InPlayItem(InPlayCard):
+    pass

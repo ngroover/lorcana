@@ -50,6 +50,11 @@ class ChallengeTargetAction:
     card: Card
 
 @dataclass(frozen=True)
-class TriggerAbilityAction:
+class TriggeredAbilityAction:
     ability: TriggeredAbility
+    card: Card
+
+@dataclass(frozen=True)
+class AbilityTargetAction:
+    target_card: Card
 

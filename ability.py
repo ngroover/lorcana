@@ -5,8 +5,6 @@ from dataclasses import dataclass
 class Ability:
     needs_target : bool = True
 
-    def can_use(self):
-        return not in_play_card.exerted
 
 @dataclass(frozen=True)
 class OnPlayAbility(Ability):
@@ -14,7 +12,7 @@ class OnPlayAbility(Ability):
 
 @dataclass(frozen=True)
 class TriggeredAbility(Ability):
-    pass
+    needs_to_exert : bool = True
 
 @dataclass(frozen=True)
 class HealingTriggeredAbility(TriggeredAbility):

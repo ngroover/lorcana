@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from player import Player
 from player import create_player
 from enum import Enum
-from action import MulliganAction,PassAction,FirstPlayerAction,DrawAction,InkAction,PlayCardAction,QuestAction,ChallengeAction
+from action import MulliganAction,PassAction,FirstPlayerAction,DrawAction,InkAction,PlayCardAction,QuestAction,ChallengeAction,TriggeredAbilityAction
 from controller import Controller
 from exceptions import TwentyLore
 from inplay_character import InPlayCharacter
@@ -167,6 +167,10 @@ class Game:
         elif type(act) is ChallengeAction:
             self.current_challenger = self.currentPlayer.get_character(act.card)
             self.phase = GamePhase.CHALLENGING
+        elif type(act) is TriggeredAbilityAction:
+            self.pending_ability = act
+            self.phase = GamePhase.CHOOSE_TARGET
+
 
     def log_both_players(self, log):
         self.p1.controller.logMessage(log)
@@ -230,6 +234,11 @@ class Game:
             return ink_actions + playable_cards + questable_cards + challenger_actions + triggered_abilities + [PassAction()]
         elif self.phase == GamePhase.CHALLENGING:
             return self.currentOpponent.get_challenge_targets()
+        elif self.phase == GamePhase.CHOOSE_TARGET:
+            mine = self.currentPlayer.get_targetable_characters()
+            yours = self.currentOpponent.get_targetable_characters()
+            return mine+yours
+
 
 
 

@@ -67,6 +67,26 @@ class TestDinglehopper(unittest.TestCase):
 
         self.assertEqual(0, g.game.p1.in_play_characters[0].damage) # still 0 damage
 
+    def test_cant_use_dinglehopper_when_exerted(self):
+        g = DinglehopperGameGenerator()
+        
+        g.init_game().draw_opening_hand().pass_mulligan()\
+                .ink_olaf().play_olaf().pass_turn()\
+                .ink_hook().play_hook().pass_turn()\
+                .play_dinglehopper()
+
+        self.assertEqual(0, g.game.p1.in_play_characters[0].damage)
+
+        g.use_dinglehopper().target_olaf()
+
+        actions = g.game.get_actions()
+
+        self.assertEqual(0, len(list(
+                filter(lambda x: type(x) is TriggeredAbilityAction and \
+                        x.card == dinglehopper and \
+                        x.ability == HealingTriggeredAbility(), actions))))
+
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,7 +1,7 @@
 
 from dataclasses import dataclass, field
 from controller import Controller
-from action import MulliganAction,InkAction,PlayCardAction,QuestAction,ChallengeAction,ChallengeTargetAction,TriggeredAbilityAction
+from action import MulliganAction,InkAction,PlayCardAction,QuestAction,ChallengeAction,ChallengeTargetAction,TriggeredAbilityAction,AbilityTargetAction
 from deck import Deck
 from collections import Counter
 from inplay_character import InPlayCharacter
@@ -136,6 +136,9 @@ class Player:
                     any(x.ready and x.card == ab.card for x in self.in_play_items):
                 result.append(ab)
         return result
+
+    def get_targetable_characters(self):
+        return list(map(lambda y: AbilityTargetAction(y.card), self.in_play_characters))
 
 
 

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from player import Player
 from player import create_player
 from enum import Enum
-from action import MulliganAction,PassAction,FirstPlayerAction,DrawAction,InkAction,PlayCardAction,QuestAction,ChallengeAction,TriggeredAbilityAction
+from action import MulliganAction,PassAction,FirstPlayerAction,DrawAction,InkAction,PlayCardAction,QuestAction,ChallengeAction,TriggeredAbilityAction,AbilityTargetAction
 from controller import Controller
 from exceptions import TwentyLore
 from inplay_character import InPlayCharacter
@@ -124,6 +124,10 @@ class Game:
                 self.currentOpponent.check_banish(challengee)
                 self.current_challenger = None
                 self.phase = GamePhase.MAIN
+            elif self.phase == GamePhase.CHOOSE_TARGET:
+                if type(act) is AbilityTargetAction:
+                    current_target = self.currentPlayer.get_character(act.target_card)
+                    self.pending_ability.perform_ability(current_target)
         except TwentyLore as tl:
             self.phase = GamePhase.GAME_OVER
             if self.p1.lore >= 20:
@@ -168,8 +172,9 @@ class Game:
             self.current_challenger = self.currentPlayer.get_character(act.card)
             self.phase = GamePhase.CHALLENGING
         elif type(act) is TriggeredAbilityAction:
-            self.pending_ability = act
+            self.pending_ability = act.ability
             self.phase = GamePhase.CHOOSE_TARGET
+
 
 
     def log_both_players(self, log):

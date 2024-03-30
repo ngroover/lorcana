@@ -18,3 +18,8 @@ class TriggeredAbility(Ability):
 class HealingTriggeredAbility(TriggeredAbility):
     healing_power : int = 1
 
+    def perform_ability(self, in_play_character):
+        in_play_character.damage -= 1
+        if in_play_character.damage < 0:
+            in_play_character.damage = 0
+

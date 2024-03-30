@@ -94,13 +94,13 @@ class Player:
         card_counts=Counter()
         quest_actions=[]
         for x in set(descriptors):
-            print(x)
             card_counts[x[0]] += 1
             quest_actions.append(QuestAction(x[0], card_counts[x[0]]-1))
         return quest_actions
 
-    def perform_quest(self,card):
-        quest_char = next(filter(lambda x: x.card == card, self.in_play_characters))
+    def perform_quest(self,card,index):
+        quest_chars = list(filter(lambda x: x.card == card, self.in_play_characters))
+        quest_char = quest_chars[0] if len(quest_chars) == 1 else quest_chars[index]
         quest_char.ready = False
         self.lore += quest_char.card.lore
         if self.lore >= 20:

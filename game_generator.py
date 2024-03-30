@@ -97,6 +97,10 @@ class GameGenerator:
         self.game.process_action(AbilityTargetAction(captain_hook, PlayerTurn.PLAYER2))
         return self
 
+    def quest(self, card, index=0):
+        self.game.process_action(QuestAction(card,index))
+        return self
+
 
     def pass_turn(self):
         self.game.process_action(PassAction())

@@ -155,7 +155,7 @@ class Game:
                 self.phase = GamePhase.DRAW_PHASE
         elif type(act) is QuestAction:
             your_name = self.currentPlayer.controller.name
-            self.currentPlayer.perform_quest(act.card)
+            self.currentPlayer.perform_quest(act.card,act.index)
             your_lore = self.currentPlayer.lore
             self.log_both_players(f'{your_name} quested with {act.card} (lore: {your_lore})')
         elif type(act) is ChallengeAction:

@@ -86,7 +86,22 @@ class TestDinglehopper(unittest.TestCase):
                         x.card == dinglehopper and \
                         x.ability == HealingTriggeredAbility(), actions))))
 
+    def test_perform_dinglehopper_heal_self(self):
+        g = DinglehopperGameGenerator()
+        
+        g.init_game().draw_opening_hand().pass_mulligan()\
+                .ink_olaf().play_olaf().pass_turn()\
+                .ink_hook().play_hook().pass_turn()\
+                .play_dinglehopper().pass_turn()\
+                .quest_hook().pass_turn()\
+                .olaf_challenge_hook()
 
+        self.assertEqual(1, g.game.p1.in_play_characters[0].damage)
+
+        g.use_dinglehopper().target_olaf()
+
+        # damage has been healed off
+        self.assertEqual(0, g.game.p1.in_play_characters[0].damage)
 
 if __name__ == '__main__':
     unittest.main()

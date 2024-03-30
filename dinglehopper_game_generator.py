@@ -4,7 +4,7 @@ from decklists import amber_amethyst,sapphire_steel
 from controller import RandomController,Controller
 from game import Game,GamePhase,PlayerTurn
 from decklists import olaf,pascal,captain_hook,aurora,maleficent,fire_the_cannons,dinglehopper
-from action import FirstPlayerAction,DrawAction,PassAction,InkAction,PlayCardAction,QuestAction,TriggeredAbilityAction,AbilityTargetAction
+from action import FirstPlayerAction,DrawAction,PassAction,InkAction,PlayCardAction,QuestAction,TriggeredAbilityAction,AbilityTargetAction,ChallengeAction,ChallengeTargetAction
 from ability import HealingTriggeredAbility
 
 class DinglehopperGameGenerator:
@@ -55,8 +55,10 @@ class DinglehopperGameGenerator:
         self.game.process_action(TriggeredAbilityAction(HealingTriggeredAbility(),dinglehopper))
         return self
 
-    #def olaf_challenge_hook(self):
-        #return self
+    def olaf_challenge_hook(self):
+        self.game.process_action(ChallengeAction(olaf))
+        self.game.process_action(ChallengeTargetAction(captain_hook))
+        return self
 
     def play_olaf(self):
         self.game.process_action(PlayCardAction(olaf))

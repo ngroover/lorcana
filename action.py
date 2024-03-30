@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 from decklists import Card
 from ability import TriggeredAbility
+from game_enums import PlayerTurn
 
 # Action for environment to choose and swap who is first player or not
 # this is usually 50/50 per die roll
@@ -57,4 +58,6 @@ class TriggeredAbilityAction:
 @dataclass(frozen=True)
 class AbilityTargetAction:
     target_card: Card
+    player: PlayerTurn
+
 

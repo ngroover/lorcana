@@ -138,7 +138,7 @@ class Player:
         return result
 
     def get_targetable_characters(self):
-        return list(map(lambda y: AbilityTargetAction(y.card), self.in_play_characters))
+        return self.in_play_characters
 
 
 

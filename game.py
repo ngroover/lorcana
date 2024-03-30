@@ -2,28 +2,15 @@
 from dataclasses import dataclass
 from player import Player
 from player import create_player
-from enum import Enum
 from action import MulliganAction,PassAction,FirstPlayerAction,DrawAction,InkAction,PlayCardAction,QuestAction,ChallengeAction,TriggeredAbilityAction,AbilityTargetAction
 from controller import Controller
 from exceptions import TwentyLore
 from inplay_character import InPlayCharacter
 from inplay_ability import InPlayAbility
+from game_enums import GamePhase
+from game_enums import PlayerTurn
 
 import random
-
-class GamePhase(Enum):
-    DIE_ROLL=1
-    DRAW_STARTING_HAND=2
-    DRAW_PHASE=3
-    MULLIGAN=4
-    MAIN=5
-    GAME_OVER=6
-    CHALLENGING=7
-    CHOOSE_TARGET=8
-
-class PlayerTurn(Enum):
-    PLAYER1=1
-    PLAYER2=2
 
 @dataclass
 class Game:
@@ -126,7 +113,10 @@ class Game:
                 self.phase = GamePhase.MAIN
             elif self.phase == GamePhase.CHOOSE_TARGET:
                 if type(act) is AbilityTargetAction:
-                    current_target = self.currentPlayer.get_character(act.target_card)
+                    if act.player == PlayerTurn.PLAYER1:
+                        current_target = self.p1.get_character(act.target_card)
+                    else:
+                        current_target = self.p2.get_character(act.target_card)
                     self.pending_ability.perform_ability(current_target)
         except TwentyLore as tl:
             self.phase = GamePhase.GAME_OVER
@@ -240,9 +230,13 @@ class Game:
         elif self.phase == GamePhase.CHALLENGING:
             return self.currentOpponent.get_challenge_targets()
         elif self.phase == GamePhase.CHOOSE_TARGET:
-            mine = self.currentPlayer.get_targetable_characters()
-            yours = self.currentOpponent.get_targetable_characters()
-            return mine+yours
+            p1_characters = self.p1.get_targetable_characters()
+            p1_actions = list(map(lambda x: AbilityTargetAction(x.card,\
+                                PlayerTurn.PLAYER1),p1_characters))
+            p2_characters = self.p2.get_targetable_characters()
+            p2_actions = list(map(lambda x: AbilityTargetAction(x.card,\
+                                PlayerTurn.PLAYER2),p2_characters))
+            return p1_actions+p2_actions
 
 
 

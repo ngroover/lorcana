@@ -37,8 +37,6 @@ class TestDuplicates(unittest.TestCase):
                 .ink_hook().play_hook().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
                 .pass_turn()
-        #NOTE: once we add challenger this test will break because captain hook
-        # kills olaf
 
         # both olafs don't have damage
         self.assertEqual(0, g.game.p1.in_play_characters[0].damage)

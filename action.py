@@ -41,6 +41,7 @@ class PlayCardAction:
 @dataclass(frozen=True)
 class QuestAction:
     card: Card
+    index: int = 0
 
 @dataclass(frozen=True)
 class ChallengeAction:

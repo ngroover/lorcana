@@ -7,4 +7,8 @@ from inplay_card import InPlayCard
 class InPlayCharacter(InPlayCard):
     dry: bool = False
     damage: int = 0
+    
+    # get a tuple descriptor so we can hash it
+    def get_descriptor(self):
+        return (self.card, self.ready, self.dry, self.damage)
 

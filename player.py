@@ -10,6 +10,7 @@ from decklists import CharacterCard,ItemCard
 from inplay_card import InPlayItem
 from inplay_ability import InPlayAbility
 from ability import TriggeredAbility
+from collections import Counter
 import random
 
 @dataclass
@@ -89,7 +90,14 @@ class Player:
 
     def get_questable_cards(self):
         ready_and_dry = filter(lambda x: x.ready and x.dry, self.in_play_characters)
-        return list(map(lambda y: QuestAction(y.card), ready_and_dry))
+        descriptors = map(lambda x: x.get_descriptor(), ready_and_dry)
+        card_counts=Counter()
+        quest_actions=[]
+        for x in set(descriptors):
+            print(x)
+            card_counts[x[0]] += 1
+            quest_actions.append(QuestAction(x[0], card_counts[x[0]]-1))
+        return quest_actions
 
     def perform_quest(self,card):
         quest_char = next(filter(lambda x: x.card == card, self.in_play_characters))

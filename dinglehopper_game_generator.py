@@ -80,6 +80,10 @@ class DinglehopperGameGenerator:
         self.game.process_action(AbilityTargetAction(olaf))
         return self
 
+    def target_hook(self):
+        self.game.process_action(AbilityTargetAction(captain_hook))
+        return self
+
 
     def pass_turn(self):
         self.game.process_action(PassAction())

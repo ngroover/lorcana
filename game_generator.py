@@ -64,6 +64,11 @@ class GameGenerator:
         self.game.process_action(ChallengeTargetAction(captain_hook))
         return self
 
+    def olaf_challenge_hook(self, index):
+        self.game.process_action(ChallengeAction(olaf, index))
+        self.game.process_action(ChallengeTargetAction(captain_hook))
+        return self
+
     def hook_challenge_olaf(self):
         self.game.process_action(ChallengeAction(captain_hook))
         self.game.process_action(ChallengeTargetAction(olaf))
@@ -100,6 +105,11 @@ class GameGenerator:
     def quest(self, card, index=0):
         self.game.process_action(QuestAction(card,index))
         return self
+
+    def challenge(self, card, index=0):
+        self.game.process_action(ChallengeAction(card,index))
+        return self
+
 
 
     def pass_turn(self):

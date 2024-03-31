@@ -111,7 +111,13 @@ class Player:
 
     def get_challenger_choices(self):
         ready_and_dry = filter(lambda x: x.ready and x.dry, self.in_play_characters)
-        return list(map(lambda y: ChallengeAction(y.card), ready_and_dry))
+        descriptors = map(lambda x: x.get_descriptor(), ready_and_dry)
+        card_counts=Counter()
+        challenge_actions=[]
+        for x in set(descriptors):
+            card_counts[x[0]] += 1
+            challenge_actions.append(ChallengeAction(x[0], card_counts[x[0]]-1))
+        return challenge_actions
 
     def get_challenge_targets(self):
         exerted = filter(lambda x: not x.ready, self.in_play_characters)
@@ -128,8 +134,9 @@ class Player:
             self.in_play_characters.remove(character)
             self.discard.append(character.card)
         
-    def get_character(self, card):
-        in_play_card = next(filter(lambda x: x.card == card, self.in_play_characters))
+    def get_character(self, card,index):
+        in_play_cards = list(filter(lambda x: x.card == card, self.in_play_characters))
+        in_play_card = in_play_cards[0] if len(in_play_cards) == 1 else in_play_cards[index]
         return in_play_card
 
     def dry_characters(self):

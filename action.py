@@ -46,10 +46,12 @@ class QuestAction:
 @dataclass(frozen=True)
 class ChallengeAction:
     card: Card
+    index: int = 0
 
 @dataclass(frozen=True)
 class ChallengeTargetAction:
     card: Card
+    index: int = 0
 
 @dataclass(frozen=True)
 class TriggeredAbilityAction:
@@ -60,5 +62,6 @@ class TriggeredAbilityAction:
 class AbilityTargetAction:
     target_card: Card
     player: PlayerTurn
+    index: int = 0
 
 

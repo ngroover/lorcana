@@ -104,7 +104,7 @@ class Game:
                 self.currentPlayer.dry_characters()
                 self.player_has_inked = False
             elif self.phase == GamePhase.CHALLENGING:
-                challengee = self.currentOpponent.get_character(act.card)
+                challengee = self.currentOpponent.get_character(act.card, act.index)
                 self.currentPlayer.perform_challenge(self.current_challenger,
                         challengee)
                 self.currentPlayer.check_banish(self.current_challenger)
@@ -114,9 +114,9 @@ class Game:
             elif self.phase == GamePhase.CHOOSE_TARGET:
                 if type(act) is AbilityTargetAction:
                     if act.player == PlayerTurn.PLAYER1:
-                        current_target = self.p1.get_character(act.target_card)
+                        current_target = self.p1.get_character(act.target_card,act.index)
                     else:
-                        current_target = self.p2.get_character(act.target_card)
+                        current_target = self.p2.get_character(act.target_card,act.index)
                     self.pending_ability.perform_ability(current_target)
         except TwentyLore as tl:
             self.phase = GamePhase.GAME_OVER
@@ -159,7 +159,7 @@ class Game:
             your_lore = self.currentPlayer.lore
             self.log_both_players(f'{your_name} quested with {act.card} (lore: {your_lore})')
         elif type(act) is ChallengeAction:
-            self.current_challenger = self.currentPlayer.get_character(act.card)
+            self.current_challenger = self.currentPlayer.get_character(act.card, act.index)
             self.phase = GamePhase.CHALLENGING
         elif type(act) is TriggeredAbilityAction:
             self.pending_ability = act.ability

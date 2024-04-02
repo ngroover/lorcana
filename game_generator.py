@@ -39,6 +39,11 @@ class GameGenerator:
         self.game.process_action(PassAction())
         return self
 
+    def challenge(self, card):
+        self.game.process_action(ChallengeAction(card))
+        return self
+
+
     def ink_pascal(self):
         self.game.process_action(InkAction(pascal))
         return self

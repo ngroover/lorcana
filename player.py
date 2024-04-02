@@ -99,7 +99,7 @@ class Player:
         return quest_actions
 
     def perform_quest(self,card,index):
-        quest_chars = list(filter(lambda x: x.card == card, self.in_play_characters))
+        quest_chars = list(filter(lambda x: x.card == card and x.ready, self.in_play_characters))
         quest_char = quest_chars[0] if len(quest_chars) == 1 else quest_chars[index]
         quest_char.ready = False
         self.lore += quest_char.card.lore
@@ -120,8 +120,14 @@ class Player:
         return challenge_actions
 
     def get_challenge_targets(self):
-        exerted = filter(lambda x: not x.ready, self.in_play_characters)
-        return list(map(lambda y: ChallengeTargetAction(y.card), exerted))
+        exerted_cards = filter(lambda x: not x.ready, self.in_play_characters)
+        descriptors = map(lambda x: x.get_descriptor(), exerted_cards)
+        card_counts=Counter()
+        challenge_targets=[]
+        for x in descriptors:
+            card_counts[x[0]] += 1
+            challenge_targets.append(ChallengeTargetAction(x[0], card_counts[x[0]]-1))
+        return challenge_targets
     
 
     def perform_challenge(self, challenger, challengee):

@@ -77,7 +77,9 @@ class Player:
         self.exerted_ink += card.cost
         for ab in card.abilities:
             if isinstance(ab, TriggeredAbility):
-                self.in_play_abilities.append(TriggeredAbilityAction(ab,card))
+                card_abilities = set(map(lambda x: x.card, self.in_play_abilities))
+                if card not in card_abilities:
+                    self.in_play_abilities.append(TriggeredAbilityAction(ab,card))
 
 
     def ready_characters(self):

@@ -204,8 +204,8 @@ class TestDuplicates(unittest.TestCase):
         # both olafs don't have damage
         self.assertEqual(0, g.game.p1.in_play_characters[0].damage)
         self.assertEqual(0, g.game.p1.in_play_characters[1].damage)
-        self.assertFalse(g.game.p1.in_play_characters[0].ready)
-        self.assertFalse(g.game.p1.in_play_characters[1].ready)
+        self.assertTrue(g.game.p1.in_play_characters[0].ready)
+        self.assertTrue(g.game.p1.in_play_characters[1].ready)
 
 
         actions = g.game.get_actions()
@@ -253,6 +253,27 @@ class TestDuplicates(unittest.TestCase):
 
         self.assertFalse(g.game.p1.in_play_characters[1].ready)
 
+    def test_duplicate_dinglehoppers(self):
+        g = GameGenerator()
+        
+        g.init_game().draw_opening_hand().pass_mulligan()\
+                .ink_pascal().play_olaf().pass_turn()\
+                .pass_turn()\
+                .ink_olaf().play_dinglehopper().play_dinglehopper()
+
+        actions = g.game.get_actions()
+        self.assertEqual(1, len(list(
+                filter(lambda x: type(x) is TriggeredAbilityAction and \
+                        x.card == dinglehopper and \
+                        x.ability == HealingTriggeredAbility(), actions))))
+
+    def test_trigger_two_dinglehoppers(self):
+        g = GameGenerator()
+        
+        g.init_game().draw_opening_hand().pass_mulligan()\
+                .ink_pascal().play_olaf().pass_turn()\
+                .pass_turn()\
+                .ink_olaf().play_dinglehopper().play_dinglehopper()
 
 
 

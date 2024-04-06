@@ -135,7 +135,7 @@ class Player:
     def perform_challenge(self, challenger, challengee):
         challenger.ready = False
         challenger.damage += challengee.card.strength
-        challengee.damage += challenger.card.strength
+        challengee.damage += challenger.card.strength + challenger.card.challenger
 
     def check_banish(self, character):
         if character.damage >= character.card.willpower:

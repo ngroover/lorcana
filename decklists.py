@@ -28,6 +28,7 @@ class CharacterCard(Card):
     cost: int
     color: str
     inkable: bool
+    challenger: int = 0
 
     def __str__(self):
         return f"{self.name} - {self.subtext}"
@@ -97,7 +98,7 @@ amber_amethyst = Decklist("Amber/Amethyst",[
     hakuna_matata,hakuna_matata,dr_facilier7, cinderella,cinderella])
 
 captain_hook = CharacterCard("174/204-EN-1", "Captain Hook", tuple(), "Forceful Duelist", "Challenger +2",
-        1,2,1,1,"steel",True)
+        1,2,1,1,"steel",True, 2)
 aurora = CharacterCard("139/204-EN-1", "Aurora", tuple(), "Dreaming Guardian", "Shift 3. Your other characters gain Ward.", 3,5,2,5,"sapphire", True)
 maleficent = CharacterCard("150/204-EN-1", "Maleficent", tuple(), "Sinister Visitor", "", 3,4,2,4,"sapphire", True)
 simba = CharacterCard("189/204-EN-1", "Simba", tuple(), "Returned King", "Challenger +4. During your turn, this character gains Evasive.",

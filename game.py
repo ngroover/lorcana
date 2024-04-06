@@ -118,6 +118,7 @@ class Game:
                     else:
                         current_target = self.p2.get_character(act.target_card,act.index)
                     self.pending_ability.perform_ability(current_target)
+                    self.phase = GamePhase.MAIN
         except TwentyLore as tl:
             self.phase = GamePhase.GAME_OVER
             if self.p1.lore >= 20:
@@ -164,7 +165,7 @@ class Game:
         elif type(act) is TriggeredAbilityAction:
             self.pending_ability = act.ability
             self.phase = GamePhase.CHOOSE_TARGET
-
+            self.currentPlayer.exert_item(act.card)
 
 
     def log_both_players(self, log):

@@ -160,6 +160,13 @@ class Player:
                 result.append(ab)
         return result
 
+    def exert_item(self, item_card):
+        for item in self.in_play_items:
+            if item.card == item_card and item.ready:
+                item.ready = False
+                break
+
+
     def get_targetable_characters(self):
         return self.in_play_characters
 

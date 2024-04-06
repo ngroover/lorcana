@@ -275,6 +275,31 @@ class TestDuplicates(unittest.TestCase):
                 .pass_turn()\
                 .ink_olaf().play_dinglehopper().play_dinglehopper()
 
+        # only one action because its the same either dinglehopper you pick
+        actions = g.game.get_actions()
+        self.assertEqual(1, len(list(
+                filter(lambda x: type(x) is TriggeredAbilityAction and \
+                        x.card == dinglehopper and \
+                        x.ability == HealingTriggeredAbility(), actions))))
+
+        g.use_dinglehopper().target_olaf()
+
+        # we should be able to use the second dinglehopper
+        actions = g.game.get_actions()
+        self.assertEqual(1, len(list(
+                filter(lambda x: type(x) is TriggeredAbilityAction and \
+                        x.card == dinglehopper and \
+                        x.ability == HealingTriggeredAbility(), actions))))
+
+        g.use_dinglehopper().target_olaf()
+
+        # no more dinglehoppers left
+        actions = g.game.get_actions()
+        self.assertEqual(0, len(list(
+                filter(lambda x: type(x) is TriggeredAbilityAction and \
+                        x.card == dinglehopper and \
+                        x.ability == HealingTriggeredAbility(), actions))))
+
 
 
 

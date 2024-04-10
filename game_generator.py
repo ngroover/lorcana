@@ -95,6 +95,11 @@ class GameGenerator:
         self.game.process_action(ChallengeTargetAction(captain_hook))
         return self
 
+    def olaf_challenge_flounder(self,index):
+        self.game.process_action(ChallengeAction(olaf,index))
+        self.game.process_action(ChallengeTargetAction(flounder))
+        return self
+
     def hook_challenge_olaf(self):
         self.game.process_action(ChallengeAction(captain_hook))
         self.game.process_action(ChallengeTargetAction(olaf))

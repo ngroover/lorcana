@@ -3,7 +3,7 @@ from contestant import Contestant
 from decklists import amber_amethyst,sapphire_steel
 from controller import RandomController,Controller
 from game import Game,GamePhase,PlayerTurn
-from decklists import olaf,pascal,captain_hook,aurora,maleficent,fire_the_cannons,dinglehopper
+from decklists import olaf,pascal,captain_hook,aurora,maleficent,fire_the_cannons,dinglehopper,flounder
 from action import FirstPlayerAction,DrawAction,PassAction,InkAction,PlayCardAction,QuestAction,TriggeredAbilityAction,AbilityTargetAction,ChallengeAction,ChallengeTargetAction
 from ability import HealingTriggeredAbility
 
@@ -22,6 +22,22 @@ class GameGenerator:
         first_player_swap=False
         p1_hand=[olaf,olaf,olaf,pascal,pascal,dinglehopper,dinglehopper]
         p2_hand=[captain_hook,captain_hook,captain_hook, aurora, maleficent, maleficent,maleficent]
+
+        self.game.process_action(FirstPlayerAction(first_player_swap))
+
+        if first_player_swap:
+            all_cards=p2_hand+p1_hand
+        else:
+            all_cards=p1_hand+p2_hand
+        for x in all_cards:
+            self.game.process_action(DrawAction(x))
+
+        return self
+
+    def draw_opening_hand2(self):
+        first_player_swap=False
+        p1_hand=[olaf,olaf,olaf,pascal,pascal,dinglehopper,dinglehopper]
+        p2_hand=[flounder,captain_hook,flounder, aurora, maleficent, maleficent,maleficent]
 
         self.game.process_action(FirstPlayerAction(first_player_swap))
 
@@ -60,6 +76,11 @@ class GameGenerator:
         self.game.process_action(PlayCardAction(captain_hook))
         return self
 
+    def play_flounder(self):
+        self.game.process_action(PlayCardAction(flounder))
+        return self
+        
+
     def use_dinglehopper(self):
         self.game.process_action(TriggeredAbilityAction(HealingTriggeredAbility(),dinglehopper))
         return self
@@ -76,6 +97,11 @@ class GameGenerator:
 
     def hook_challenge_olaf(self):
         self.game.process_action(ChallengeAction(captain_hook))
+        self.game.process_action(ChallengeTargetAction(olaf))
+        return self
+
+    def flounder_challenge_olaf(self):
+        self.game.process_action(ChallengeAction(flounder))
         self.game.process_action(ChallengeTargetAction(olaf))
         return self
 

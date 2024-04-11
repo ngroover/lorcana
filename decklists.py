@@ -67,7 +67,7 @@ control_your_temper = ActionCard("26/204-EN-1", "Control Your Temper", tuple(), 
 yzma = CharacterCard("60/204-EN-1", "Yzma", tuple(), "Alchemist", "Whenever this character quests, look at the top card of your deck.  Put it on either the top or the bottom of your deck.", 2,2,1,2,"amethyst", True)
 ariel = CharacterCard("1/204-EN-1", "Ariel", tuple(), "On Human Legs", "This character can't sing songs.", 3,4,2,4,"amber", True)
 maximus=CharacterCard("11/204-EN-1", "Maximus", tuple(), "Relentless Pursuer", "When you play this character, chosen character gets -2 strength this turn", 3,3,1,3,"amber", True)
-dr_facilier = CharacterCard("38/204-EN-1", "Dr. Facilier", tuple(), "Charlatan", "Challenger +2", 0,4,1,2,"amethyst", True)
+dr_facilier = CharacterCard("38/204-EN-1", "Dr. Facilier", tuple(), "Charlatan", "Challenger +2", 0,4,1,2,"amethyst", True, 2)
 jafar = CharacterCard("45/204-EN-1", "Jafar", tuple(), "Wicked Sorcerer", "Challenger +3", 2,5,1,4,"amethyst", True)
 maleficent = CharacterCard("49/204-EN-1", "Maleficent", tuple(), "Sorceress", "When you play this character"
         "you may draw a card.", 2,2,1,3,"amethyst", True)
@@ -102,7 +102,7 @@ captain_hook = CharacterCard("174/204-EN-1", "Captain Hook", tuple(), "Forceful 
 aurora = CharacterCard("139/204-EN-1", "Aurora", tuple(), "Dreaming Guardian", "Shift 3. Your other characters gain Ward.", 3,5,2,5,"sapphire", True)
 maleficent = CharacterCard("150/204-EN-1", "Maleficent", tuple(), "Sinister Visitor", "", 3,4,2,4,"sapphire", True)
 simba = CharacterCard("189/204-EN-1", "Simba", tuple(), "Returned King", "Challenger +4. During your turn, this character gains Evasive.",
-        4,6,2,7,"steel", True)
+        4,6,2,7,"steel", True, 4)
 scar_blue = CharacterCard("158/204-EN-1", "Scar", tuple(), "Mastermind", "When you play this character, chosen opposing character gets -5 strength this turn.", 5,4,2,6,"sapphire", True)
 one_jump_ahead = ActionCard("164/204-EN-1", "One Jump Ahead", tuple(), "Put the top card of your deck into your inkwell facedown and exterted", 2,"sapphire",True,False)
 kristoff = CharacterCard("182/204-EN-1", "Kristoff", tuple(), "Official Ice Master", "", 3,3,2,3,"steel",True)
@@ -122,7 +122,7 @@ aurora4 = CharacterCard("138/204-EN-1", "Aurora", tuple(), "Briar Rose", "When y
         "gets -2 strength this turn.", 2,5,1,4,"sapphire",True)
 jasmine = CharacterCard("148/204-EN-1", "Jasmine", tuple(), "Disguised", "", 3,3,2,3,"sapphire", True)
 goons = CharacterCard("179/204-EN-1", "Goons", tuple(), "Maleficent's Underlings", "", 2,2,1,1,"steel", True)
-prince_eric = CharacterCard("187/204-EN-1", "Prince Eric", tuple(), "Dashing and Brave", "Challenger +2", 1,3,1,2,"steel",True)
+prince_eric = CharacterCard("187/204-EN-1", "Prince Eric", tuple(), "Dashing and Brave", "Challenger +2", 1,3,1,2,"steel",True, 2)
 
 smash= ActionCard("200/204-EN-1", "Smash", tuple(), "Deal 3 damage to a chosen character.", 3, "steel", False,False)
 beast = CharacterCard("172/204-EN-1", "Beast", tuple(), "Hardheaded", "When you play this character, you may banish chosen item",

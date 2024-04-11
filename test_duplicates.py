@@ -130,19 +130,19 @@ class TestDuplicates(unittest.TestCase):
     def test_challenge_damaged_olaf(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand().pass_mulligan()\
+        g.init_game().draw_opening_hand2().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
-                .ink_hook().play_hook().pass_turn()\
+                .ink_hook().play_flounder().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
-                .hook_challenge_olaf().pass_turn()
+                .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
-        self.assertEqual(1, g.game.p1.in_play_characters[0].damage)
+        self.assertEqual(2, g.game.p1.in_play_characters[0].damage)
         self.assertEqual(0, g.game.p1.in_play_characters[1].damage)
 
         self.assertTrue(g.game.p1.in_play_characters[0].ready)
 
-        g.olaf_challenge_hook(0)
+        g.olaf_challenge_flounder(0)
 
         self.assertFalse(g.game.p1.in_play_characters[0].ready)
 
@@ -238,21 +238,22 @@ class TestDuplicates(unittest.TestCase):
     def test_challenge_full_health_olaf(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand().pass_mulligan()\
+        g.init_game().draw_opening_hand2().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
-                .ink_hook().play_hook().pass_turn()\
+                .ink_hook().play_flounder().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
-                .hook_challenge_olaf().pass_turn()
+                .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
-        self.assertEqual(1, g.game.p1.in_play_characters[0].damage)
+        self.assertEqual(2, g.game.p1.in_play_characters[0].damage)
         self.assertEqual(0, g.game.p1.in_play_characters[1].damage)
 
         self.assertTrue(g.game.p1.in_play_characters[1].ready)
 
-        g.olaf_challenge_hook(1)
+        g.olaf_challenge_flounder(1)
 
         self.assertFalse(g.game.p1.in_play_characters[1].ready)
+        self.assertEqual(2, g.game.p1.in_play_characters[1].damage)
 
     def test_duplicate_dinglehoppers(self):
         g = GameGenerator()

@@ -7,6 +7,15 @@ class Ability:
 
 
 @dataclass(frozen=True)
+class PassiveAbility(Ability):
+    pass
+
+@dataclass(frozen=True)
+class GainEvasive(PassiveAbility):
+    def apply_ability(self, game):
+        pass
+
+@dataclass(frozen=True)
 class OnPlayAbility(Ability):
     pass
 

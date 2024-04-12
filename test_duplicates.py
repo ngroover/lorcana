@@ -4,14 +4,15 @@ import unittest
 from game_generator import GameGenerator
 from action import PlayCardAction,TriggeredAbilityAction,AbilityTargetAction,QuestAction,ChallengeAction,ChallengeTargetAction
 from ability import HealingTriggeredAbility
-from decklists import dinglehopper,olaf,captain_hook,flounder
+from decklists import dinglehopper,olaf,captain_hook,flounder,amber_amethyst,sapphire_steel
 from game import GamePhase
 
 class TestDuplicates(unittest.TestCase):
     def test_different_quester_choices(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand2().pass_mulligan()\
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .draw_opening_hand2().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
                 .ink_hook().play_flounder().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
@@ -30,7 +31,8 @@ class TestDuplicates(unittest.TestCase):
     def test_same_quester_choices(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand().pass_mulligan()\
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .draw_opening_hand().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
                 .ink_hook().play_hook().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
@@ -50,7 +52,8 @@ class TestDuplicates(unittest.TestCase):
     def test_quest_damaged_olaf(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand2().pass_mulligan()\
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .draw_opening_hand2().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
                 .ink_hook().play_flounder().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
@@ -69,7 +72,8 @@ class TestDuplicates(unittest.TestCase):
     def test_quest_full_health_olaf(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand2().pass_mulligan()\
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .draw_opening_hand2().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
                 .ink_hook().play_flounder().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
@@ -88,7 +92,8 @@ class TestDuplicates(unittest.TestCase):
     def test_different_challenger_choices(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand2().pass_mulligan()\
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .draw_opening_hand2().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
                 .ink_hook().play_flounder().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
@@ -107,7 +112,8 @@ class TestDuplicates(unittest.TestCase):
     def test_same_challenger_choices(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand().pass_mulligan()\
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .draw_opening_hand().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
                 .ink_hook().play_hook().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
@@ -126,7 +132,8 @@ class TestDuplicates(unittest.TestCase):
     def test_challenge_damaged_olaf(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand2().pass_mulligan()\
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .draw_opening_hand2().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
                 .ink_hook().play_flounder().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
@@ -146,7 +153,8 @@ class TestDuplicates(unittest.TestCase):
     def test_challenge_full_health_olaf(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand().pass_mulligan()\
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .draw_opening_hand().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
                 .ink_hook().play_hook().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
@@ -165,7 +173,8 @@ class TestDuplicates(unittest.TestCase):
     def test_different_challenger_target_choices(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand2().pass_mulligan()\
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .draw_opening_hand2().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
                 .ink_hook().play_flounder().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
@@ -189,7 +198,8 @@ class TestDuplicates(unittest.TestCase):
     def test_same_challenger_choices(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand().pass_mulligan()\
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .draw_opening_hand().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
                 .ink_hook().play_hook().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
@@ -211,7 +221,8 @@ class TestDuplicates(unittest.TestCase):
     def test_challenge_damaged_olaf(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand2().pass_mulligan()\
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .draw_opening_hand2().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
                 .ink_hook().play_flounder().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
@@ -234,7 +245,8 @@ class TestDuplicates(unittest.TestCase):
     def test_challenge_full_health_olaf(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand2().pass_mulligan()\
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .draw_opening_hand2().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
                 .ink_hook().play_flounder().pass_turn()\
                 .ink_olaf().play_olaf().quest_olaf().pass_turn()\
@@ -254,7 +266,8 @@ class TestDuplicates(unittest.TestCase):
     def test_duplicate_dinglehoppers(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand().pass_mulligan()\
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .draw_opening_hand().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
                 .pass_turn()\
                 .ink_olaf().play_dinglehopper().play_dinglehopper()
@@ -268,7 +281,8 @@ class TestDuplicates(unittest.TestCase):
     def test_trigger_two_dinglehoppers(self):
         g = GameGenerator()
         
-        g.init_game().draw_opening_hand().pass_mulligan()\
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .draw_opening_hand().pass_mulligan()\
                 .ink_pascal().play_olaf().pass_turn()\
                 .pass_turn()\
                 .ink_olaf().play_dinglehopper().play_dinglehopper()

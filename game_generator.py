@@ -8,13 +8,13 @@ from action import FirstPlayerAction,DrawAction,PassAction,InkAction,PlayCardAct
 from ability import HealingTriggeredAbility
 
 class GameGenerator:
-    def test_contestants(self):
-        c1 = Contestant(amber_amethyst, RandomController('test1'))
-        c2 = Contestant(sapphire_steel, RandomController('test2'))
+    def test_contestants(self, deck1, deck2):
+        c1 = Contestant(deck1, RandomController('test1'))
+        c2 = Contestant(deck2, RandomController('test2'))
         return [c1,c2]
 
-    def init_game(self):
-        c = self.test_contestants()
+    def init_game(self, deck1, deck2):
+        c = self.test_contestants(deck1, deck2)
         self.game = Game(c[0],c[1],RandomController('env'))
         return self
 

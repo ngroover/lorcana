@@ -10,12 +10,10 @@ from game import GamePhase
 class TestDuplicates(unittest.TestCase):
     def test_different_quester_choices(self):
         g = GameGenerator()
-        
+
         g.init_game(amber_amethyst,sapphire_steel)\
-                .draw_opening_hand2().pass_mulligan()\
-                .ink_pascal().play_olaf().pass_turn()\
-                .ink_hook().play_flounder().pass_turn()\
-                .ink_olaf().play_olaf().quest_olaf().pass_turn()\
+                .setup_cards([olaf,olaf], [flounder])\
+                .quest_olaf().pass_turn()\
                 .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -32,11 +30,7 @@ class TestDuplicates(unittest.TestCase):
         g = GameGenerator()
         
         g.init_game(amber_amethyst,sapphire_steel)\
-                .draw_opening_hand().pass_mulligan()\
-                .ink_pascal().play_olaf().pass_turn()\
-                .ink_hook().play_hook().pass_turn()\
-                .ink_olaf().play_olaf().quest_olaf().pass_turn()\
-                .pass_turn()
+                .setup_cards([olaf,olaf], [flounder])
 
         # both olafs don't have damage
         self.assertEqual(0, g.game.p1.in_play_characters[0].damage)
@@ -53,10 +47,8 @@ class TestDuplicates(unittest.TestCase):
         g = GameGenerator()
         
         g.init_game(amber_amethyst,sapphire_steel)\
-                .draw_opening_hand2().pass_mulligan()\
-                .ink_pascal().play_olaf().pass_turn()\
-                .ink_hook().play_flounder().pass_turn()\
-                .ink_olaf().play_olaf().quest_olaf().pass_turn()\
+                .setup_cards([olaf,olaf], [flounder])\
+                .quest_olaf().pass_turn()\
                 .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -73,10 +65,8 @@ class TestDuplicates(unittest.TestCase):
         g = GameGenerator()
         
         g.init_game(amber_amethyst,sapphire_steel)\
-                .draw_opening_hand2().pass_mulligan()\
-                .ink_pascal().play_olaf().pass_turn()\
-                .ink_hook().play_flounder().pass_turn()\
-                .ink_olaf().play_olaf().quest_olaf().pass_turn()\
+                .setup_cards([olaf,olaf], [flounder])\
+                .quest_olaf().pass_turn()\
                 .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -93,10 +83,8 @@ class TestDuplicates(unittest.TestCase):
         g = GameGenerator()
         
         g.init_game(amber_amethyst,sapphire_steel)\
-                .draw_opening_hand2().pass_mulligan()\
-                .ink_pascal().play_olaf().pass_turn()\
-                .ink_hook().play_flounder().pass_turn()\
-                .ink_olaf().play_olaf().quest_olaf().pass_turn()\
+                .setup_cards([olaf,olaf], [flounder])\
+                .quest_olaf().pass_turn()\
                 .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -113,10 +101,8 @@ class TestDuplicates(unittest.TestCase):
         g = GameGenerator()
         
         g.init_game(amber_amethyst,sapphire_steel)\
-                .draw_opening_hand().pass_mulligan()\
-                .ink_pascal().play_olaf().pass_turn()\
-                .ink_hook().play_hook().pass_turn()\
-                .ink_olaf().play_olaf().quest_olaf().pass_turn()\
+                .setup_cards([olaf,olaf], [flounder])\
+                .pass_turn()\
                 .quest_hook().pass_turn()
 
         # both olafs don't have damage
@@ -133,10 +119,8 @@ class TestDuplicates(unittest.TestCase):
         g = GameGenerator()
         
         g.init_game(amber_amethyst,sapphire_steel)\
-                .draw_opening_hand2().pass_mulligan()\
-                .ink_pascal().play_olaf().pass_turn()\
-                .ink_hook().play_flounder().pass_turn()\
-                .ink_olaf().play_olaf().quest_olaf().pass_turn()\
+                .setup_cards([olaf,olaf], [flounder])\
+                .quest_olaf().pass_turn()\
                 .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -154,10 +138,8 @@ class TestDuplicates(unittest.TestCase):
         g = GameGenerator()
         
         g.init_game(amber_amethyst,sapphire_steel)\
-                .draw_opening_hand().pass_mulligan()\
-                .ink_pascal().play_olaf().pass_turn()\
-                .ink_hook().play_hook().pass_turn()\
-                .ink_olaf().play_olaf().quest_olaf().pass_turn()\
+                .setup_cards([olaf,olaf], [flounder])\
+                .quest_olaf().pass_turn()\
                 .hook_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -174,10 +156,8 @@ class TestDuplicates(unittest.TestCase):
         g = GameGenerator()
         
         g.init_game(amber_amethyst,sapphire_steel)\
-                .draw_opening_hand2().pass_mulligan()\
-                .ink_pascal().play_olaf().pass_turn()\
-                .ink_hook().play_flounder().pass_turn()\
-                .ink_olaf().play_olaf().quest_olaf().pass_turn()\
+                .setup_cards([olaf,olaf], [flounder])\
+                .quest_olaf().pass_turn()\
                 .flounder_challenge_olaf().pass_turn()\
                 .quest_olaf().quest_olaf().pass_turn()
 
@@ -199,10 +179,8 @@ class TestDuplicates(unittest.TestCase):
         g = GameGenerator()
         
         g.init_game(amber_amethyst,sapphire_steel)\
-                .draw_opening_hand().pass_mulligan()\
-                .ink_pascal().play_olaf().pass_turn()\
-                .ink_hook().play_hook().pass_turn()\
-                .ink_olaf().play_olaf().quest_olaf().pass_turn()\
+                .setup_cards([olaf,olaf], [captain_hook])\
+                .pass_turn()\
                 .quest_hook().pass_turn()
 
         # both olafs don't have damage
@@ -222,10 +200,8 @@ class TestDuplicates(unittest.TestCase):
         g = GameGenerator()
         
         g.init_game(amber_amethyst,sapphire_steel)\
-                .draw_opening_hand2().pass_mulligan()\
-                .ink_pascal().play_olaf().pass_turn()\
-                .ink_hook().play_flounder().pass_turn()\
-                .ink_olaf().play_olaf().quest_olaf().pass_turn()\
+                .setup_cards([olaf,olaf], [flounder])\
+                .quest_olaf().pass_turn()\
                 .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -246,10 +222,8 @@ class TestDuplicates(unittest.TestCase):
         g = GameGenerator()
         
         g.init_game(amber_amethyst,sapphire_steel)\
-                .draw_opening_hand2().pass_mulligan()\
-                .ink_pascal().play_olaf().pass_turn()\
-                .ink_hook().play_flounder().pass_turn()\
-                .ink_olaf().play_olaf().quest_olaf().pass_turn()\
+                .setup_cards([olaf,olaf], [flounder])\
+                .quest_olaf().pass_turn()\
                 .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -267,10 +241,8 @@ class TestDuplicates(unittest.TestCase):
         g = GameGenerator()
         
         g.init_game(amber_amethyst,sapphire_steel)\
-                .draw_opening_hand().pass_mulligan()\
-                .ink_pascal().play_olaf().pass_turn()\
-                .pass_turn()\
-                .ink_olaf().play_dinglehopper().play_dinglehopper()
+                .setup_cards([olaf,dinglehopper,dinglehopper], [])
+                
 
         actions = g.game.get_actions()
         self.assertEqual(1, len(list(
@@ -282,10 +254,7 @@ class TestDuplicates(unittest.TestCase):
         g = GameGenerator()
         
         g.init_game(amber_amethyst,sapphire_steel)\
-                .draw_opening_hand().pass_mulligan()\
-                .ink_pascal().play_olaf().pass_turn()\
-                .pass_turn()\
-                .ink_olaf().play_dinglehopper().play_dinglehopper()
+                .setup_cards([olaf,dinglehopper,dinglehopper], [])
 
         # only one action because its the same either dinglehopper you pick
         actions = g.game.get_actions()

@@ -18,6 +18,89 @@ class GameGenerator:
         self.game = Game(c[0],c[1],RandomController('env'))
         return self
 
+    def draw_inkable(self):
+        actions = self.game.get_actions()
+
+        for a in actions:
+            if isinstance(a, DrawAction) and a.card.inkable:
+                self.game.process_action(a)
+                break
+
+
+    def setup_cards(self, p1_cards, p2_cards):
+        if self.game.phase != GamePhase.DIE_ROLL:
+            raise ValueError("setup_cards must be called from DIE_ROLL State")
+        
+        p1_cards_to_draw = p1_cards.copy()
+        p2_cards_to_draw = p2_cards.copy()
+
+        self.game.process_action(FirstPlayerAction(False))
+
+        # p1 cards to draw
+        for x in range(7):
+            if len(p1_cards_to_draw) > 0:
+                self.game.process_action(DrawAction(p1_cards_to_draw.pop()))
+            else:
+                self.draw_inkable()
+
+        # p2 cards to draw
+        for x in range(7):
+            if len(p2_cards_to_draw) > 0:
+                self.game.process_action(DrawAction(p2_cards_to_draw.pop()))
+            else:
+                self.draw_inkable()
+
+        # pass mulligan
+        self.game.process_action(PassAction())
+        self.game.process_action(PassAction())
+
+        p1_cards_to_play = p1_cards.copy()
+        p2_cards_to_play = p2_cards.copy()
+
+        while len(p1_cards_to_play) > 0 or len(p2_cards_to_play) > 0:
+            #p1 ink
+            for a in self.game.get_actions():
+                if isinstance(a, InkAction) and a.card not in p1_cards_to_play:
+                    self.game.process_action(a)
+                    break
+            #p1 play
+            for a in self.game.get_actions():
+                if isinstance(a, PlayCardAction) and a.card in p1_cards_to_play:
+                    self.game.process_action(a)
+                    p1_cards_to_play.remove(a.card)
+                    break
+            self.game.process_action(PassAction())
+            self.draw_inkable()
+            #p2 ink
+            for a in self.game.get_actions():
+                if isinstance(a, InkAction) and a.card not in p2_cards_to_play:
+                    self.game.process_action(a)
+                    break
+            #p2 play
+            for a in self.game.get_actions():
+                if isinstance(a, PlayCardAction) and a.card in p2_cards_to_play:
+                    self.game.process_action(a)
+                    p2_cards_to_play.remove(a.card)
+            self.game.process_action(PassAction())
+            self.draw_inkable()
+
+        # dry the characters
+        self.game.process_action(PassAction())
+        self.draw_inkable()
+        self.game.process_action(PassAction())
+        self.draw_inkable()
+
+        return self
+
+
+
+
+
+
+
+
+
+
     def draw_opening_hand(self):
         first_player_swap=False
         p1_hand=[olaf,olaf,olaf,pascal,pascal,dinglehopper,dinglehopper]

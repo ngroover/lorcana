@@ -201,8 +201,8 @@ class GameGenerator:
         self.game.process_action(InkAction(olaf))
         return self
 
-    def quest_olaf(self):
-        self.game.process_action(QuestAction(olaf))
+    def quest(self, card):
+        self.game.process_action(QuestAction(card))
         return self
 
     def quest_hook(self):

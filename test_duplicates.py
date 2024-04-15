@@ -13,7 +13,7 @@ class TestDuplicates(unittest.TestCase):
 
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([olaf,olaf], [flounder])\
-                .quest_olaf().pass_turn()\
+                .quest(olaf).pass_turn()\
                 .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -48,7 +48,7 @@ class TestDuplicates(unittest.TestCase):
         
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([olaf,olaf], [flounder])\
-                .quest_olaf().pass_turn()\
+                .quest(olaf).pass_turn()\
                 .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -66,7 +66,7 @@ class TestDuplicates(unittest.TestCase):
         
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([olaf,olaf], [flounder])\
-                .quest_olaf().pass_turn()\
+                .quest(olaf).pass_turn()\
                 .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -84,7 +84,7 @@ class TestDuplicates(unittest.TestCase):
         
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([olaf,olaf], [flounder])\
-                .quest_olaf().pass_turn()\
+                .quest(olaf).pass_turn()\
                 .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -120,7 +120,7 @@ class TestDuplicates(unittest.TestCase):
         
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([olaf,olaf], [flounder])\
-                .quest_olaf().pass_turn()\
+                .quest(olaf).pass_turn()\
                 .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -139,7 +139,7 @@ class TestDuplicates(unittest.TestCase):
         
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([olaf,olaf], [flounder])\
-                .quest_olaf().pass_turn()\
+                .quest(olaf).pass_turn()\
                 .hook_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -157,9 +157,9 @@ class TestDuplicates(unittest.TestCase):
         
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([olaf,olaf], [flounder])\
-                .quest_olaf().pass_turn()\
+                .quest(olaf).pass_turn()\
                 .flounder_challenge_olaf().pass_turn()\
-                .quest_olaf().quest_olaf().pass_turn()
+                .quest(olaf).quest(olaf).pass_turn()
 
         # one olaf has damage one doesn't
         self.assertEqual(2, g.game.p1.in_play_characters[0].damage)
@@ -201,7 +201,7 @@ class TestDuplicates(unittest.TestCase):
         
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([olaf,olaf], [flounder])\
-                .quest_olaf().pass_turn()\
+                .quest(olaf).pass_turn()\
                 .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't
@@ -223,7 +223,7 @@ class TestDuplicates(unittest.TestCase):
         
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([olaf,olaf], [flounder])\
-                .quest_olaf().pass_turn()\
+                .quest(olaf).pass_turn()\
                 .flounder_challenge_olaf().pass_turn()
 
         # one olaf has damage one doesn't

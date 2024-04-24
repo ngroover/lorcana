@@ -92,47 +92,6 @@ class GameGenerator:
 
         return self
 
-
-
-
-
-
-
-
-
-
-    def draw_opening_hand(self):
-        first_player_swap=False
-        p1_hand=[olaf,olaf,olaf,pascal,pascal,dinglehopper,dinglehopper]
-        p2_hand=[captain_hook,captain_hook,captain_hook, aurora, maleficent, maleficent,maleficent]
-
-        self.game.process_action(FirstPlayerAction(first_player_swap))
-
-        if first_player_swap:
-            all_cards=p2_hand+p1_hand
-        else:
-            all_cards=p1_hand+p2_hand
-        for x in all_cards:
-            self.game.process_action(DrawAction(x))
-
-        return self
-
-    def draw_opening_hand2(self):
-        first_player_swap=False
-        p1_hand=[olaf,olaf,olaf,pascal,pascal,dinglehopper,dinglehopper]
-        p2_hand=[flounder,captain_hook,flounder, aurora, maleficent, maleficent,maleficent]
-
-        self.game.process_action(FirstPlayerAction(first_player_swap))
-
-        if first_player_swap:
-            all_cards=p2_hand+p1_hand
-        else:
-            all_cards=p1_hand+p2_hand
-        for x in all_cards:
-            self.game.process_action(DrawAction(x))
-
-        return self
-
     def pass_mulligan(self):
         self.game.process_action(PassAction())
         self.game.process_action(PassAction())
@@ -141,7 +100,6 @@ class GameGenerator:
     def challenge(self, card):
         self.game.process_action(ChallengeAction(card))
         return self
-
 
     def ink_pascal(self):
         self.game.process_action(InkAction(pascal))
@@ -203,10 +161,6 @@ class GameGenerator:
 
     def quest(self, card):
         self.game.process_action(QuestAction(card))
-        return self
-
-    def quest_hook(self):
-        self.game.process_action(QuestAction(captain_hook))
         return self
 
     def play_dinglehopper(self):

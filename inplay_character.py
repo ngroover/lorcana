@@ -8,6 +8,7 @@ class InPlayCharacter(InPlayCard):
     dry: bool = False
     challenger_keyword: int = 0
     damage: int = 0
+    evasive: bool = False
     
     # get a tuple descriptor so we can hash it
     def get_descriptor(self):

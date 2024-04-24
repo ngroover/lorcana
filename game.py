@@ -224,8 +224,10 @@ class Game:
                 ink_actions=self.currentPlayer.get_ink_actions()
             playable_cards=self.currentPlayer.get_playable_cards()
             questable_cards=self.currentPlayer.get_questable_cards()
-            if self.currentOpponent.has_exerted_characters():
-                challenger_actions=self.currentPlayer.get_challenger_choices()
+
+            if self.currentOpponent.has_exerted_characters(False):
+                challenger_actions=self.currentPlayer.get_challenger_choices(False)
+
             triggered_abilities=self.currentPlayer.get_triggerable_abilities()
             return ink_actions + playable_cards + questable_cards + challenger_actions + triggered_abilities + [PassAction()]
         elif self.phase == GamePhase.CHALLENGING:

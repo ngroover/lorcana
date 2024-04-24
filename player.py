@@ -68,6 +68,8 @@ class Player:
             if k.startswith("Challenger"):
                 numeric_half = k.split('+')[1]
                 inplay_character.challenger_keyword = int(numeric_half)
+            if k == "Evasive":
+                inplay_character.evasive = True
     
     def play_card_from_hand(self,card):
         if card.cost > self.ready_ink:
@@ -115,11 +117,14 @@ class Player:
         if self.lore >= 20:
             raise TwentyLore()
 
-    def has_exerted_characters(self):
-        return any(filter(lambda x: not x.ready, self.in_play_characters))
+    def has_exerted_characters(self, include_evasive):
+        return any(filter(lambda x: (not x.ready and not x.evasive)\
+                            or (not x.ready and include_evasive), self.in_play_characters))
 
-    def get_challenger_choices(self):
+    def get_challenger_choices(self, evasive_only):
         ready_and_dry = filter(lambda x: x.ready and x.dry, self.in_play_characters)
+        if evasive_only:
+            ready_and_dry = filter(lambda x: x.evasive, ready_and_dry)
         descriptors = map(lambda x: x.get_descriptor(), ready_and_dry)
         card_counts=Counter()
         challenge_actions=[]

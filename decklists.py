@@ -77,7 +77,7 @@ rafiki = CharacterCard("54/204-EN-1", "Rafiki", tuple(), "Mysterious Sage", "Rus
 sven=CharacterCard("55/204-EN-1", "Sven", tuple(), "Official Ice Deliverer", "", 5,7,1,6,"amethyst", True,())
 flotsam=CharacterCard("43/204-EN-1", "Flotsam", tuple(), "Ursula's Spy", "Rush.  Your characters named Jetsam gain Rush.",
             3,4,2,5,"amethyst", False,())
-jetsam=CharacterCard("46/204-EN-1", "Jetsam", tuple(), "Ursula's Spy", "Evasive.  Your characters named Flotsam gain Evasive", 3,3,1,4,"amethyst", True,("Evasive"))
+jetsam=CharacterCard("46/204-EN-1", "Jetsam", tuple(), "Ursula's Spy", "Evasive.  Your characters named Flotsam gain Evasive", 3,3,1,4,"amethyst", True,("Evasive",))
 hakuna_matata=ActionCard("27/204-EN-1", "Hakuna Matata",  tuple(), "Remove up to 3 damage from each of your characters.",  4, "amber", True,True)
 dr_facilier7=CharacterCard("37/204-EN-1", "Dr. Facilier", tuple(), "Agent Provocateur", "Shift 5.  "
     "Whenever one of your other characters is banished in a challenge, "

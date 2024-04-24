@@ -133,8 +133,10 @@ class Player:
             challenge_actions.append(ChallengeAction(x[0], card_counts[x[0]]-1))
         return challenge_actions
 
-    def get_challenge_targets(self):
+    def get_challenge_targets(self, non_evasive_only):
         exerted_cards = filter(lambda x: not x.ready, self.in_play_characters)
+        if non_evasive_only:
+            exerted_cards = filter(lambda x: not x.evasive, exerted_cards)
         descriptors = map(lambda x: x.get_descriptor(), exerted_cards)
         card_counts=Counter()
         challenge_targets=[]

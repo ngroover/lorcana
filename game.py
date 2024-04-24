@@ -231,7 +231,7 @@ class Game:
             triggered_abilities=self.currentPlayer.get_triggerable_abilities()
             return ink_actions + playable_cards + questable_cards + challenger_actions + triggered_abilities + [PassAction()]
         elif self.phase == GamePhase.CHALLENGING:
-            return self.currentOpponent.get_challenge_targets()
+            return self.currentOpponent.get_challenge_targets(not self.current_challenger.evasive)
         elif self.phase == GamePhase.CHOOSE_TARGET:
             p1_characters = self.p1.get_targetable_characters()
             p1_actions = list(map(lambda x: AbilityTargetAction(x.card,\

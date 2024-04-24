@@ -62,6 +62,12 @@ class Player:
     def get_playable_cards(self):
         playable_cards = set(filter(lambda x: x.cost <= self.ready_ink, self.hand))
         return list(map(lambda y: PlayCardAction(y), playable_cards))
+
+    def apply_keywords(self, inplay_character):
+        for k in inplay_character.card.keywords:
+            if k.startswith("Challenger"):
+                numeric_half = k.split('+')[1]
+                inplay_character.challenger_keyword = int(numeric_half)
     
     def play_card_from_hand(self,card):
         if card.cost > self.ready_ink:
@@ -69,6 +75,7 @@ class Player:
         self.hand.remove(card)
         if type(card) is CharacterCard:
             new_char = InPlayCharacter(card)
+            self.apply_keywords(new_char)
             self.in_play_characters.append(new_char)
         elif type(card) is ItemCard:
             new_item = InPlayItem(card)
@@ -135,7 +142,7 @@ class Player:
     def perform_challenge(self, challenger, challengee):
         challenger.ready = False
         challenger.damage += challengee.card.strength
-        challengee.damage += challenger.card.strength + challenger.card.challenger
+        challengee.damage += challenger.card.strength + challenger.challenger_keyword
 
     def check_banish(self, character):
         if character.damage >= character.card.willpower:

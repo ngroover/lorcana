@@ -227,6 +227,9 @@ class Game:
 
             if self.currentOpponent.has_exerted_characters(False):
                 challenger_actions=self.currentPlayer.get_challenger_choices(False)
+            elif self.currentOpponent.has_exerted_characters(True):
+                challenger_actions=self.currentPlayer.get_challenger_choices(True)
+
 
             triggered_abilities=self.currentPlayer.get_triggerable_abilities()
             return ink_actions + playable_cards + questable_cards + challenger_actions + triggered_abilities + [PassAction()]

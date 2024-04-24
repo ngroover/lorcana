@@ -11,9 +11,9 @@ class PassiveAbility(Ability):
     pass
 
 @dataclass(frozen=True)
-class GainEvasive(PassiveAbility):
+class GainEvasiveAbility(PassiveAbility):
     def has_evasive(self, game, inplay_character):
-        pass
+        return True
 
 @dataclass(frozen=True)
 class OnPlayAbility(Ability):

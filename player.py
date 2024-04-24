@@ -9,7 +9,7 @@ from exceptions import TwentyLore
 from decklists import CharacterCard,ItemCard
 from inplay_card import InPlayItem
 from inplay_ability import InPlayAbility
-from ability import TriggeredAbility
+from ability import TriggeredAbility,GainEvasiveAbility
 from collections import Counter
 import random
 
@@ -70,6 +70,11 @@ class Player:
                 inplay_character.challenger_keyword = int(numeric_half)
             if k == "Evasive":
                 inplay_character.evasive = True
+
+    def apply_character_abilities(self, inplay_character):
+        for ab in inplay_character.card.abilities:
+            if isinstance(ab, GainEvasiveAbility):
+                inplay_character.evasive = ab.has_evasive
     
     def play_card_from_hand(self,card):
         if card.cost > self.ready_ink:
@@ -78,6 +83,7 @@ class Player:
         if type(card) is CharacterCard:
             new_char = InPlayCharacter(card)
             self.apply_keywords(new_char)
+            self.apply_character_abilities(new_char)
             self.in_play_characters.append(new_char)
         elif type(card) is ItemCard:
             new_item = InPlayItem(card)

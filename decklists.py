@@ -172,7 +172,7 @@ sergeant_tibbs = CharacterCard("124/204-EN-1", "Sergeant Tibbs", tuple(), "Coura
 iago = CharacterCard("80/204-EN-1", "Iago", tuple(), "Loud-Mouthed Parrot", "Exert - Chosen character gains Reckless during their next turn.", 1,4,1,3,"emerald",True,())
 rapunzel = CharacterCard("121/204-EN-1", "Rapunzel", tuple(), "Letting Down Her Hair", "When you play this character, each "
         "opponent loses 1 lore.", 5,4,2,6, "ruby",False,())
-peter_pan = CharacterCard("91/204-EN-1", "Peter Pan", tuple(), "Never Landing", "Evasive", 3,2,1,3,"emerald",True,("Evasive"))
+peter_pan = CharacterCard("91/204-EN-1", "Peter Pan", tuple(), "Never Landing", "Evasive", 3,2,1,3,"emerald",True,("Evasive",))
 pongo = CharacterCard("120/204-EN-1", "Pongo", tuple(), "Ol' Rascal", "Evasive", 2,3,2,4,"ruby",True,("Evasive",))
 aladdin_street = CharacterCard("105/204-EN-1", "Aladdin", tuple(), "Street Rat", "When you play this character, each "
         " opponent loses 1 lore", 2,2,1,3,"ruby",True,())

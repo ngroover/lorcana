@@ -181,7 +181,7 @@ class TestDuplicates(unittest.TestCase):
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([olaf,olaf], [captain_hook])\
                 .pass_turn()\
-                .quest_hook().pass_turn()
+                .quest(captain_hook).pass_turn()
 
         # both olafs don't have damage
         self.assertEqual(0, g.game.p1.in_play_characters[0].damage)

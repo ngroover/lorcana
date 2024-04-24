@@ -109,10 +109,6 @@ class GameGenerator:
         self.game.process_action(InkAction(captain_hook))
         return self
 
-    def quest_hook(self):
-        self.game.process_action(QuestAction(captain_hook))
-        return self
-
     def play_hook(self):
         self.game.process_action(PlayCardAction(captain_hook))
         return self
@@ -157,10 +153,6 @@ class GameGenerator:
 
     def ink_olaf(self):
         self.game.process_action(InkAction(olaf))
-        return self
-
-    def quest(self, card):
-        self.game.process_action(QuestAction(card))
         return self
 
     def play_dinglehopper(self):

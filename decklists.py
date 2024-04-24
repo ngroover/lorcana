@@ -77,7 +77,7 @@ rafiki = CharacterCard("54/204-EN-1", "Rafiki", tuple(), "Mysterious Sage", "Rus
 sven=CharacterCard("55/204-EN-1", "Sven", tuple(), "Official Ice Deliverer", "", 5,7,1,6,"amethyst", True,())
 flotsam=CharacterCard("43/204-EN-1", "Flotsam", tuple(), "Ursula's Spy", "Rush.  Your characters named Jetsam gain Rush.",
             3,4,2,5,"amethyst", False,())
-jetsam=CharacterCard("46/204-EN-1", "Jetsam", tuple(), "Ursula's Spy", "Evasive.  Your characters named Flotsam gain Evasive", 3,3,1,4,"amethyst", True,())
+jetsam=CharacterCard("46/204-EN-1", "Jetsam", tuple(), "Ursula's Spy", "Evasive.  Your characters named Flotsam gain Evasive", 3,3,1,4,"amethyst", True,("Evasive"))
 hakuna_matata=ActionCard("27/204-EN-1", "Hakuna Matata",  tuple(), "Remove up to 3 damage from each of your characters.",  4, "amber", True,True)
 dr_facilier7=CharacterCard("37/204-EN-1", "Dr. Facilier", tuple(), "Agent Provocateur", "Shift 5.  "
     "Whenever one of your other characters is banished in a challenge, "
@@ -172,8 +172,8 @@ sergeant_tibbs = CharacterCard("124/204-EN-1", "Sergeant Tibbs", tuple(), "Coura
 iago = CharacterCard("80/204-EN-1", "Iago", tuple(), "Loud-Mouthed Parrot", "Exert - Chosen character gains Reckless during their next turn.", 1,4,1,3,"emerald",True,())
 rapunzel = CharacterCard("121/204-EN-1", "Rapunzel", tuple(), "Letting Down Her Hair", "When you play this character, each "
         "opponent loses 1 lore.", 5,4,2,6, "ruby",False,())
-peter_pan = CharacterCard("91/204-EN-1", "Peter Pan", tuple(), "Never Landing", "Evasive", 3,2,1,3,"emerald",True,())
-pongo = CharacterCard("120/204-EN-1", "Pongo", tuple(), "Ol' Rascal", "Evasive", 2,3,2,4,"ruby",True,())
+peter_pan = CharacterCard("91/204-EN-1", "Peter Pan", tuple(), "Never Landing", "Evasive", 3,2,1,3,"emerald",True,("Evasive"))
+pongo = CharacterCard("120/204-EN-1", "Pongo", tuple(), "Ol' Rascal", "Evasive", 2,3,2,4,"ruby",True,("Evasive"))
 aladdin_street = CharacterCard("105/204-EN-1", "Aladdin", tuple(), "Street Rat", "When you play this character, each "
         " opponent loses 1 lore", 2,2,1,3,"ruby",True,())
 duke_of_weselton = CharacterCard("73/204-EN-1", "Duke of Weselton", tuple(), "Opportunistic Official", "", 2,2,1,1,"emerald",True,())

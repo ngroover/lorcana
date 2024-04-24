@@ -147,24 +147,8 @@ class GameGenerator:
         self.game.process_action(ChallengeTargetAction(olaf))
         return self
 
-    def play_olaf(self):
-        self.game.process_action(PlayCardAction(olaf))
-        return self
-
-    def ink_olaf(self):
-        self.game.process_action(InkAction(olaf))
-        return self
-
-    def play_dinglehopper(self):
-        self.game.process_action(PlayCardAction(dinglehopper))
-        return self
-
-    def target_olaf(self):
-        self.game.process_action(AbilityTargetAction(olaf, PlayerTurn.PLAYER1))
-        return self
-
-    def target_hook(self):
-        self.game.process_action(AbilityTargetAction(captain_hook, PlayerTurn.PLAYER2))
+    def target(self, card, player, index=0):
+        self.game.process_action(AbilityTargetAction(card, player, index))
         return self
 
     def quest(self, card, index=0):

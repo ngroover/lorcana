@@ -5,7 +5,7 @@ from game_generator import GameGenerator
 from action import PlayCardAction,TriggeredAbilityAction,AbilityTargetAction,QuestAction,ChallengeAction,ChallengeTargetAction
 from ability import HealingTriggeredAbility
 from decklists import dinglehopper,olaf,captain_hook,flounder,amber_amethyst,sapphire_steel
-from game import GamePhase
+from game import GamePhase,PlayerTurn
 
 class TestDuplicates(unittest.TestCase):
     def test_different_quester_choices(self):
@@ -263,7 +263,7 @@ class TestDuplicates(unittest.TestCase):
                         x.card == dinglehopper and \
                         x.ability == HealingTriggeredAbility(), actions))))
 
-        g.use_dinglehopper().target_olaf()
+        g.use_dinglehopper().target(olaf, PlayerTurn.PLAYER1)
 
         # we should be able to use the second dinglehopper
         actions = g.game.get_actions()
@@ -272,7 +272,7 @@ class TestDuplicates(unittest.TestCase):
                         x.card == dinglehopper and \
                         x.ability == HealingTriggeredAbility(), actions))))
 
-        g.use_dinglehopper().target_olaf()
+        g.use_dinglehopper().target(olaf,PlayerTurn.PLAYER1)
 
         # no more dinglehoppers left
         actions = g.game.get_actions()

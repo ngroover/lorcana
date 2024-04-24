@@ -12,7 +12,7 @@ class PassiveAbility(Ability):
 
 @dataclass(frozen=True)
 class GainEvasive(PassiveAbility):
-    def apply_ability(self, game):
+    def has_evasive(self, game, inplay_character):
         pass
 
 @dataclass(frozen=True)

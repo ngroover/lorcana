@@ -22,5 +22,19 @@ class TestEvasive(unittest.TestCase):
                 filter(lambda x: type(x) is ChallengeAction and \
                         x.card == captain_hook, actions))))
 
+    def test_can_challenge_pascal_by_himself(self):
+        g = GameGenerator()
+
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .setup_cards([pascal], [captain_hook])\
+                .quest(pascal).pass_turn()
+
+        actions = g.game.get_actions()
+
+        # make sure captain_hook can challenge pascal here because he's not evasive
+        self.assertEqual(1, len(list(
+                filter(lambda x: type(x) is ChallengeAction and \
+                        x.card == captain_hook, actions))))
+
 if __name__ == '__main__':
     unittest.main()

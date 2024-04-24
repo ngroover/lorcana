@@ -14,3 +14,8 @@ class InPlayCharacter(InPlayCard):
     def get_descriptor(self):
         return (self.card, self.ready, self.dry, self.damage)
 
+    def has_evasive(self, game):
+        if callable(self.evasive):
+            return self.evasive(game, self)
+        return self.evasive
+

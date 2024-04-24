@@ -123,14 +123,14 @@ class Player:
         if self.lore >= 20:
             raise TwentyLore()
 
-    def has_exerted_characters(self, include_evasive):
-        return any(filter(lambda x: (not x.ready and not x.evasive)\
+    def has_exerted_characters(self, game, include_evasive):
+        return any(filter(lambda x: (not x.ready and not x.has_evasive(game))\
                             or (not x.ready and include_evasive), self.in_play_characters))
 
-    def get_challenger_choices(self, evasive_only):
+    def get_challenger_choices(self, game, evasive_only):
         ready_and_dry = filter(lambda x: x.ready and x.dry, self.in_play_characters)
         if evasive_only:
-            ready_and_dry = filter(lambda x: x.evasive, ready_and_dry)
+            ready_and_dry = filter(lambda x: x.has_evasive(game), ready_and_dry)
         descriptors = map(lambda x: x.get_descriptor(), ready_and_dry)
         card_counts=Counter()
         challenge_actions=[]
@@ -139,10 +139,10 @@ class Player:
             challenge_actions.append(ChallengeAction(x[0], card_counts[x[0]]-1))
         return challenge_actions
 
-    def get_challenge_targets(self, non_evasive_only):
+    def get_challenge_targets(self, game, non_evasive_only):
         exerted_cards = filter(lambda x: not x.ready, self.in_play_characters)
         if non_evasive_only:
-            exerted_cards = filter(lambda x: not x.evasive, exerted_cards)
+            exerted_cards = filter(lambda x: not x.has_evasive(game), exerted_cards)
         descriptors = map(lambda x: x.get_descriptor(), exerted_cards)
         card_counts=Counter()
         challenge_targets=[]

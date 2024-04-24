@@ -225,16 +225,16 @@ class Game:
             playable_cards=self.currentPlayer.get_playable_cards()
             questable_cards=self.currentPlayer.get_questable_cards()
 
-            if self.currentOpponent.has_exerted_characters(False):
-                challenger_actions=self.currentPlayer.get_challenger_choices(False)
-            elif self.currentOpponent.has_exerted_characters(True):
-                challenger_actions=self.currentPlayer.get_challenger_choices(True)
+            if self.currentOpponent.has_exerted_characters(self,False):
+                challenger_actions=self.currentPlayer.get_challenger_choices(self,False)
+            elif self.currentOpponent.has_exerted_characters(self,True):
+                challenger_actions=self.currentPlayer.get_challenger_choices(self,True)
 
 
             triggered_abilities=self.currentPlayer.get_triggerable_abilities()
             return ink_actions + playable_cards + questable_cards + challenger_actions + triggered_abilities + [PassAction()]
         elif self.phase == GamePhase.CHALLENGING:
-            return self.currentOpponent.get_challenge_targets(not self.current_challenger.evasive)
+            return self.currentOpponent.get_challenge_targets(self, not self.current_challenger.evasive)
         elif self.phase == GamePhase.CHOOSE_TARGET:
             p1_characters = self.p1.get_targetable_characters()
             p1_actions = list(map(lambda x: AbilityTargetAction(x.card,\

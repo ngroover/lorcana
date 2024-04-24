@@ -13,7 +13,11 @@ class PassiveAbility(Ability):
 @dataclass(frozen=True)
 class GainEvasiveAbility(PassiveAbility):
     def has_evasive(self, game, inplay_character):
-        return True
+        if inplay_character in game.p1.in_play_characters:
+            return len(game.p1.in_play_characters) >= 2
+        if inplay_character in game.p2.in_play_characters:
+            return len(game.p2.in_play_characters) >= 2
+        return False
 
 @dataclass(frozen=True)
 class OnPlayAbility(Ability):

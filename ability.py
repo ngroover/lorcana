@@ -45,6 +45,9 @@ class OnQuestAbility(Ability):
     pass
 
 @dataclass(frozen=True)
-class ReadyPrincessesAbility(OnQuestAbility):
-    pass
+class ReadyPrincessAbility(OnQuestAbility):
+    def on_quest(self, game, in_play_character):
+        for char in game.currentPlayer.in_play_characters:
+            if "Princess" in char.card.traits and char != in_play_character:
+                char.ready = True
 

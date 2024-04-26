@@ -9,7 +9,7 @@ from exceptions import TwentyLore
 from decklists import CharacterCard,ItemCard
 from inplay_card import InPlayItem
 from inplay_ability import InPlayAbility
-from ability import TriggeredAbility,GainEvasiveAbility
+from ability import TriggeredAbility,GainEvasiveAbility,OnQuestAbility
 from collections import Counter
 import random
 
@@ -115,13 +115,20 @@ class Player:
             quest_actions.append(QuestAction(x[0], card_counts[x[0]]-1))
         return quest_actions
 
-    def perform_quest(self,card,index):
+    def perform_on_quest_ability(self, game, in_play_character):
+        for ability in in_play_character.card.abilities:
+            if isinstance(ability, OnQuestAbility):
+                ability.on_quest(game, in_play_character)
+
+    def perform_quest(self,card,index, game):
         quest_chars = list(filter(lambda x: x.card == card and x.ready, self.in_play_characters))
         quest_char = quest_chars[0] if len(quest_chars) == 1 else quest_chars[index]
         quest_char.ready = False
         self.lore += quest_char.card.lore
         if self.lore >= 20:
             raise TwentyLore()
+        self.perform_on_quest_ability(game, quest_char)
+
 
     def has_exerted_characters(self, game, include_evasive):
         return any(filter(lambda x: (not x.ready and not x.has_evasive(game))\

@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from ability import Ability,HealingTriggeredAbility,PascalGainEvasiveAbility
+from ability import Ability,HealingTriggeredAbility,PascalGainEvasiveAbility,ReadyPrincessAbility
 
 @dataclass
 class Decklist:
@@ -46,7 +46,7 @@ class ItemCard(Card):
 olaf = CharacterCard("52/204-EN-1", "Olaf", "", tuple(),1, "amethyst", True, ("Storyborn", "Ally"), "Friendly Snowman", 1, 3, 1, tuple())
 pascal = CharacterCard("53/204-EN-1", "Pascal", "While you have another character in play, this character gains Evasive",
             (PascalGainEvasiveAbility(),), 1, "amethyst", True, ("Storyborn", "Ally"),"Rapunzel's Companion", 1,1,1,tuple())
-moana = CharacterCard("14/204-EN-1","Moana", "Whenever this character quests, you may ready your other princess characters. They can't quest for the rest of the turn.", tuple(), 5,"amber",True,("Storyborn", "Hero", "Princess"), "Of Motunui", 1,6,3,tuple())
+moana = CharacterCard("14/204-EN-1","Moana", "Whenever this character quests, you may ready your other princess characters. They can't quest for the rest of the turn.", (ReadyPrincessAbility(),), 5,"amber",True,("Storyborn", "Hero", "Princess"), "Of Motunui", 1,6,3,tuple())
 mickey_mouse = CharacterCard("51/204-EN-1","Mickey Mouse", "You pay 1 cost less to play Broom characters.   Whenever one of your Broom characters is banished in a challenge, you may return that card to your hand", tuple(), 4,"amethyst", True, ("Dreamborn", "Sorcerer"), "Wayward Sorcerer", 3,4,2,tuple())
 wardrobe = CharacterCard("57/204-EN-1", "The Wardrobe", "", tuple(), 3,"amber", True, ("Dreamborn", "Ally"), "Belle's Confidant", 3,4,1,tuple())
 dinglehopper = ItemCard("32/204-EN-1","Dinglehopper", "Remove up to 1 damage from chosen character", (HealingTriggeredAbility(),), 1, "amber", True, tuple())

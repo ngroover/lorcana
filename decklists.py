@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from ability import Ability,HealingTriggeredAbility,GainEvasiveAbility
+from ability import Ability,HealingTriggeredAbility,PascalGainEvasiveAbility
 
 @dataclass
 class Decklist:
@@ -49,7 +49,7 @@ class ItemCard(Card):
     inkable: bool
 
 olaf = CharacterCard("52/204-EN-1", "Olaf", tuple(),"Friendly Snowman", "", 1, 3, 1, 1, "amethyst", True,())
-pascal = CharacterCard("53/204-EN-1", "Pascal", (GainEvasiveAbility(),), "Rapunzel's Companion", "While you have another character in play, "
+pascal = CharacterCard("53/204-EN-1", "Pascal", (PascalGainEvasiveAbility(),), "Rapunzel's Companion", "While you have another character in play, "
         "this character gains Evasive", 1,1,1,1, "amethyst", True,())
 moana = CharacterCard("14/204-EN-1","Moana", tuple(), "Of Motunui", "Whenever this character quests, you may ready your other princess characters. They can't quest for the rest of the turn.", 1,6,3,5,"amber",True,())
 mickey_mouse = CharacterCard("51/204-EN-1","Mickey Mouse", tuple(), "Wayward Sorcerer", "You pay 1 cost less to play Broom characters.   Whenever one of your Broom characters is banished in a challenge, you may return that card to your hand", 3,4,2,4,"amethyst", True,())

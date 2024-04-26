@@ -11,7 +11,11 @@ class PassiveAbility(Ability):
     pass
 
 @dataclass(frozen=True)
-class GainEvasiveAbility(PassiveAbility):
+class GainEvasiveAbility(Ability):
+    pass
+
+@dataclass(frozen=True)
+class PascalGainEvasiveAbility(GainEvasiveAbility):
     def has_evasive(self, game, inplay_character):
         if inplay_character in game.p1.in_play_characters:
             return len(game.p1.in_play_characters) >= 2

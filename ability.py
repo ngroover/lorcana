@@ -40,3 +40,11 @@ class HealingTriggeredAbility(TriggeredAbility):
         if in_play_character.damage < 0:
             in_play_character.damage = 0
 
+@dataclass(frozen=True)
+class OnQuestAbility(Ability):
+    pass
+
+@dataclass(frozen=True)
+class ReadyPrincessesAbility(OnQuestAbility):
+    pass
+

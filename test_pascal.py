@@ -7,7 +7,7 @@ from ability import HealingTriggeredAbility
 from decklists import dinglehopper,olaf,captain_hook,flounder,amber_amethyst,sapphire_steel,jetsam,ruby_emerald,pongo,pascal
 from game import GamePhase,PlayerTurn
 
-class TestEvasive(unittest.TestCase):
+class TestPascal(unittest.TestCase):
     def test_cannot_challenge_pascal_with_olaf_on_board(self):
         g = GameGenerator()
 

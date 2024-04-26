@@ -190,6 +190,7 @@ steal_from_the_rich = ActionCard("97/204-EN-1", "Steal from the Rich", "Whenever
 captain = CharacterCard("106/204-EN-1", "Captain", "", tuple(), 5,"ruby",True, ("Storyborn", "Ally", "Captain"), "Colonel's Lieutenant", 6,5,1,tuple())
 shield_of_virtue = ItemCard("135/204-EN-1", "Shield of Virtue", "Exert, 3 Ink - Ready chosen character. They can't quest for the rest of this turn.",
 tuple(), 1,"ruby",True, tuple())
+stitch_red = CharacterCard("125/204-EN-1", "Stitch", "", tuple(), 6,"ruby", True, ("Storyborn", "Hero", "Alien"), "Abomination", 4,6,3,tuple())
 
 ruby_emerald = Decklist("Ruby/Emerald", [
     cruella_de_vil,
@@ -203,7 +204,7 @@ ruby_emerald = Decklist("Ruby/Emerald", [
     iago,rapunzel,rapunzel,rapunzel,peter_pan,peter_pan,
     pongo,pongo,pongo,
     aladdin_street,aladdin_street,aladdin_street,
-    duke_of_weselton,duke_of_weselton,duke_of_weselton,
+    duke_of_weselton,duke_of_weselton,
     stampede,stampede,
     vicious_betrayal,vicious_betrayal,
     mother_knows_best,mother_knows_best,mother_knows_best,
@@ -215,7 +216,8 @@ ruby_emerald = Decklist("Ruby/Emerald", [
     mad_hatter,mad_hatter,mad_hatter,
     steal_from_the_rich,
     captain, captain,
-    shield_of_virtue,shield_of_virtue
+    shield_of_virtue,shield_of_virtue,
+    stitch_red
     ])
 
 decklists = [amber_amethyst, sapphire_steel, ruby_emerald]

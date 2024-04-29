@@ -44,6 +44,29 @@ class TestMoana(unittest.TestCase):
         #olaf should still be exerted. he's not a princess
         self.assertFalse(inplay_olaf.ready)
 
+    def test_quest_princesses_cannot_quest(self):
+        g = GameGenerator()
+
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .setup_cards([moana,ariel,olaf], [captain_hook])\
+                .quest(ariel).quest(olaf)
+
+        inplay_ariel = next(filter(lambda x: x.card == ariel, g.game.p1.in_play_characters))
+
+        self.assertFalse(inplay_ariel.ready)
+
+        g.quest(moana)
+
+        # ariel is ready but she cannot quest
+        self.assertTrue(inplay_ariel.ready)
+
+        actions = g.game.get_actions()
+
+        self.assertEqual(0, len(list(
+                filter(lambda x: type(x) is QuestAction and \
+                        x.card == ariel, actions))))
+
+
 
 if __name__ == '__main__':
     unittest.main()

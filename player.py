@@ -106,7 +106,7 @@ class Player:
         self.exerted_ink = 0
 
     def get_questable_cards(self):
-        ready_and_dry = filter(lambda x: x.ready and x.dry, self.in_play_characters)
+        ready_and_dry = filter(lambda x: x.ready and x.dry and not x.cannot_quest_this_turn, self.in_play_characters)
         descriptors = map(lambda x: x.get_descriptor(), ready_and_dry)
         card_counts=Counter()
         quest_actions=[]

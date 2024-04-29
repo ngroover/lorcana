@@ -9,6 +9,7 @@ class InPlayCharacter(InPlayCard):
     challenger_keyword: int = 0
     damage: int = 0
     evasive: bool = False
+    cannot_quest_this_turn: bool = False
     
     # get a tuple descriptor so we can hash it
     def get_descriptor(self):

@@ -75,6 +75,10 @@ class Player:
         for ab in inplay_character.card.abilities:
             if isinstance(ab, GainEvasiveAbility):
                 inplay_character.evasive = ab.has_evasive
+
+    def end_turn(self):
+        for ch in self.in_play_characters:
+            ch.cannot_quest_this_turn = False
     
     def play_card_from_hand(self,card):
         if card.cost > self.ready_ink:

@@ -66,6 +66,26 @@ class TestMoana(unittest.TestCase):
                 filter(lambda x: type(x) is QuestAction and \
                         x.card == ariel, actions))))
 
+    def test_quest_princesses_can_eventually_quest(self):
+        g = GameGenerator()
+
+        g.init_game(amber_amethyst,sapphire_steel)\
+                .setup_cards([moana,ariel,olaf], [captain_hook])\
+                .quest(ariel).quest(olaf)
+
+        inplay_ariel = next(filter(lambda x: x.card == ariel, g.game.p1.in_play_characters))
+
+        g.quest(moana).pass_turn().pass_turn()
+
+        actions = g.game.get_actions()
+
+        # ariel is ready she can quest now next turn
+        self.assertTrue(inplay_ariel.ready)
+        self.assertEqual(1, len(list(
+                filter(lambda x: type(x) is QuestAction and \
+                        x.card == ariel, actions))))
+
+
 
 
 if __name__ == '__main__':

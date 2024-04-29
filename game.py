@@ -144,6 +144,7 @@ class Game:
             # for other player
             your_name = self.currentPlayer.controller.name
             self.log_both_players(f'{your_name} passed turn')
+            self.currentPlayer.end_turn()
             self.swap_current_player()
             self.currentController = self.environment
             if self.currentPlayer.deck.get_total_cards() == 0:

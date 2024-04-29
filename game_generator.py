@@ -147,6 +147,10 @@ class GameGenerator:
         self.game.process_action(ChallengeTargetAction(olaf))
         return self
 
+    def challenge_target(self, card):
+        self.game.process_action(ChallengeTargetAction(card))
+        return self
+
     def target(self, card, player, index=0):
         self.game.process_action(AbilityTargetAction(card, player, index))
         return self

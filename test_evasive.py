@@ -13,7 +13,7 @@ class TestEvasive(unittest.TestCase):
 
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([jetsam], [captain_hook])\
-                .quest(jetsam).pass_turn()
+                .quest(jetsam).pass_turn_draw()
 
         actions = g.game.get_actions()
 
@@ -27,7 +27,7 @@ class TestEvasive(unittest.TestCase):
 
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([jetsam,olaf], [captain_hook])\
-                .quest(jetsam).quest(olaf).pass_turn()
+                .quest(jetsam).quest(olaf).pass_turn_draw()
 
         actions = g.game.get_actions()
 
@@ -41,7 +41,7 @@ class TestEvasive(unittest.TestCase):
 
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([jetsam,olaf], [captain_hook])\
-                .quest(jetsam).quest(olaf).pass_turn()\
+                .quest(jetsam).quest(olaf).pass_turn_draw()\
                 .challenge(captain_hook)
 
         actions = g.game.get_actions()
@@ -55,7 +55,7 @@ class TestEvasive(unittest.TestCase):
 
         g.init_game(amber_amethyst,ruby_emerald)\
                 .setup_cards([jetsam], [pongo])\
-                .quest(jetsam).pass_turn()
+                .quest(jetsam).pass_turn_draw()
 
         actions = g.game.get_actions()
 
@@ -69,7 +69,7 @@ class TestEvasive(unittest.TestCase):
 
         g.init_game(amber_amethyst,ruby_emerald)\
                 .setup_cards([jetsam,olaf], [pongo])\
-                .quest(jetsam).quest(olaf).pass_turn()\
+                .quest(jetsam).quest(olaf).pass_turn_draw()\
                 .challenge(pongo)
 
         actions = g.game.get_actions()

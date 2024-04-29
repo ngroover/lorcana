@@ -75,7 +75,7 @@ class TestMoana(unittest.TestCase):
 
         inplay_ariel = next(filter(lambda x: x.card == ariel, g.game.p1.in_play_characters))
 
-        g.quest(moana).pass_turn().pass_turn()
+        g.quest(moana).pass_turn_draw().pass_turn_draw()
 
         actions = g.game.get_actions()
 

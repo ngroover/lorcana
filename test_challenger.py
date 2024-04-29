@@ -13,11 +13,11 @@ class TestChallenger(unittest.TestCase):
         
         g.init_game(amber_amethyst, sapphire_steel)\
                 .setup_cards([olaf],[captain_hook])\
-                .quest(olaf).pass_turn()
+                .quest(olaf).pass_turn_draw()
 
         self.assertEqual(1, len(g.game.p1.in_play_characters))
 
-        g.hook_challenge_olaf().pass_turn()
+        g.hook_challenge_olaf().pass_turn_draw()
 
         #olaf got banished so we should have no characters in play
         self.assertEqual(0, len(g.game.p1.in_play_characters))

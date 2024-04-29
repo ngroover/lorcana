@@ -13,7 +13,7 @@ class TestPascal(unittest.TestCase):
 
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([pascal,olaf], [captain_hook])\
-                .quest(pascal).pass_turn()
+                .quest(pascal).pass_turn_draw()
 
         actions = g.game.get_actions()
 
@@ -27,7 +27,7 @@ class TestPascal(unittest.TestCase):
 
         g.init_game(amber_amethyst,sapphire_steel)\
                 .setup_cards([pascal], [captain_hook])\
-                .quest(pascal).pass_turn()
+                .quest(pascal).pass_turn_draw()
 
         actions = g.game.get_actions()
 
@@ -41,7 +41,7 @@ class TestPascal(unittest.TestCase):
 
         g.init_game(amber_amethyst,amber_amethyst)\
                 .setup_cards([pascal,pascal], [pascal])\
-                .quest(pascal).quest(pascal).pass_turn()
+                .quest(pascal).quest(pascal).pass_turn_draw()
 
         actions = g.game.get_actions()
 
@@ -55,7 +55,7 @@ class TestPascal(unittest.TestCase):
 
         g.init_game(amber_amethyst,amber_amethyst)\
                 .setup_cards([pascal,pascal], [pascal,pascal])\
-                .quest(pascal).quest(pascal).pass_turn()
+                .quest(pascal).quest(pascal).pass_turn_draw()
 
         actions = g.game.get_actions()
 

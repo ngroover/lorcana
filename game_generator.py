@@ -161,12 +161,13 @@ class GameGenerator:
 
 
 
-    def pass_turn(self):
+    def pass_turn_draw(self):
         self.game.process_action(PassAction())
         cards_to_draw = self.game.get_actions()
         # draw whatever card. doesn't matter
         self.game.process_action(cards_to_draw[0])
         return self
+
 
 
 

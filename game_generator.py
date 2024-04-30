@@ -27,7 +27,7 @@ class GameGenerator:
                 break
 
 
-    def setup_cards(self, p1_cards, p2_cards):
+    def setup_cards(self, p1_cards, p2_cards, minimum_ink=0):
         if self.game.phase != GamePhase.DIE_ROLL:
             raise ValueError("setup_cards must be called from DIE_ROLL State")
         
@@ -57,7 +57,7 @@ class GameGenerator:
         p1_cards_to_play = p1_cards.copy()
         p2_cards_to_play = p2_cards.copy()
 
-        while len(p1_cards_to_play) > 0 or len(p2_cards_to_play) > 0:
+        while len(p1_cards_to_play) > 0 or len(p2_cards_to_play) > 0 and minimum_ink > self.game.p1.ready_ink or minimum_ink > self.game.p2.ready_ink:
             #p1 ink
             for a in self.game.get_actions():
                 if isinstance(a, InkAction) and a.card not in p1_cards_to_play:
@@ -107,6 +107,10 @@ class GameGenerator:
 
     def ink_hook(self):
         self.game.process_action(InkAction(captain_hook))
+        return self
+
+    def play_card(self, card):
+        self.game.process_action(PlayCardAction(card))
         return self
 
     def play_hook(self):
@@ -163,7 +167,13 @@ class GameGenerator:
         self.game.process_action(ChallengeAction(card,index))
         return self
 
+    def draw_card(self,card):
+        self.game.process_action(DrawAction(card))
+        return self
 
+    def pass_turn(self):
+        self.game.process_action(PassAction())
+        return self
 
     def pass_turn_draw(self):
         self.game.process_action(PassAction())

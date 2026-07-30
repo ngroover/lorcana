@@ -8,12 +8,12 @@ implement the printed text.
 from __future__ import annotations
 
 from .abilities import ActivatedAbility, Event, TriggeredAbility, on_play, on_quest
-from .cards import (BODYGUARD, CHALLENGER, Card, CardType, EVASIVE, RECKLESS,
-                    RUSH, SHIFT, SINGER, SUPPORT, WARD)
+from .cards import (BODYGUARD, CHALLENGER, Card, CardType, EVASIVE, RUSH,
+                    SHIFT, SINGER, SUPPORT, WARD)
 from .effects import (ANY, BanishChosenCharacter, BanishChosenItem, DealDamage,
                       DealDamageToEachOpposing, DrawCards, DrawThenDiscard,
                       GainLore, LookAtTopTakeOne, ModifyStrength,
-                      OPPOSING, OWN, OpponentsLoseLore, PutTopCardIntoInkwell,
+                      OPPOSING, OpponentsLoseLore, PutTopCardIntoInkwell,
                       QuestDrainThisTurn, ReadyChosenCharacter,
                       ReadyOtherPrincesses, RemoveDamage,
                       RemoveDamageFromEachOfYourCharacters,

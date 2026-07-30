@@ -14,8 +14,7 @@
 
 from __future__ import annotations
 
-from .actions import (ActivateAction, ChallengeAction, InkAction, PassAction,
-                      PlayAction, QuestAction, ShiftAction, SingAction)
+from .actions import PassAction
 from .controllers import Controller, HeuristicController
 from .evaluate import DEFAULT_WEIGHTS, WIN_SCORE, evaluate
 
@@ -51,9 +50,10 @@ class SearchAI(Controller):
         self.reply_weight = reply_weight
         # Guesses at the opponent's hidden cards per candidate plan.
         self.samples = samples
-        # Also simulate our own next turn, so plans are judged on what we can
-        # follow up with rather than on how the board looks the moment they end.
-        self.follow_up = follow_up
+        # How many further turn pairs to simulate after the opponent's reply, so
+        # plans are judged on what we can follow up with rather than on how the
+        # board looks the moment they end.
+        self.follow_up = int(follow_up)
         self.policy = policy or HeuristicController("ai-policy", weights=weights)
         # How the opponent is assumed to play during rollouts.  Defaults to the
         # same rule-based policy; a (shallow) SearchAI models a tougher opponent.
@@ -186,9 +186,11 @@ class SearchAI(Controller):
             sim.end_turn()
             sim.advance_turn()
             sim.play_turn()          # the opponent's reply
-            if sim.winner is None and self.follow_up:
+            for _ in range(self.follow_up):
+                if sim.winner is not None:
+                    break
                 sim.advance_turn()
-                sim.play_turn()      # and what we could do with the turn after
+                sim.play_turn()      # our turn, then theirs again, ...
             if sim.winner is not None:
                 total += WIN_SCORE if sim.winner == index else -WIN_SCORE
             else:

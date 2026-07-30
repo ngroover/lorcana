@@ -4,15 +4,13 @@ from __future__ import annotations
 
 import unittest
 
-from helpers import (FILLER, ScriptController, answers, named, new_game,
-                     put_character, put_item)
+from helpers import new_game, put_character, put_item
 
 from lorcana import carddb as db
-from lorcana.actions import (ActivateAction, ChallengeAction, InkAction,
-                             PassAction, PlayAction, QuestAction, ShiftAction,
-                             SingAction)
-from lorcana.cards import EVASIVE, RECKLESS, WARD
-from lorcana.decks import DECKLISTS, Decklist
+from lorcana.actions import (ChallengeAction, InkAction, PassAction,
+                             PlayAction, QuestAction, ShiftAction, SingAction)
+from lorcana.cards import RECKLESS
+from lorcana.decks import DECKLISTS
 from lorcana.game import Game
 from lorcana.controllers import HeuristicController
 

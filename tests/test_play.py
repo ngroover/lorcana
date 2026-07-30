@@ -9,7 +9,7 @@ import unittest
 from helpers import new_game, put_character
 
 from lorcana import carddb as db
-from lorcana.actions import PassAction, PlayAction, QuestAction
+from lorcana.actions import PlayAction, QuestAction
 from lorcana.ai import GreedyAI, SearchAI
 from lorcana.cli import main, make_controller
 from lorcana.controllers import HumanController, RandomController, render_board

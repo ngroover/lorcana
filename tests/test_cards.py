@@ -13,7 +13,7 @@ from helpers import (answers, named, new_game, put_character, put_item)
 
 from lorcana import carddb as db
 from lorcana.actions import (ActivateAction, ChallengeAction, PlayAction,
-                             QuestAction, ShiftAction, SingAction)
+                             QuestAction, ShiftAction)
 from lorcana.cards import EVASIVE, RUSH, WARD
 
 # Cards with a dedicated behavioural test below.

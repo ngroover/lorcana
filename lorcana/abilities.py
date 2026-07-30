@@ -9,7 +9,7 @@ Abilities are immutable and shared with their :class:`~lorcana.cards.Card`.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 class Event:

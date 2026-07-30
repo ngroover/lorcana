@@ -55,6 +55,7 @@ banish this item, pay ink).
 * Be Our Guest leaves the cards you did not take on the bottom in the order they
   were seen, rather than asking you to order them.
 * Simultaneous triggers resolve in a fixed order instead of asking you to choose.
+* Support lets you decline the strength transfer rather than forcing a target.
 
 ## The AI
 
@@ -86,9 +87,12 @@ control run reads exactly 50.0%.
 
 | Matchup | Result |
 | --- | --- |
-| AI vs `greedy` | 91.7% ± 2.7% (108 paired games) |
-| AI vs `random` | 100% (72 games) |
+| `normal` vs `greedy` | 91.7% ± 2.7% (108 paired games) |
+| `normal` vs `random` | 100% (72 games) |
 | `normal` vs `easy` | 70.8% ± 5.4% (72 games) |
+
+`hard`, the default when you play it, searches more than `normal` and beats it
+slightly; more search kept helping right up to the settings shipped here.
 
 Against a human it plays a coherent game: it inks every turn, holds a quester
 back rather than losing it to a challenge, aims removal at what it cannot

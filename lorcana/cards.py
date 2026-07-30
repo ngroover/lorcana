@@ -110,9 +110,10 @@ class Card:
         if self.is_character:
             head += f" {self.strength}/{self.willpower} {self.lore} lore"
         bits = [head]
-        kw = format_keywords(self.keywords)
-        if kw:
-            bits.append(f"    {kw}")
-        if self.text:
+        keyword_text = format_keywords(self.keywords)
+        if keyword_text:
+            bits.append(f"    {keyword_text}")
+        # Cards whose entire rules text is their keywords would print it twice.
+        if self.text and self.text.rstrip(".").lower() != keyword_text.lower():
             bits.append(f"    {self.text}")
         return "\n".join(bits)

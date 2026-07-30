@@ -9,7 +9,7 @@ import unittest
 from helpers import new_game, put_character
 
 from lorcana import carddb as db
-from lorcana.actions import PassAction, QuestAction
+from lorcana.actions import PassAction, PlayAction, QuestAction
 from lorcana.ai import GreedyAI, SearchAI
 from lorcana.cli import main, make_controller
 from lorcana.controllers import HumanController, RandomController, render_board
@@ -22,8 +22,11 @@ class HumanInterfaceTests(unittest.TestCase):
                            deck2=SAPPHIRE_STEEL, seed=3):
         """A 'human' who always picks the first offered option, versus the AI."""
         output = io.StringIO()
+        def write(*parts):
+            output.write(" ".join(str(part) for part in parts) + "\n")
+
         human = HumanController("Scripted", input_fn=lambda prompt: choice,
-                                output_fn=lambda *a: output.write(" ".join(map(str, a)) + "\n"))
+                                output_fn=write)
         game = Game([("Scripted", deck1, human),
                      ("AI", deck2, SearchAI("AI", beam_width=3, rollouts=2))],
                     seed=seed)
@@ -151,6 +154,38 @@ class AITests(unittest.TestCase):
                                 or not any(c.inkable for c in game.players[0].hand),
                                 "AI skipped its ink drop")
             game.advance_turn()
+
+    def test_removal_goes_at_the_biggest_threat(self):
+        game = new_game(hand1=[db.DRAGON_FIRE], ink1=5)
+        put_character(game, 1, db.GOONS)                 # a 1-cost body
+        put_character(game, 1, db.MAUI)                  # an 8-cost 8/8
+        ai = SearchAI("AI", beam_width=4, rollouts=2)
+        game.controllers[0] = ai
+        game.apply(PlayAction(db.DRAGON_FIRE))
+        survivors = [c.card for c in game.players[1].characters]
+        self.assertIn(db.GOONS, survivors)
+        self.assertNotIn(db.MAUI, survivors)
+
+    def test_damage_is_aimed_where_it_banishes(self):
+        game = new_game(hand1=[db.FIRE_THE_CANNONS], ink1=2)
+        put_character(game, 1, db.MUFASA)                     # 4/6, survives
+        put_character(game, 1, db.GRAMMA_TALA, damage=0)      # 1/1, dies
+        ai = SearchAI("AI", beam_width=4, rollouts=2)
+        game.controllers[0] = ai
+        game.controllers[1] = ai.policy
+        game.apply(PlayAction(db.FIRE_THE_CANNONS))
+        survivors = [c.card for c in game.players[1].characters]
+        self.assertNotIn(db.GRAMMA_TALA, survivors)
+
+    def test_a_search_ai_can_be_used_as_the_opponent_model(self):
+        model = SearchAI("model", beam_width=2, max_depth=8, rollouts=1, samples=1,
+                         follow_up=False)
+        ai = SearchAI("AI", beam_width=3, rollouts=2, samples=1, reply_policy=model)
+        game = new_game(hand1=[db.MOANA], ink1=6)
+        put_character(game, 0, db.MICKEY_TRUE_FRIEND)
+        put_character(game, 1, db.GOONS, ready=False)
+        legal = game.legal_actions()
+        self.assertIn(ai.choose_action(game, game.players[0], legal), legal)
 
     def test_ai_beats_random_convincingly(self):
         wins = 0

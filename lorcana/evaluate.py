@@ -23,6 +23,7 @@ class Weights:
     lore_curve: float = 0.05
     # A character in play.
     character_base: float = 1.0
+    character_cost: float = 0.35     # ink invested: a big body is harder to replace
     character_lore: float = 1.6      # a quester keeps paying out every turn
     character_strength: float = 0.40
     character_willpower: float = 0.45
@@ -37,22 +38,27 @@ class Weights:
     item: float = 0.7
     # Resources.
     hand_card: float = 0.25
-    hand_quality: float = 0.12
-    ink: float = 1.1
-    ink_excess: float = 0.25
-    ink_soft_cap: int = 7
+    hand_quality: float = 0.35
     unspent_ink: float = -0.15
+    # Marginal value of the nth card in the inkwell.  Steeply diminishing: the
+    # early ink drops are worth far more than the card they cost, the late ones
+    # are not, which is what makes "ink every turn, then stop" fall out.
+    ink_curve: tuple = (4.0, 3.6, 3.2, 2.8, 2.4, 1.8, 1.2, 0.6, 0.3, 0.2, 0.1)
 
     def lore_score(self, lore):
         return self.lore * lore + self.lore_curve * lore * lore
 
     def ink_score(self, total):
-        return (self.ink * min(total, self.ink_soft_cap)
-                + self.ink_excess * max(0, total - self.ink_soft_cap))
+        curve = self.ink_curve
+        if not curve:
+            return 0.0
+        return sum(curve[:total]) + curve[-1] * max(0, total - len(curve))
 
+
+#: The default inkwell curve, exposed for experiments.
+DIMINISHING_INK = Weights().ink_curve
 
 DEFAULT_WEIGHTS = Weights()
-LORE_WEIGHT = DEFAULT_WEIGHTS.lore
 
 
 def character_value(game, character, weights=DEFAULT_WEIGHTS):
@@ -61,6 +67,7 @@ def character_value(game, character, weights=DEFAULT_WEIGHTS):
         return 0.0
     keywords = game.keywords_of(character)
     value = weights.character_base
+    value += weights.character_cost * character.card.cost
     value += weights.character_lore * character.card.lore
     value += weights.character_strength * game.strength_of(character)
     value += weights.character_willpower * remaining

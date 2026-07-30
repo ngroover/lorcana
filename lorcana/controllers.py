@@ -225,14 +225,39 @@ class HeuristicController(Controller):
             return None if optional else (mine[0] if mine else None)
         if intent == "debuff":
             if theirs:
+                # Best case: the debuff means one of our attackers now survives
+                # the challenge it wants to make.
+                reduction = max(1, -amount)
+                for attacker in mine:
+                    if not attacker.ready or attacker.drying:
+                        continue
+                    own_hp = game.remaining_willpower(attacker)
+                    for target in game.challenge_targets(attacker):
+                        if target not in theirs:
+                            continue
+                        defence = game.strength_of(target)
+                        if defence >= own_hp > defence - reduction:
+                            return target
                 return max(theirs, key=lambda c: game.strength_of(c))
             return None if optional else (mine[0] if mine else None)
         if intent in ("buff", "support"):
             ready = [c for c in mine if c.ready and not c.drying]
             pool = ready or mine
-            if pool:
-                return max(pool, key=lambda c: game.strength_of(c))
-            return None
+            if not pool:
+                return None
+            # Prefer a character the buff turns into a winning attacker.
+            bonus = max(1, amount)
+            enabled = []
+            for character in ready:
+                attack = game.strength_of(character, challenging=True)
+                for target in game.challenge_targets(character):
+                    hp = game.remaining_willpower(target)
+                    if attack < hp <= attack + bonus:
+                        enabled.append((self.character_value(game, target), character))
+                        break
+            if enabled:
+                return max(enabled, key=lambda pair: pair[0])[1]
+            return max(pool, key=lambda c: game.strength_of(c))
         if intent == "heal":
             damaged = [c for c in mine if c.damage > 0]
             if damaged:
@@ -310,8 +335,9 @@ def _character_line(game, character, prefix=""):
     if character.pending_flags:
         state.append("next turn: " + ", ".join(character.pending_flags))
     bits = [f"{prefix}{character.card.full_name}",
-            f"{game.strength_of(character)}/{game.remaining_willpower(character)}"
-            f" of {character.card.willpower}",
+            f"{game.strength_of(character)} strength",
+            f"{game.remaining_willpower(character)}/{character.card.willpower} "
+            f"willpower",
             f"{character.card.lore} lore"]
     if keywords:
         bits.append(keywords)

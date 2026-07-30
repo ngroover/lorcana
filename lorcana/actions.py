@@ -82,8 +82,10 @@ class ChallengeAction(Action):
         defence = game.strength_of(defender)
         left = defender.card.willpower - defender.damage
         mine = attacker.card.willpower - attacker.damage
-        return (f"Challenge {defender.card.full_name} with {attacker.card.full_name} "
-                f"({power} dmg vs {left} hp left; takes {defence} of {mine})")
+        return (f"Challenge {defender.card.full_name} "
+                f"with {attacker.card.full_name} "
+                f"(deals {power} to {left} willpower; "
+                f"takes {defence} of its own {mine})")
 
 
 @dataclass(frozen=True)

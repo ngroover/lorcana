@@ -19,9 +19,11 @@ def make_controller(kind, name, seed=None, difficulty="normal"):
         return HumanController(name)
     if kind == "ai":
         presets = {
-            "easy": dict(beam_width=2, max_depth=8, rollouts=1, reply_weight=0.0),
-            "normal": dict(beam_width=6, max_depth=14, rollouts=6),
-            "hard": dict(beam_width=10, max_depth=16, rollouts=10),
+            # No lookahead at all: plays the position in front of it.
+            "easy": dict(beam_width=2, max_depth=10, rollouts=1, samples=1,
+                         reply_weight=0.0, follow_up=False),
+            "normal": dict(beam_width=28, max_depth=20, rollouts=24, samples=4),
+            "hard": dict(beam_width=64, max_depth=24, rollouts=48, samples=6),
         }
         return SearchAI(name, **presets.get(difficulty, presets["normal"]))
     if kind == "greedy":
@@ -88,7 +90,8 @@ def main(argv=None):
     parser.add_argument("--name1")
     parser.add_argument("--name2")
     parser.add_argument("--difficulty", choices=("easy", "normal", "hard"),
-                        default="normal", help="strength of the 'ai' player")
+                        default="hard",
+                        help="strength of the 'ai' player (default: hard)")
     parser.add_argument("--seed", type=int, help="random seed")
     parser.add_argument("--games", type=int, default=1,
                         help="play N games (bots only) and report the score")

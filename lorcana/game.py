@@ -628,11 +628,14 @@ class Game:
     def do_quest(self, character):
         player = self.owner_of(character)
         character.ready = False
+        # Log the quest before gaining the lore, so that "reaches 20 lore"
+        # cannot appear ahead of the quest that caused it.
+        self.log(f"{player.name} quests with {character.card.full_name} "
+                 f"(+{character.card.lore}, total "
+                 f"{player.lore + character.card.lore})")
         self.gain_lore(player, character.card.lore)
         if player.quest_drain:
             self.lose_lore(self.other_player(player), player.quest_drain)
-        self.log(f"{player.name} quests with {character.card.full_name} "
-                 f"(+{character.card.lore}, total {player.lore})")
         self.fire_self_triggers(character, Event.ON_QUEST, player)
         if self.has_keyword(character, SUPPORT):
             self.resolve_effect(self._support_effect, player, source=character,
